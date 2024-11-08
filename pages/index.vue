@@ -1,0 +1,5 @@
+<template>
+    <ViewsIndexHero />
+    <ViewsIndexMain />
+</template>
+  

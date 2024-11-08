@@ -1,6 +1,13 @@
+<script setup lang="ts">
+useHead({
+  title: "hotel",
+});
+</script>
+
 <template>
   <div>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
