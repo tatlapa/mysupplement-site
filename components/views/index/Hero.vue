@@ -3,7 +3,7 @@
 <template>
   <section id="hero" class="relative h-screen">
     <div
-      class="absolute inset-0 bg-[url('@/assets/images/background/hero.png')] bg-cover bg-top"
+      class="absolute inset-0 bg-[url('@/assets/images/background/hero.jpg')] bg-cover bg-top"
     />
     <div class="absolute top-0 w-full h-full bg-black/30" />
     <div
