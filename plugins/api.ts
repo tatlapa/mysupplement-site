@@ -3,7 +3,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     const authStore = useAuthStore();
 
     const api = $fetch.create({
-        baseURL: 'http://localhost:3306',
+        baseURL: 'http://localhost:8000',
         onRequest({ request, options, error }) {
             if (authStore.token) {
                 options.headers.set('Authorization', `Bearer ${authStore.token}`)
