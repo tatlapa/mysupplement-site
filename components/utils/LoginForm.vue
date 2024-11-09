@@ -107,9 +107,8 @@ onMounted(() => {
               variant="link"
               as-child
               class="px-0 py-0 h-6 block"
-              to="/forgetpassword"
             >
-              <NuxtLink to="/auth/forgot-password"> Forgot password? </NuxtLink>
+              <NuxtLink to="/auth/forget-password"> Forgot password? </NuxtLink>
             </Button>
             <Button
               type="button"

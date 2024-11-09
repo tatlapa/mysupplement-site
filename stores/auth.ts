@@ -86,42 +86,42 @@ export const useAuthStore = defineStore("auth-store", {
         console.error("Logout failed", error);
       }
     },
-    // async requestPasswordReset(email: string) {
-    //   const { $api } = useNuxtApp();
+    async requestPasswordReset(email: string) {
+      const { $api } = useNuxtApp();
 
-    //   try {
-    //     await $api(`/api/auth/password/email`, {
-    //       method: "POST",
-    //       body: { email },
-    //     });
-    //     return true;
-    //   } catch (error: any) {
-    //     return false;
-    //   }
-    // },
-    // async resetPassword(
-    //   email: string,
-    //   token: string,
-    //   password: string,
-    //   passwordConfirmation: string
-    // ) {
-    //   const { $api } = useNuxtApp();
+      try {
+        await $api(`/api/auth/password/email`, {
+          method: "POST",
+          body: { email },
+        });
+        return true;
+      } catch (error: any) {
+        return false;
+      }
+    },
+    async resetPassword(
+      email: string,
+      token: string,
+      password: string,
+      passwordConfirmation: string
+    ) {
+      const { $api } = useNuxtApp();
 
-    //   try {
-    //     const response = await $api(`/api/auth/password/reset`, {
-    //       method: "POST",
-    //       body: {
-    //         email,
-    //         token,
-    //         password,
-    //         password_confirmation: passwordConfirmation,
-    //       },
-    //     });
-    //     return response;
-    //   } catch (error) {
-    //     throw new Error("Failed to reset password");
-    //   }
-    // },
+      try {
+        const response = await $api(`/api/auth/password/reset`, {
+          method: "POST",
+          body: {
+            email,
+            token,
+            password,
+            password_confirmation: passwordConfirmation,
+          },
+        });
+        return response;
+      } catch (error) {
+        throw new Error("Failed to reset password");
+      }
+    },
     // async refreshUser() {
     //   const { $api } = useNuxtApp();
 
