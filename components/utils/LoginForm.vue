@@ -44,15 +44,13 @@ onMounted(() => {
   <Dialog :open="open" @update:open="(value) => $emit('update:open', value)">
     <!-- Trigger button for the dialog -->
     <DialogTrigger asChild>
-      <Button size="sm" variant="outline"> Login </Button>
+      <Button size="sm"> Login </Button>
     </DialogTrigger>
     <!-- Content of the dialog -->
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold text-white"> Login </DialogTitle>
-        <DialogDescription class="text-white">
-          Log in to access your account.
-        </DialogDescription>
+        <DialogTitle class="text-2xl font-bold"> Login </DialogTitle>
+        <DialogDescription> Log in to access your account. </DialogDescription>
       </DialogHeader>
 
       <!-- Login form -->

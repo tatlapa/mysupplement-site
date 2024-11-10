@@ -1,11 +1,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
+
   modules: [
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
   ],
+
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -17,4 +19,6 @@ export default defineNuxtConfig({
      */
     componentDir: "./components/ui",
   },
+
+  compatibilityDate: "2024-11-10",
 });

@@ -10,8 +10,8 @@ definePageMeta({
 const route = useRoute();
 const authStore = useAuthStore();
 const {toast} = useToast();
-const token = ref(route.query.token);
-const email = ref(route.query.email);
+const token = ref(route.query.token as string || "");
+const email = ref(route.query.email as string || "");
 const newPassword = ref("");
 const confirmPassword = ref("");
 
@@ -65,7 +65,7 @@ const handlePasswordReset = async () => {
                     class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
                 />
               </div>
-              <InputError :message="authStore.formErrors.password"/>
+              <InputError :message="authStore.formErrors.password.join(', ')"/>
             </div>
             <div class="relative">
               <Input

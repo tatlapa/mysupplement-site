@@ -47,13 +47,13 @@ const switchToLogin = () => {
   <Dialog :open="open" @update:open="(value) => $emit('update:open', value)">
     <!-- Trigger button for the dialog -->
     <DialogTrigger asChild>
-      <Button size="sm" variant="outline"> Sign Up </Button>
+      <Button size="sm"> Sign Up </Button>
     </DialogTrigger>
     <!-- Content of the dialog -->
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold text-white">Sign Up</DialogTitle>
-        <DialogDescription class="text-white">
+        <DialogTitle class="text-2xl font-bold">Sign Up</DialogTitle>
+        <DialogDescription>
           Fill in the fields below to create your account.
         </DialogDescription>
       </DialogHeader>
