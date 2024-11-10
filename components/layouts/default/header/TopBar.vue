@@ -32,7 +32,7 @@ const getColorByTier = (tierId: number) => {
 </script>
 
 <template>
-  <div class="bg-muted-foreground/[0.03] text-white shadow-md border-b">
+  <div class="bg-muted-foreground/[0.03] shadow-md border-b">
     <div class="container mx-auto py-1 xl:py-2 px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex items-center space-x-2 mb-2 sm:mb-0">
@@ -66,7 +66,7 @@ const getColorByTier = (tierId: number) => {
           <DropdownMenuContent class="w-fit" align="end">
             <DropdownMenuLabel class="font-normal">
               <div class="flex flex-col space-y-1">
-                <p class="text-sm font-medium leading-none">Mon compte</p>
+                <p class="text-sm font-medium leading-none">My account</p>
                 <p class="text-xs leading-none text-muted-foreground">
                   {{ authStore.user?.email }}
                 </p>
@@ -76,13 +76,13 @@ const getColorByTier = (tierId: number) => {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <NuxtLink to="/profil">
-                  <span>Mon profil</span>
+                  <span>My profile</span>
                 </NuxtLink>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem @click="authStore.logout">
-              <span>Déconnexion</span>
+              <span>Disconnect</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

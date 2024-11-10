@@ -32,7 +32,7 @@ const onSubmit = async () => {
   if (success) {
     toast({
       title: "Registration successful!",
-      description: "Welcome to Drakonia!",
+      description: "Welcome to Hotel!",
     });
   }
 };

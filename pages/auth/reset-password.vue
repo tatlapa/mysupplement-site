@@ -65,7 +65,7 @@ const handlePasswordReset = async () => {
                     class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
                 />
               </div>
-              <InputError :message="authStore.formErrors.password.join(', ')"/>
+              <InputError :message="authStore.formErrors.password"/>
             </div>
             <div class="relative">
               <Input
