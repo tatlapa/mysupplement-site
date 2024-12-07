@@ -7,14 +7,12 @@ export interface LoginForm {
 
 export interface RegisterForm {
   email: string;
-  name: string;
   password: string;
   password_confirmation: string;
   hostname: string;
 }
 
 export interface UpdateProfileForm {
-  name: string;
   email: string;
 }
 
@@ -25,7 +23,6 @@ export interface UpdatePasswordForm {
 }
 
 export interface FormErrors {
-  name: string[];
   email: string[];
   password: string[];
   login: string[];
@@ -36,9 +33,7 @@ export interface FormErrors {
 
 export interface User {
   id: number;
-  name: string;
   email: string;
-  ogrine: number;
 }
 
 export interface ApiResponseUser {
@@ -50,7 +45,6 @@ export interface ApiError {
   status: number;
   data: {
     errors: {
-      name: string[];
       email: string[];
       password: string[];
       password_confirmation: string[];

@@ -27,6 +27,12 @@ const handleLogin = async (event: Event) => {
   }
 };
 
+// Redirect to social providers
+const redirectToProvider = (provider: string) => {
+  const backendUrl = "http://localhost:8000"; // Hardcode l'URL du backend
+  window.location.href = `${backendUrl}/api/auth/redirect/${provider}`;
+};
+
 const switchToRegister = () => {
   emit("update:open", false);
   emit("switchToRegister");
@@ -128,6 +134,25 @@ onMounted(() => {
               class="w-4 h-4 mr-2 animate-spin"
             />
             Login
+          </Button>
+        </div>
+        <p>Or, login with</p>
+        <div class="flex w-full gap-4">
+          <Button
+            variant="outline"
+            @click="redirectToProvider('google')"
+            class="flex items-center justify-center gap-2"
+          >
+            <Icon name="logos:google-icon" style="color: black" />
+            Google
+          </Button>
+          <Button
+            variant="outline"
+            @click="redirectToProvider('facebook')"
+            class="flex items-center justify-center gap-2"
+          >
+            <Icon name="logos:facebook" style="color: black" />
+            Facebook
           </Button>
         </div>
       </form>

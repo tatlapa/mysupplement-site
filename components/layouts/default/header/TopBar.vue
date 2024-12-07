@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { ChevronDown, Star } from "lucide-vue-next";
+import { ChevronDown, House } from "lucide-vue-next";
 
 const authStore = useAuthStore();
 
@@ -16,29 +16,15 @@ const switchToLogin = () => {
   showRegisterDialog.value = false;
   showLoginDialog.value = true;
 };
-
-const getColorByTier = (tierId: number) => {
-  switch (tierId) {
-    case 1:
-      return "from-amber-700 to-amber-600";
-    case 2:
-      return "from-slate-400 to-slate-300";
-    case 3:
-      return "from-yellow-500 to-yellow-400";
-    default:
-      return "from-slate-400 to-slate-300";
-  }
-};
 </script>
 
 <template>
   <div class="bg-muted-foreground/[0.03] shadow-md border-b">
     <div class="container mx-auto py-1 xl:py-2 px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap justify-between items-center">
-        <div class="flex items-center space-x-2 mb-2 sm:mb-0">
-          <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <p class="text-xs font-medium">Serveur en ligne</p>
-        </div>
+        <NuxtLink to="/" class="rounded-full border p-2 hover:bg-primary hover:translate-x-3 hover:duration-75">
+          <House class="size-7"></House>
+        </NuxtLink>
 
         <div v-if="!authStore.isAuthenticated" class="flex space-x-2">
           <UtilsRegisterForm
@@ -75,7 +61,7 @@ const getColorByTier = (tierId: number) => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <NuxtLink to="/profil">
+                <NuxtLink to="/profile">
                   <span>My profile</span>
                 </NuxtLink>
               </DropdownMenuItem>

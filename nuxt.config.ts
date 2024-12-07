@@ -1,13 +1,17 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
-
+  runtimeConfig: {
+    public: {
+      backendUrl: "http://localhost:8000", // URL de ton backend
+    },
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@nuxt/icon",
   ],
-
   shadcn: {
     /**
      * Prefix for all the imported component

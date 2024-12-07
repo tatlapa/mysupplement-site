@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useRouter } from "vue-router";
 import type {
   LoginForm,
   RegisterForm,
@@ -6,6 +7,8 @@ import type {
   User,
   ApiResponseUser,
   ApiError,
+  UpdatePasswordForm,
+  UpdateProfileForm,
 } from "@/types/authTypes";
 
 export const useAuthStore = defineStore("auth-store", {
@@ -16,10 +19,10 @@ export const useAuthStore = defineStore("auth-store", {
     formLoading: false,
   }),
   getters: {
-    isAuthenticated: (state: { token: string | null }) => !!state.token,
+    isAuthenticated: (state) => !!state.token,
   },
   actions: {
-    async register(this: any, form: RegisterForm) {
+    async register(form: RegisterForm) {
       const { $api } = useNuxtApp();
 
       this.formErrors = {};
@@ -45,14 +48,14 @@ export const useAuthStore = defineStore("auth-store", {
         this.formLoading = false;
       }
     },
-    async login(this: any, form: LoginForm) {
+    async login(form: LoginForm) {
       const { $api } = useNuxtApp();
 
       this.formErrors = {};
       this.formLoading = true;
 
       try {
-        const response = await $api<ApiResponseUser>(`/api/auth/login`, {
+        const response = await $api<ApiResponseUser>("/api/auth/login", {
           method: "POST",
           body: form,
         });
@@ -76,7 +79,7 @@ export const useAuthStore = defineStore("auth-store", {
       const router = useRouter();
 
       try {
-        $api<ApiResponseUser>(`/api/auth/logout`, {
+        $api("/api/auth/logout", {
           method: "POST",
         });
         this.token = null;
@@ -90,12 +93,13 @@ export const useAuthStore = defineStore("auth-store", {
       const { $api } = useNuxtApp();
 
       try {
-        await $api(`/api/auth/password/email`, {
+        await $api("/api/auth/password/email", {
           method: "POST",
           body: { email },
         });
         return true;
       } catch (error: any) {
+        console.error("Password reset request failed", error);
         return false;
       }
     },
@@ -108,7 +112,7 @@ export const useAuthStore = defineStore("auth-store", {
       const { $api } = useNuxtApp();
 
       try {
-        const response = await $api(`/api/auth/password/reset`, {
+        const response = await $api("/api/auth/password/reset", {
           method: "POST",
           body: {
             email,
@@ -118,85 +122,88 @@ export const useAuthStore = defineStore("auth-store", {
           },
         });
         return response;
-      } catch (error) {
+      } catch (error: any) {
+        console.error("Failed to reset password", error);
         throw new Error("Failed to reset password");
       }
     },
-    // async refreshUser() {
-    //   const { $api } = useNuxtApp();
+    async refreshUser() {
+      const { $api } = useNuxtApp();
 
-    //   try {
-    //     const response = await $api(`/api/user`, {
-    //       method: "GET",
-    //     });
+      try {
+        const response = await $api<User>("/api/user", {
+          method: "GET",
+        });
 
-    //     if (response) {
-    //       this.user = response;
-    //     }
-    //   } catch (error: any) {}
-    // },
-    // async updateProfile(form: UpdateProfileForm) {
-    //   const { $api } = useNuxtApp();
+        if (response) {
+          this.user = response;
+        }
+      } catch (error: any) {
+        console.error("Failed to refresh user", error);
+      }
+    },
+    async updateProfile(form: UpdateProfileForm) {
+      const { $api } = useNuxtApp();
 
-    //   this.formErrors = {};
-    //   this.formLoading = true;
+      this.formErrors = {};
+      this.formLoading = true;
 
-    //   try {
-    //     const response = await $api(`/api/user`, {
-    //       method: "POST",
-    //       body: form,
-    //     });
+      try {
+        const response = await $api<User>("/api/user", {
+          method: "POST",
+          body: form,
+        });
 
-    //     if (response) {
-    //       this.user = response;
-    //       return true;
-    //     }
-    //     return false;
-    //   } catch (error: any) {
-    //     const apiError = error as ApiError;
-    //     if (apiError.status === 422 && apiError.data && apiError.data.errors) {
-    //       this.formErrors = apiError.data.errors;
-    //     } else {
-    //       this.formErrors = { global: apiError.message };
-    //     }
-    //     throw error;
-    //   } finally {
-    //     this.formLoading = false;
-    //   }
-    // },
-    // async updatePassword(form: UpdatePasswordForm) {
-    //   const { $api } = useNuxtApp();
+        if (response) {
+          this.user = response;
+          return true;
+        }
+        return false;
+      } catch (error: any) {
+        const apiError = error as ApiError;
+        if (apiError.status === 422 && apiError.data && apiError.data.errors) {
+          this.formErrors = apiError.data.errors;
+        } else {
+          this.formErrors = { global: apiError.message };
+        }
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    },
+    async updatePassword(form: UpdatePasswordForm) {
+      const { $api } = useNuxtApp();
 
-    //   this.formErrors = {};
-    //   this.formLoading = true;
+      this.formErrors = {};
+      this.formLoading = true;
 
-    //   try {
-    //     const response = await $api(`/api/user/password`, {
-    //       method: "POST",
-    //       body: form,
-    //     });
+      try {
+        const response = await $api("/api/user/password", {
+          method: "POST",
+          body: form,
+        });
 
-    //     if (response) {
-    //       this.user = response;
-    //       return true;
-    //     }
-    //     return false;
-    //   } catch (error: any) {
-    //     const apiError = error as ApiError;
-    //     if (apiError.status === 422 && apiError.data && apiError.data.errors) {
-    //       this.formErrors = apiError.data.errors;
-    //     } else {
-    //       this.formErrors = { global: apiError.message };
-    //     }
-    //     throw error;
-    //   } finally {
-    //     this.formLoading = false;
-    //   }
-    // },
+        if (response) {
+          this.user = response as User;
+          return true;
+        }
+        return false;
+      } catch (error: any) {
+        const apiError = error as ApiError;
+        if (apiError.status === 422 && apiError.data && apiError.data.errors) {
+          this.formErrors = apiError.data.errors;
+        } else {
+          this.formErrors = { global: apiError.message };
+        }
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    },
   },
   persist: {
-    key: "auth-store",
+    key: "auth-store", // Clé utilisée pour localStorage
     storage: piniaPluginPersistedstate.localStorage(),
-    pick: ["token", "user"],
+    paths: ["token", "user"], // Champs à sauvegarder
   },
 });
