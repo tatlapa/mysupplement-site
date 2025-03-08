@@ -28,7 +28,7 @@ const menuItems = [
 </script>
 
 <template>
-  <div class="flex flex-row-reverse mt-2">
+  <div class="flex flex-row-reverse py-2 px-2 bg-secondary">
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem v-for="item in menuItems" :key="item.path">

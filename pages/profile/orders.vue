@@ -4,7 +4,7 @@ import { Separator } from "~/components/ui/separator";
 definePageMeta({
   alias: ["/profile/orders"],
   middleware: "auth",
-  layout: "profile",
+  layout: "profile-menu-aside",
 });
 </script>
 

@@ -6,7 +6,7 @@
   >
     <!-- Copyright -->
     <div class="text-center text-sm text-muted-foreground">
-      <div class="mb-2">© 2025 Tatlapa - Tout droits réservés</div>
+      <div class="mb-2">© 2025 Tatlapa - All rights reserved</div>
       <div class="text-xs">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam, ea,
         ipsa assumenda laboriosam corrupti commodi iure aperiam dicta iusto

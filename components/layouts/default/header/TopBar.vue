@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ChevronDown, House, Sun, Moon } from "lucide-vue-next";
-import { Toggle } from "@/components/ui/toggle";
+import { ChevronDown, House, Sun, Moon, Search, User } from "lucide-vue-next";
 
 const authStore = useAuthStore();
 const isDark = ref(false);
@@ -50,6 +49,16 @@ const switchToLogin = () => {
           <House class="size-6"></House>
         </NuxtLink>
 
+        <div class="relative">
+          <Search
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
+          />
+          <input
+            class="w-full pl-10 p-2 border rounded-lg"
+            placeholder="Search..."
+          />
+        </div>
+
         <div v-if="!authStore.isAuthenticated" class="flex space-x-2">
           <UtilsRegisterForm
             v-model:open="showRegisterDialog"
@@ -65,11 +74,8 @@ const switchToLogin = () => {
           <DropdownMenu v-if="authStore.isAuthenticated">
             <DropdownMenuTrigger as-child>
               <Button variant="outline" size="sm" class="gap-x-2">
-                <img
-                  :src="authStore.user?.avatar"
-                  alt="Avatar"
-                  class="w-4 h-4 rounded-sm"
-                />
+                                <component :is="User" class="w-5 h-5" />
+
                 {{ authStore.user?.name }}
                 <ChevronDown
                   class="w-4 h-4 transition-transform duration-200"
