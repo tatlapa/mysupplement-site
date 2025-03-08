@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "hotel",
+  title: "energy+ supplementary",
 });
 </script>
 

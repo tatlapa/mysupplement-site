@@ -41,7 +41,7 @@ const onSubmit = async () => {
 
 // Redirect to social providers
 const redirectToProvider = (provider: string) => {
-  const backendUrl = "http://localhost:8000"; // Hardcode l'URL du backend
+  const backendUrl = "https://localhost:8000"; // Hardcode l'URL du backend
   window.location.href = `${backendUrl}/api/auth/redirect/${provider}`;
 };
 

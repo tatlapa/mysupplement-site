@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight } from "lucide-vue-next";
-import {
-  AnkamaCardIcon,
-  AnkamaKeyIcon,
-} from "@/assets/images/icons";
+import { ChevronRight, User, History } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -13,13 +9,13 @@ const menuItems = [
   {
     title: "My profile",
     path: "/profile",
-    icon: AnkamaCardIcon,
+    icon: User,
   },
   {
-    title: "Booking History",
-    path: "/profile/booking-history",
-    icon: AnkamaKeyIcon,
-  }
+    title: "My Orders",
+    path: "/profile/orders",
+    icon: History,
+  },
 ];
 
 const isActive = (path: string) => {
@@ -54,11 +50,7 @@ const isActive = (path: string) => {
                     : 'bg-zinc-700/50',
                 ]"
               >
-                <img
-                  :src="item.icon"
-                  :alt="item.title"
-                  class="w-6 h-6 object-contain"
-                />
+                <component :is="item.icon" class="w-5 h-5" />
               </div>
               <h3 class="font-medium">{{ item.title }}</h3>
             </div>
