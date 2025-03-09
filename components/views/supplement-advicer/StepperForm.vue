@@ -7,6 +7,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,36 +33,43 @@ import { h, ref } from "vue";
 import * as z from "zod";
 
 const goals = [
-  "Energy & Focus",
-  "Sleep Improvement",
-  "Stress Management",
-  "Physical Performance",
-  "Mental Clarity",
-  "Immune Support",
-  "Anti-aging",
-  "Weight Management",
+  { id: "energy_focus", label: "Energy & Focus" },
+  { id: "sleep_improvement", label: "Sleep Improvement" },
+  { id: "stress_management", label: "Stress Management" },
+  { id: "physical_performance", label: "Physical Performance" },
+  { id: "mental_clarity", label: "Mental Clarity" },
+  { id: "immune_support", label: "Immune Support" },
+  { id: "anti_aging", label: "Anti-aging" },
+  { id: "weight_management", label: "Weight Management" },
 ];
 
 const issues = [
-  "Anxiety",
-  "Depression",
-  "Insomnia",
-  "Joint Pain",
-  "Digestive Issues",
-  "High Blood Pressure",
-  "Diabetes",
-  "None",
+  { id: "anxiety", label: "Anxiety" },
+  { id: "depression", label: "Depression" },
+  { id: "insomnia", label: "Insomnia" },
+  { id: "joint_pain", label: "Joint Pain" },
+  { id: "digestive_issues", label: "Digestive Issues" },
+  { id: "high_blood_pressure", label: "High Blood Pressure" },
+  { id: "diabetes", label: "Diabetes" },
+  { id: "none", label: "None" },
 ];
 
 const formSchema = [
   z.object({
-    age: z.number(),
+    age: z.number().min(1).max(120),
     gender: z.string(),
+  }),
+  z.object({
+    goals: z.array(z.string()).min(1, "Select at least one goal"),
+    // issues: z.array(z.string()).min(0),
+  }),
+  z.object({
+    sleepQuality: z.string(),
+    stressLevel: z.string(),
   }),
 ];
 
 const stepIndex = ref(1);
-console.log(stepIndex);
 
 const steps = [
   {
@@ -218,34 +226,63 @@ function onSubmit(values: any) {
               </template>
 
               <template v-if="stepIndex === 2">
-                \
-                <FormField v-slot="{ componentField }" name="goals">
+                <FormField v-slot="{ value = [], handleChange }" name="goals">
                   <FormItem>
-                    <FormLabel>What are your primary health goals?</FormLabel>
+                    <FormLabel>Health Goals</FormLabel>
+                    <FormDescription>Select at least one goal</FormDescription>
                     <FormControl>
-                      <div class="flex gap-2">
-                        <Checkbox
+                      <div class="grid grid-cols-3 gap-1 items-center">
+                        <div
                           v-for="goal in goals"
-                          :key="goal"
-                          type="text"
-                          v-bind="componentField"
-                        />
+                          :key="goal.id"
+                          class="flex items-center gap-2"
+                        >
+                          <Checkbox
+                            :model-value="value.includes(goal.id)"
+                            @update:model-value="
+                              (checked) => {
+                                const updatedGoals = checked
+                                  ? [...value, goal.id]
+                                  : value.filter((g) => g !== goal.id);
+
+                                handleChange(updatedGoals); // 🔥 Met à jour Vee-Validate
+                              }
+                            "
+                          />
+                          <label>{{ goal.label }}</label>
+                        </div>
                       </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 </FormField>
 
-                <FormField v-slot="{ componentField }" name="issues">
+                <FormField v-slot="{ value = [], handleChange }" name="issues">
                   <FormItem>
-                    <FormLabel>Do you have any health issues?</FormLabel>
+                    <FormLabel>Health Issues</FormLabel>
+                    <FormDescription>Select at least one issue</FormDescription>
                     <FormControl>
-                      <Checkbox
-                        v-for="Issue in issues"
-                        :key="Issue"
-                        type="text"
-                        v-bind="componentField"
-                      />
+                      <div class="grid grid-cols-3 gap-1 items-center">
+                        <div
+                          v-for="issue in issues"
+                          :key="issue.id"
+                          class="flex items-center gap-2"
+                        >
+                          <Checkbox
+                            :model-value="value.includes(issue.id)"
+                            @update:model-value="
+                              (checked) => {
+                                const updatedIssues = checked
+                                  ? [...value, issue.id]
+                                  : value.filter((i) => i !== issue.id);
+
+                                handleChange(updatedIssues); // 🔥 Met à jour Vee-Validate
+                              }
+                            "
+                          />
+                          <label>{{ issue.label }}</label>
+                        </div>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
