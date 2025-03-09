@@ -59,7 +59,7 @@ const switchToLogin = () => {
           />
         </div>
 
-          <div class="flex">
+          <div class="flex gap-2 items-center">
             <div v-if="!authStore.isAuthenticated" class="flex gap-2">
               <UtilsRegisterForm
                 v-model:open="showRegisterDialog"
@@ -109,7 +109,7 @@ const switchToLogin = () => {
                 <Sun v-if="!isDark" class="size-6" />
                 <Moon v-else class="size-6" />
               </Button variant="ghost">
-              <NuxtLink class="flex gap-1"><ShoppingCart></ShoppingCart>Cart</NuxtLink>
+              <NuxtLink to="/cart"class="flex gap-1"><ShoppingCart></ShoppingCart>Cart</NuxtLink>
             </div>
         </div>
       </div>

@@ -17,6 +17,10 @@ const menuItems = [
     path: "/shop",
   },
   {
+    title: "Supplement Advicer",
+    path: "/supplement-advicer",
+  },
+  {
     title: "About",
     path: "/about",
   },

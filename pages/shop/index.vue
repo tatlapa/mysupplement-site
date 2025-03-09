@@ -2,7 +2,6 @@
 
 definePageMeta({
   alias: ["/shop"],
-  middleware: "auth",
   layout: "shop-menu-filter",
 });
 </script>
