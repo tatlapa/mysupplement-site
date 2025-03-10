@@ -1,36 +1,13 @@
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Stepper,
-  StepperDescription,
-  StepperItem,
-  StepperSeparator,
-  StepperTitle,
-  StepperTrigger,
-} from "@/components/ui/stepper";
 import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { Check, Circle, Dot } from "lucide-vue-next";
 import { h, ref } from "vue";
 import * as z from "zod";
+import { getSupplementRecommendations } from "~/utils/openai";
+import type { SupplementRecommendation } from "@/types/supplementRecommendationTypes";
+import type { FormData } from "@/types/formDataTypes";
+import { Loader2 } from "lucide-vue-next";
 
 const goals = [
   { id: "energy_focus", label: "Energy & Focus" },
@@ -43,7 +20,7 @@ const goals = [
   { id: "weight_management", label: "Weight Management" },
 ];
 
-const issues = [
+const healthIssues = [
   { id: "anxiety", label: "Anxiety" },
   { id: "depression", label: "Depression" },
   { id: "insomnia", label: "Insomnia" },
@@ -61,7 +38,7 @@ const formSchema = [
   }),
   z.object({
     goals: z.array(z.string()).min(1, "Select at least one goal"),
-    // issues: z.array(z.string()).min(0),
+    healthIssues: z.array(z.string()).optional().default([]),
   }),
   z.object({
     sleepQuality: z.string(),
@@ -90,15 +67,19 @@ const steps = [
   // },
 ];
 
-function onSubmit(values: any) {
-  toast({
-    title: "You submitted the following values:",
-    description: h(
-      "pre",
-      { class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-      h("code", { class: "text-white" }, JSON.stringify(values, null, 2))
-    ),
-  });
+const resultData = ref<SupplementRecommendation | null>(null);
+const isLoading = ref(false);
+
+async function onSubmit(values: FormData) {
+  isLoading.value = true; // Début du chargement
+
+  try {
+    resultData.value = await getSupplementRecommendations(values);
+  } catch (error) {
+    console.error("Error fetching recommendations:", error);
+  } finally {
+    isLoading.value = false; // Fin du chargement
+  }
 }
 </script>
 
@@ -122,7 +103,7 @@ function onSubmit(values: any) {
               validate();
 
               if (stepIndex === steps.length && meta.valid) {
-                onSubmit(values);
+                onSubmit(values as FormData);
               }
             }
           "
@@ -243,7 +224,7 @@ function onSubmit(values: any) {
                               (checked) => {
                                 const updatedGoals = checked
                                   ? [...value, goal.id]
-                                  : value.filter((g) => g !== goal.id);
+                                  : value.filter((g: string) => g !== goal.id);
 
                                 handleChange(updatedGoals); // 🔥 Met à jour Vee-Validate
                               }
@@ -257,30 +238,33 @@ function onSubmit(values: any) {
                   </FormItem>
                 </FormField>
 
-                <FormField v-slot="{ value = [], handleChange }" name="issues">
+                <FormField
+                  v-slot="{ value = [], handleChange }"
+                  name="healthIssues"
+                >
                   <FormItem>
                     <FormLabel>Health Issues</FormLabel>
-                    <FormDescription>Select at least one issue</FormDescription>
+                    <FormDescription>Select issue - optional</FormDescription>
                     <FormControl>
                       <div class="grid grid-cols-3 gap-1 items-center">
                         <div
-                          v-for="issue in issues"
-                          :key="issue.id"
+                          v-for="healthIssue in healthIssues"
+                          :key="healthIssue.id"
                           class="flex items-center gap-2"
                         >
                           <Checkbox
-                            :model-value="value.includes(issue.id)"
+                            :model-value="value.includes(healthIssue.id)"
                             @update:model-value="
                               (checked) => {
-                                const updatedIssues = checked
-                                  ? [...value, issue.id]
-                                  : value.filter((i) => i !== issue.id);
+                                const updatedHealthIssues = checked
+                                  ? [...value, healthIssue.id]
+                                  : value.filter((i: string) => i !== healthIssue.id);
 
-                                handleChange(updatedIssues); // 🔥 Met à jour Vee-Validate
+                                handleChange(updatedHealthIssues); // 🔥 Met à jour Vee-Validate
                               }
                             "
                           />
-                          <label>{{ issue.label }}</label>
+                          <label>{{ healthIssue.label }}</label>
                         </div>
                       </div>
                     </FormControl>
@@ -336,6 +320,47 @@ function onSubmit(values: any) {
                   </FormItem>
                 </FormField>
               </template>
+
+              <template v-if="stepIndex === steps.length && resultData">
+                <div class="p-6 bg-gray-100 rounded-lg shadow-md">
+                  <h2 class="text-lg font-bold mb-4">
+                    Your Supplement Recommendations
+                  </h2>
+
+                  <ul class="space-y-4">
+                    <li
+                      v-for="(supplement, index) in resultData.supplements"
+                      :key="index"
+                      class="p-4 bg-white rounded-md shadow"
+                    >
+                      <h3 class="text-md font-semibold text-primary">
+                        {{ supplement.name }}
+                      </h3>
+                      <p class="text-sm text-gray-600">
+                        {{ supplement.description }}
+                      </p>
+                      <p class="text-sm mt-2">
+                        <strong>Dosage:</strong> {{ supplement.dosage }}
+                      </p>
+
+                      <ul
+                        class="list-disc list-inside mt-2 text-sm text-gray-700"
+                      >
+                        <li
+                          v-for="benefit in supplement.benefits"
+                          :key="benefit"
+                        >
+                          {{ benefit }}
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+
+                  <p class="mt-6 text-sm text-gray-700">
+                    <strong>Explanation:</strong> {{ resultData.explanation }}
+                  </p>
+                </div>
+              </template>
             </div>
 
             <div class="flex items-center justify-between mt-4">
@@ -357,8 +382,14 @@ function onSubmit(values: any) {
                 >
                   Next
                 </Button>
-                <Button v-if="stepIndex === 3" size="sm" type="submit">
-                  Submit
+                <Button
+                  v-if="stepIndex === 3"
+                  size="sm"
+                  type="submit"
+                  :disabled="isLoading"
+                >
+                  <span v-if="!isLoading">Submit</span>
+                  <Loader2 v-else class="animate-spin size-5" />
                 </Button>
               </div>
             </div>
