@@ -61,24 +61,25 @@ const steps = [
     step: 3,
     title: "Lifestyle",
   },
-  // {
-  //   step: 4,
-  //   title: "Additional Info",
-  // },
+  {
+    step: 4,
+    title: "Results",
+  },
 ];
 
 const resultData = ref<SupplementRecommendation | null>(null);
 const isLoading = ref(false);
 
-async function onSubmit(values: FormData) {
-  isLoading.value = true; // Début du chargement
+async function onSubmitAndNext(values: FormData) {
+  isLoading.value = true; // Active le loader
 
   try {
     resultData.value = await getSupplementRecommendations(values);
+    stepIndex.value = 4; // 🔥 Passe à l'étape 4 seulement après la fin de la requête
   } catch (error) {
     console.error("Error fetching recommendations:", error);
   } finally {
-    isLoading.value = false; // Fin du chargement
+    isLoading.value = false; // Désactive le loader
   }
 }
 </script>
@@ -321,13 +322,13 @@ async function onSubmit(values: FormData) {
                 </FormField>
               </template>
 
-              <template v-if="stepIndex === steps.length && resultData">
+              <template v-if="stepIndex === 4 && resultData">
                 <div class="p-6 bg-gray-100 rounded-lg shadow-md">
                   <h2 class="text-lg font-bold mb-4">
                     Your Supplement Recommendations
                   </h2>
 
-                  <ul class="space-y-4">
+                  <ul class="grid grid-cols-2 gap-4">
                     <li
                       v-for="(supplement, index) in resultData.supplements"
                       :key="index"
@@ -385,8 +386,9 @@ async function onSubmit(values: FormData) {
                 <Button
                   v-if="stepIndex === 3"
                   size="sm"
-                  type="submit"
+                  type="button"
                   :disabled="isLoading"
+                  @click="onSubmitAndNext(values as FormData)"
                 >
                   <span v-if="!isLoading">Submit</span>
                   <Loader2 v-else class="animate-spin size-5" />
