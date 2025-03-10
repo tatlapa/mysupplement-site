@@ -54,8 +54,8 @@ export async function getSupplementRecommendations(
 User Profile:
 - Age: ${formData.age}
 - Gender: ${formData.gender}
-- Health Goals: ${formData.goals.join(", ")}
-- Health Issues: ${formData.healthIssues.join(", ")}
+- Health Goals: ${formData.goals}
+- Health Issues: ${formData.healthIssues}
 - Sleep Quality: ${formData.sleepQuality}
 - Stress Level: ${formData.stressLevel}
 

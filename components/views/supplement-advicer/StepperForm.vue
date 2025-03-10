@@ -90,7 +90,9 @@ async function onSubmitAndNext(values: FormData) {
       v-slot="{ meta, values, validate }"
       as=""
       keep-values
-      :validation-schema="toTypedSchema(formSchema[stepIndex - 1])"
+      :validation-schema="
+        stepIndex <= 3 ? toTypedSchema(formSchema[stepIndex - 1]) : undefined
+      "
     >
       <Stepper
         v-slot="{ isNextDisabled, isPrevDisabled, nextStep, prevStep }"
@@ -102,10 +104,6 @@ async function onSubmitAndNext(values: FormData) {
             (e) => {
               e.preventDefault();
               validate();
-
-              if (stepIndex === steps.length && meta.valid) {
-                onSubmit(values as FormData);
-              }
             }
           "
           class="flex flex-col gap-12 mb-12"
@@ -387,7 +385,7 @@ async function onSubmitAndNext(values: FormData) {
                   v-if="stepIndex === 3"
                   size="sm"
                   type="button"
-                  :disabled="isLoading"
+                  :disabled="!meta.valid || isLoading"
                   @click="onSubmitAndNext(values as FormData)"
                 >
                   <span v-if="!isLoading">Submit</span>
