@@ -148,7 +148,7 @@ const switchToLogin = () => {
               Sign Up
             </Button>
             <div class="flex w-full justify-end">
-              <Button @click="switchToLogin" variant="link">
+              <Button @click="switchToLogin" variant="link" type="button">
                 Already registered?
               </Button>
             </div>

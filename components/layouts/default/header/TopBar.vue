@@ -75,8 +75,7 @@ const switchToLogin = () => {
               <DropdownMenu v-if="authStore.isAuthenticated">
                 <DropdownMenuTrigger as-child>
                   <Button variant="outline" size="sm" class="gap-2">
-                    <component :is="User" class="w-5 h-5" />
-                    {{ authStore.user?.name }}
+                    <User/>
                     <ChevronDown
                       class="w-4 h-4 transition-transform duration-200"
                     />

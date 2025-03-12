@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { toast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
-import { Check, Circle, Dot } from "lucide-vue-next";
+import { Check, Circle, Dot, RefreshCcw } from "lucide-vue-next";
 import { h, ref } from "vue";
 import * as z from "zod";
-import { getSupplementRecommendations } from "~/utils/openai";
-import type { SupplementRecommendation } from "@/types/supplementRecommendationTypes";
-import type { FormData } from "@/types/formDataTypes";
-import { Loader2 } from "lucide-vue-next";
+import type {
+  AdvicerForm,
+  SupplementRecommendation,
+} from "@/types/advicerTypes";
+import { useAdvicerStore } from "~/stores/advicer";
+
+const advicerStore = useAdvicerStore();
 
 const goals = [
   { id: "energy_focus", label: "Energy & Focus" },
@@ -68,18 +70,17 @@ const steps = [
 ];
 
 const resultData = ref<SupplementRecommendation | null>(null);
-const isLoading = ref(false);
 
-async function onSubmitAndNext(values: FormData) {
-  isLoading.value = true; // Active le loader
+async function onSubmitAndNext(values: AdvicerForm) {
+  advicerStore.formLoading = true; // Active le loader
 
   try {
-    resultData.value = await getSupplementRecommendations(values);
+    resultData.value = await advicerStore.getSupplementRecommendations(values);
     stepIndex.value = 4; // 🔥 Passe à l'étape 4 seulement après la fin de la requête
   } catch (error) {
     console.error("Error fetching recommendations:", error);
   } finally {
-    isLoading.value = false; // Désactive le loader
+    advicerStore.formLoading = false; // Désactive le loader
   }
 }
 </script>
@@ -385,11 +386,14 @@ async function onSubmitAndNext(values: FormData) {
                   v-if="stepIndex === 3"
                   size="sm"
                   type="button"
-                  :disabled="!meta.valid || isLoading"
-                  @click="onSubmitAndNext(values as FormData)"
+                  :disabled="!meta.valid || advicerStore.formLoading"
+                  @click="onSubmitAndNext(values as AdvicerForm)"
                 >
-                  <span v-if="!isLoading">Submit</span>
-                  <Loader2 v-else class="animate-spin size-5" />
+                  <RefreshCcw
+                    v-if="advicerStore.formLoading"
+                    class="w-4 h-4 mr-2 animate-spin"
+                  />
+                  Submit
                 </Button>
               </div>
             </div>

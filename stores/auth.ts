@@ -91,6 +91,7 @@ export const useAuthStore = defineStore("auth-store", {
     },
     async requestPasswordReset(email: string) {
       const { $api } = useNuxtApp();
+      this.formLoading = true;
 
       try {
         await $api("/api/auth/password/email", {
@@ -101,6 +102,8 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         console.error("Password reset request failed", error);
         return false;
+      } finally {
+        this.formLoading = false;
       }
     },
     async resetPassword(
@@ -110,6 +113,7 @@ export const useAuthStore = defineStore("auth-store", {
       passwordConfirmation: string
     ) {
       const { $api } = useNuxtApp();
+      this.formLoading = true;
 
       try {
         const response = await $api("/api/auth/password/reset", {
@@ -125,6 +129,8 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         console.error("Failed to reset password", error);
         throw new Error("Failed to reset password");
+      } finally {
+        this.formLoading = false;
       }
     },
     async refreshUser() {
@@ -204,6 +210,6 @@ export const useAuthStore = defineStore("auth-store", {
   persist: {
     key: "auth-store", // Clé utilisée pour localStorage
     storage: piniaPluginPersistedstate.localStorage(),
-    paths: ["token", "user"], // Champs à sauvegarder
+    pick: ["token", "user"], // Champs à sauvegarder
   },
 });

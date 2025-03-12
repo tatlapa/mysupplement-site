@@ -28,7 +28,8 @@ const handlePasswordReset = async () => {
     confirmPassword.value = "";
 
     toast({
-      title: "Mot de passe changé avec succès.",
+      title: "Password changed!",
+      description: "You can now login with your new password",
     });
   }
 };
