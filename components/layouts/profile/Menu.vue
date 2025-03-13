@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, User, History } from "lucide-vue-next";
+import { ChevronRight, User, History, Store } from "lucide-vue-next";
 import { useRoute } from "vue-router";
+import { useAdminStore } from "@/stores/admin"; // Ajout de l'import du store admin
 
 const route = useRoute();
+const adminStore = useAdminStore();
 
 const menuItems = [
   {
@@ -17,6 +19,14 @@ const menuItems = [
     icon: History,
   },
 ];
+
+if (adminStore.isAdmin) {
+  menuItems.push({
+    title: "Shop Editor",
+    path: "/profile/shop-editor",
+    icon: Store,
+  });
+}
 
 const isActive = (path: string) => {
   return route.path === path;

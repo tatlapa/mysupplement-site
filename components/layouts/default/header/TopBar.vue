@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ChevronDown, House, Sun, Moon, Search, User, ShoppingCart } from "lucide-vue-next";
+import { ChevronDown, House, Sun, Moon, Search, User, UserCog, ShoppingCart } from "lucide-vue-next";
 
 const authStore = useAuthStore();
+const adminStore = useAdminStore();
 const isDark = ref(false);
 
 onMounted(() => {
@@ -75,7 +76,8 @@ const switchToLogin = () => {
               <DropdownMenu v-if="authStore.isAuthenticated">
                 <DropdownMenuTrigger as-child>
                   <Button variant="outline" size="sm" class="gap-2">
-                    <User/>
+                    <User v-if="!adminStore.isAdmin"/>
+                    <UserCog v-if="adminStore.isAdmin"/>
                     <ChevronDown
                       class="w-4 h-4 transition-transform duration-200"
                     />
