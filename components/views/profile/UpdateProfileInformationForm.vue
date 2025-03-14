@@ -7,7 +7,6 @@ import {useToast} from "~/components/ui/toast";
 const authStore = useAuthStore();
 const {toast} = useToast();
 const form = reactive({
-  name: authStore.user?.name ?? "",
   email: authStore.user?.email ?? "",
 });
 

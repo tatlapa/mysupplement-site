@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
-import { useAuthStore } from "@/stores/auth"; // Import du store auth
+import { useAuthStore } from "@/stores/auth";
+import type { Category, Product } from "@/types/adminTypes";
 
 export const useAdminStore = defineStore("admin-store", {
   state: () => ({
     isLoading: false,
     formLoading: false,
-    products: [],
-    categories: [],
+    products: [] as Product[],
+    categories: [] as Category[],
   }),
   getters: {
     isAdmin() {
@@ -24,10 +25,10 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api("/api/admin/products", {
+        const response = await $api<Product[]>("/api/admin/products", {
           method: "GET",
         });
-        this.products = response.map((product) => ({
+        this.products = response.map((product: Product) => ({
           ...product,
         }));
         return true;
@@ -47,10 +48,10 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api("/api/admin/categories", {
+        const response = await $api<Category[]>("/api/admin/categories", {
           method: "GET",
         });
-        this.categories = response.map((categorie) => ({
+        this.categories = response.map((categorie: Category) => ({
           ...categorie,
         }));
         return true;
@@ -61,7 +62,7 @@ export const useAdminStore = defineStore("admin-store", {
         this.isLoading = false;
       }
     },
-    async addProduct(form) {
+    async addProduct(form: FormData) {
       if (!this.isAdmin) {
         console.warn("Unauthorized access");
         return;
@@ -82,26 +83,5 @@ export const useAdminStore = defineStore("admin-store", {
         this.formLoading = false;
       }
     },
-    async addProductImage(form) {
-      if (!this.isAdmin) {
-        console.warn("Unauthorized access");
-        return;
-      }
-
-      const { $api } = useNuxtApp();
-      this.formLoading = true;
-      try {
-        const response = await $api("/api/admin/product-images", {
-          method: "POST",
-          body: form,
-        });
-        return response;
-      } catch (error) {
-        console.error("Failed to add image product:", error);
-        throw error;
-      } finally {
-        this.formLoading = false;
-      }
-    }
   },
 });

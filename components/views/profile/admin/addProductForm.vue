@@ -4,15 +4,6 @@ import { useToast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-} from "@/components/ui/select";
 import { useAdminStore } from "@/stores/admin";
 import { ref, onMounted } from "vue";
 

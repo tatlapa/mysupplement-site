@@ -23,6 +23,7 @@ export interface UpdatePasswordForm {
 export interface FormErrors {
   email: string[];
   password: string[];
+  current_password: string[];
   login: string[];
   secret_question: string[];
   password_confirmation: string[];
