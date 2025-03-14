@@ -82,5 +82,26 @@ export const useAdminStore = defineStore("admin-store", {
         this.formLoading = false;
       }
     },
+    async addProductImage(form) {
+      if (!this.isAdmin) {
+        console.warn("Unauthorized access");
+        return;
+      }
+
+      const { $api } = useNuxtApp();
+      this.formLoading = true;
+      try {
+        const response = await $api("/api/admin/product-images", {
+          method: "POST",
+          body: form,
+        });
+        return response;
+      } catch (error) {
+        console.error("Failed to add image product:", error);
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    }
   },
 });

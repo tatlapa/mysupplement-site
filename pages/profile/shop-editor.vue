@@ -5,7 +5,6 @@ const adminStore = useAdminStore();
 
 onMounted(async () => {
   await adminStore.getProducts();
-  console.log("Products:", adminStore.products);
 });
 
 definePageMeta({
@@ -18,11 +17,13 @@ definePageMeta({
 <template>
   <Card class="w-full md:w-3/4">
     <CardContent class="p-4">
-      <h2 class="text-lg font-medium">Shop Editor</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-medium">Shop Editor</h2>
+        <ViewsProfileAdminAddProductForm />
+      </div>
       <Separator class="my-6" />
-      <ViewsProfileProducts />
+      <ViewsProfileAdminProducts />
       <Separator class="my-6" />
-      <ViewsProfileAddProductForm />
     </CardContent>
   </Card>
 </template>

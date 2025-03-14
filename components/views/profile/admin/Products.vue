@@ -18,9 +18,9 @@ onMounted(async () => {
         <p>Description : {{ product.description }}</p>
         <p>Stock quantity : {{ product.stock_quantity }}</p>
         <p>Category : {{ product.category.name }}</p>
-        <p>Image : {{ `http://localhost:8000${product.image.image_url}` }}</p>
+        <p>Image : {{ `http://localhost:8000${product.image_url}` }}</p>
         <img
-          :src="`http://localhost:8000${product.image.image_url}`"
+          :src="`http://localhost:8000${product.image_url}`"
           :alt="product.name"
           class="w-24 h-24"
         />
