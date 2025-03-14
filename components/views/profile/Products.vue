@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Pen } from "lucide-vue-next";
+
 const adminStore = useAdminStore();
 
 onMounted(async () => {
@@ -8,15 +10,22 @@ onMounted(async () => {
 
 <template>
   List of products
-  <Card
-    v-for="product in adminStore.products"
-    :key="product.id"
-    class="flex gap-2"
-  >
-    <p>Product name : {{ product.name }}</p> |
-    <p>{{ product.price }}$</p> |
-    <p>Description : {{ product.description }}</p> |
-    <p>Stock quantity : {{ product.stock_quantity }}</p> |
-    <p>Category : {{ product.category.name }}</p>
-  </Card>
+  <div class="grid grid-cols-2 gap-2">
+    <Card v-for="product in adminStore.products" :key="product.id">
+      <div class="flex flex-col justify-between gap-2 p-2">
+        <p>Product name : {{ product.name }}</p>
+        <p>Price : {{ product.price }}$</p>
+        <p>Description : {{ product.description }}</p>
+        <p>Stock quantity : {{ product.stock_quantity }}</p>
+        <p>Category : {{ product.category.name }}</p>
+        <p>Image : {{ `http://localhost:8000${product.image.image_url}` }}</p>
+        <img
+          :src="`http://localhost:8000${product.image.image_url}`"
+          :alt="product.name"
+          class="w-24 h-24"
+        />
+        <Button>Modify <Pen /></Button>
+      </div>
+    </Card>
+  </div>
 </template>

@@ -18,7 +18,7 @@ definePageMeta({
 <template>
   <Card class="w-full md:w-3/4">
     <CardContent class="p-4">
-      <h2 class="text-lg font-medium">Modify Shop</h2>
+      <h2 class="text-lg font-medium">Shop Editor</h2>
       <Separator class="my-6" />
       <ViewsProfileProducts />
       <Separator class="my-6" />
