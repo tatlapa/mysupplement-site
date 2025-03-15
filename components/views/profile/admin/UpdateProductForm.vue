@@ -1,32 +1,40 @@
 <script setup lang="ts">
-import { RefreshCcw } from "lucide-vue-next";
+import { ref } from "vue";
+import { useAdminStore } from "@/stores/admin";
 import { useToast } from "@/components/ui/toast";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
-import { useAdminStore } from "@/stores/admin";
-import { ref, onMounted } from "vue";
+import { Pen, RefreshCcw } from "lucide-vue-next";
 
 const adminStore = useAdminStore();
 const { toast } = useToast();
+const props = defineProps<{ product: any }>();
+const selectedCategory = ref<number | null>(null);
 const selectedImage = ref<File | null>(null);
 const imageError = ref<string | null>(null);
+const imagePreview = ref<string | null>(null);
 
-onMounted(async () => {
-  await adminStore.getCategories();
+const selectedCategoryLabel = computed(() => {
+  const category = adminStore.categories.find(
+    (c) => c.id === selectedCategory.value
+  );
+  return category ? category.name : "Select a category";
 });
 
+// Validation schema
 const formSchema = toTypedSchema(
   z.object({
     productName: z.string().min(1, "Product name is required"),
-    productPrice: z.number().min(1, "Price is required"),
+    productPrice: z.string().min(1, "Price is required"),
     productDescription: z.string().min(1, "Description is required"),
-    stockQuantity: z.number().min(1, "Stock quantity is required"),
+    stockQuantity: z.number().min(0, "Stock quantity is required"),
     category: z.number().min(1, "At least one category is required"),
   })
 );
 
-const { handleSubmit, resetForm } = useForm({
+// Form setup
+const { handleSubmit, resetForm, setValues } = useForm({
   validationSchema: formSchema,
 });
 
@@ -37,13 +45,36 @@ const handleFileUpload = (event: Event) => {
     if (file.size > 2 * 1024 * 1024) {
       imageError.value = "Image size must be less than 2MB.";
       selectedImage.value = null;
+      imagePreview.value = null;
     } else {
       selectedImage.value = file;
       imageError.value = null;
+      imagePreview.value = URL.createObjectURL(file);
     }
   }
 };
 
+// Populate form when modal opens
+const populateForm = async () => {
+  console.log("Opening modal with product:", props.product);
+
+  await nextTick();
+
+  setValues({
+    productName: props.product.name,
+    productPrice: props.product.price,
+    productDescription: props.product.description,
+    stockQuantity: props.product.stock_quantity,
+    category: props.product.category.id,
+  });
+
+  selectedCategory.value = props.product.category.id;
+  imagePreview.value = props.product.image_url
+    ? `http://localhost:8000${props.product.image_url}`
+    : null;
+};
+
+// Submit the updated product
 const submitProduct = handleSubmit(async (values) => {
   if (!selectedImage.value) {
     imageError.value = "Please select an image.";
@@ -58,22 +89,22 @@ const submitProduct = handleSubmit(async (values) => {
     formData.append("stock_quantity", values.stockQuantity.toString());
     formData.append("category_id", values.category.toString());
     formData.append("image", selectedImage.value);
-    
-    await adminStore.addProduct(formData);
 
-    resetForm();
-    selectedImage.value = null;
+    await adminStore.updateProduct(props.product.id, formData);
 
     toast({
       title: "Success",
-      description: "Product added successfully",
+      description: "Product updated successfully",
       variant: "default",
     });
+
+    resetForm();
+    selectedImage.value = null;
   } catch (error) {
-    console.error("Failed to add product", error);
+    console.error("Failed to update product", error);
     toast({
       title: "Error",
-      description: "Failed to add product",
+      description: "Failed to update product",
       variant: "destructive",
     });
   }
@@ -83,13 +114,16 @@ const submitProduct = handleSubmit(async (values) => {
 <template>
   <Dialog>
     <DialogTrigger as-child>
-      <Button variant="outline"> Add Product </Button>
+      <Button variant="outline" @click="populateForm">
+        <Pen class="w-4 h-4 mr-2" /> Modify Product
+      </Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold"> Add Product </DialogTitle>
-        <DialogDescription> Add a new product to the shop. </DialogDescription>
+        <DialogTitle class="text-2xl font-bold">Modify Product</DialogTitle>
+        <DialogDescription>Update product details.</DialogDescription>
       </DialogHeader>
+
       <form @submit="submitProduct">
         <div class="grid grid-cols-2 gap-4">
           <div class="mb-4">
@@ -155,7 +189,7 @@ const submitProduct = handleSubmit(async (values) => {
             <Field v-slot="{ field, errorMessage }" name="category">
               <Select type="text" v-bind="field">
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a category" />
+                  <SelectValue :placeholder="selectedCategoryLabel" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -178,6 +212,9 @@ const submitProduct = handleSubmit(async (values) => {
 
           <div class="mb-4">
             <Label for="imageUrl">Product Image</Label>
+            <div v-if="imagePreview" class="mb-2">
+              <img :src="imagePreview" alt="Product Image" class="w-24 h-24" />
+            </div>
             <Input
               id="imageUrl"
               type="file"
@@ -197,7 +234,7 @@ const submitProduct = handleSubmit(async (values) => {
               v-if="adminStore.formLoading"
               class="w-4 h-4 mr-2 animate-spin"
             />
-            Add Product
+            Update Product
           </Button>
         </DialogFooter>
       </form>

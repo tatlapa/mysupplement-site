@@ -83,5 +83,36 @@ export const useAdminStore = defineStore("admin-store", {
         this.formLoading = false;
       }
     },
+    async updateProduct(productId: number, form: FormData) {
+      if (!this.isAdmin) {
+        console.warn("Unauthorized access");
+        return;
+      }
+
+      const authStore = useAuthStore();
+      const { $api } = useNuxtApp();
+      this.formLoading = true;
+
+      try {
+        const response = await $api<Product>(
+          `/api/admin/products/${productId}`,
+          {
+            method: "POST",
+            body: form,
+            // headers: {
+            //   Accept: "application/json", // ✅ Ensure Laravel returns JSON
+            //   Authorization: `Bearer ${authStore.token}`, // ✅ Include Sanctum token
+            // },
+          }
+        );
+
+        return response;
+      } catch (error) {
+        console.error("Failed to update product:", error);
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    },
   },
 });

@@ -2,6 +2,7 @@
 import { Pen } from "lucide-vue-next";
 
 const adminStore = useAdminStore();
+const updateProductForm = ref();
 
 onMounted(async () => {
   await adminStore.getProducts();
@@ -24,7 +25,7 @@ onMounted(async () => {
           :alt="product.name"
           class="w-24 h-24"
         />
-        <Button>Modify <Pen /></Button>
+        <ViewsProfileAdminUpdateProductForm :product="product" />
       </div>
     </Card>
   </div>
