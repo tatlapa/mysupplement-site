@@ -25,7 +25,7 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api<Product[]>("/api/admin/products", {
+        const response = await $api<Product[]>("/api/products", {
           method: "GET",
         });
         this.products = response.map((product: Product) => ({
@@ -89,7 +89,6 @@ export const useAdminStore = defineStore("admin-store", {
         return;
       }
 
-      const authStore = useAuthStore();
       const { $api } = useNuxtApp();
       this.formLoading = true;
 
@@ -99,10 +98,6 @@ export const useAdminStore = defineStore("admin-store", {
           {
             method: "POST",
             body: form,
-            // headers: {
-            //   Accept: "application/json", // ✅ Ensure Laravel returns JSON
-            //   Authorization: `Bearer ${authStore.token}`, // ✅ Include Sanctum token
-            // },
           }
         );
 

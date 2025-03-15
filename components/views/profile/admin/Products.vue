@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { Pen } from "lucide-vue-next";
 
 const adminStore = useAdminStore();
-const updateProductForm = ref();
 
 onMounted(async () => {
   await adminStore.getProducts();

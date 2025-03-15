@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useRouter } from "vue-router";
 import type {
   LoginForm,
   RegisterForm,
@@ -25,7 +24,7 @@ export const useAuthStore = defineStore("auth-store", {
     async register(form: RegisterForm) {
       const { $api } = useNuxtApp();
 
-      this.formErrors = {};
+      this.formErrors = {} as FormErrors;
       this.formLoading = true;
 
       try {
@@ -39,9 +38,9 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         const apiError = error as ApiError;
         if (apiError.status === 422 && apiError.data) {
-          this.formErrors = apiError.data.errors;
+          this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message };
+          this.formErrors = { global: apiError.message } as FormErrors;
         }
         throw error;
       } finally {
@@ -51,7 +50,7 @@ export const useAuthStore = defineStore("auth-store", {
     async login(form: LoginForm) {
       const { $api } = useNuxtApp();
 
-      this.formErrors = {};
+      this.formErrors = {} as FormErrors;
       this.formLoading = true;
 
       try {
@@ -65,9 +64,9 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         const apiError = error as ApiError;
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
-          this.formErrors = apiError.data.errors;
+          this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message };
+          this.formErrors = { global: apiError.message } as FormErrors;
         }
         throw error;
       } finally {
@@ -76,7 +75,6 @@ export const useAuthStore = defineStore("auth-store", {
     },
     logout() {
       const { $api } = useNuxtApp();
-      const router = useRouter();
 
       try {
         $api("/api/auth/logout", {
@@ -84,7 +82,7 @@ export const useAuthStore = defineStore("auth-store", {
         });
         this.token = null;
         this.user = null;
-        router.push("/");
+        navigateTo("/");
       } catch (error) {
         console.error("Logout failed", error);
       }
@@ -151,7 +149,7 @@ export const useAuthStore = defineStore("auth-store", {
     async updateProfile(form: UpdateProfileForm) {
       const { $api } = useNuxtApp();
 
-      this.formErrors = {};
+      this.formErrors = {} as FormErrors;
       this.formLoading = true;
 
       try {
@@ -168,9 +166,9 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         const apiError = error as ApiError;
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
-          this.formErrors = apiError.data.errors;
+          this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message };
+          this.formErrors = { global: apiError.message } as FormErrors;
         }
         throw error;
       } finally {
@@ -180,7 +178,7 @@ export const useAuthStore = defineStore("auth-store", {
     async updatePassword(form: UpdatePasswordForm) {
       const { $api } = useNuxtApp();
 
-      this.formErrors = {};
+      this.formErrors = {} as FormErrors;
       this.formLoading = true;
 
       try {
@@ -197,9 +195,9 @@ export const useAuthStore = defineStore("auth-store", {
       } catch (error: any) {
         const apiError = error as ApiError;
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
-          this.formErrors = apiError.data.errors;
+          this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message };
+          this.formErrors = { global: apiError.message } as FormErrors;
         }
         throw error;
       } finally {
