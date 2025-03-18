@@ -28,7 +28,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api<ApiResponseUser>("/api/auth/register", {
+        const response = await $api<ApiResponseUser>("/auth/register", {
           method: "POST",
           body: form,
         });
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api<ApiResponseUser>("/api/auth/login", {
+        const response = await $api<ApiResponseUser>("/auth/login", {
           method: "POST",
           body: form,
         });
@@ -77,7 +77,7 @@ export const useAuthStore = defineStore("auth-store", {
       const { $api } = useNuxtApp();
 
       try {
-        $api("/api/auth/logout", {
+        $api("/auth/logout", {
           method: "POST",
         });
         this.token = null;
@@ -92,7 +92,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        await $api("/api/auth/password/email", {
+        await $api("/auth/password/email", {
           method: "POST",
           body: { email },
         });
@@ -114,7 +114,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api("/api/auth/password/reset", {
+        const response = await $api("/auth/password/reset", {
           method: "POST",
           body: {
             email,
@@ -135,7 +135,7 @@ export const useAuthStore = defineStore("auth-store", {
       const { $api } = useNuxtApp();
 
       try {
-        const response = await $api<User>("/api/user", {
+        const response = await $api<User>("/user", {
           method: "GET",
         });
 
@@ -153,7 +153,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api<User>("/api/user", {
+        const response = await $api<User>("/user", {
           method: "POST",
           body: form,
         });
@@ -182,7 +182,7 @@ export const useAuthStore = defineStore("auth-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api("/api/user/password", {
+        const response = await $api("/user/password", {
           method: "POST",
           body: form,
         });

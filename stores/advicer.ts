@@ -17,7 +17,7 @@ export const useAdvicerStore = defineStore("advicer-store", {
 
       try {
         const response = await $api<SupplementRecommendation>(
-          "/api/getSupplementRecommendations",
+          "/getSupplementRecommendations",
           {
             method: "POST",
             body: form,

@@ -25,7 +25,7 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api<Product[]>("/api/products", {
+        const response = await $api<Product[]>("/products", {
           method: "GET",
         });
         this.products = response.map((product: Product) => ({
@@ -48,7 +48,7 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api<Category[]>("/api/admin/categories", {
+        const response = await $api<Category[]>("/admin/categories", {
           method: "GET",
         });
         this.categories = response.map((categorie: Category) => ({
@@ -71,7 +71,7 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.formLoading = true;
       try {
-        const response = await $api("/api/admin/products", {
+        const response = await $api("/admin/products", {
           method: "POST",
           body: form,
         });
@@ -94,7 +94,7 @@ export const useAdminStore = defineStore("admin-store", {
 
       try {
         const response = await $api<Product>(
-          `/api/admin/products/${productId}`,
+          `/admin/products/${productId}`,
           {
             method: "POST",
             body: form,

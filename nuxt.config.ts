@@ -2,8 +2,10 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      backendUrl: "http://localhost:8000", // URL de ton backend
-    },
+      public: {
+        apiBaseUrl: process.env.NUXT_API_BASE_URL,
+        imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+      },    },
   },
   modules: [
     "@nuxtjs/tailwindcss",
