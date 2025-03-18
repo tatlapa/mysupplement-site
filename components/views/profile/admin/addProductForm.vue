@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RefreshCcw } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast";
+import { Textarea } from "@/components/ui/textarea";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
@@ -58,7 +59,7 @@ const submitProduct = handleSubmit(async (values) => {
     formData.append("stock_quantity", values.stockQuantity.toString());
     formData.append("category_id", values.category.toString());
     formData.append("image", selectedImage.value);
-    
+
     await adminStore.addProduct(formData);
 
     resetForm();
@@ -85,7 +86,7 @@ const submitProduct = handleSubmit(async (values) => {
     <DialogTrigger as-child>
       <Button variant="outline"> Add Product </Button>
     </DialogTrigger>
-    <DialogContent>
+    <DialogScrollContent>
       <DialogHeader>
         <DialogTitle class="text-2xl font-bold"> Add Product </DialogTitle>
         <DialogDescription> Add a new product to the shop. </DialogDescription>
@@ -124,10 +125,11 @@ const submitProduct = handleSubmit(async (values) => {
           <div class="mb-4">
             <Label for="productDescription">Description</Label>
             <Field v-slot="{ field, errorMessage }" name="productDescription">
-              <Input
+              <Textarea
                 id="productDescription"
                 v-bind="field"
                 placeholder="Enter product description"
+                class="p-0.5"
               />
               <p v-if="errorMessage" class="text-red-500 text-sm">
                 {{ errorMessage }}
@@ -201,6 +203,6 @@ const submitProduct = handleSubmit(async (values) => {
           </Button>
         </DialogFooter>
       </form>
-    </DialogContent>
+    </DialogScrollContent>
   </Dialog>
 </template>

@@ -3,6 +3,8 @@ import { ChevronDown, House, Sun, Moon, Search, User, UserCog, ShoppingCart } fr
 
 const authStore = useAuthStore();
 const adminStore = useAdminStore();
+const cartStore = useCartStore();
+const cartSidebar = ref(null);
 const isDark = ref(false);
 
 onMounted(() => {
@@ -110,7 +112,10 @@ const switchToLogin = () => {
                 <Sun v-if="!isDark" class="size-6" />
                 <Moon v-else class="size-6" />
               </Button variant="ghost">
-              <NuxtLink to="/cart"class="flex gap-1"><ShoppingCart></ShoppingCart>Cart</NuxtLink>
+              <Button @click="cartSidebar.cartOpen = true" class="relative p-2 rounded-md bg-gray-100 hover:bg-gray-200">
+        <ShoppingCart /> Cart ({{ cartStore.cartItemCount }})
+      </Button>              <UtilsCartSideBar ref="cartSidebar" />
+
             </div>
         </div>
       </div>

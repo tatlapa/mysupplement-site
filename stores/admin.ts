@@ -25,7 +25,7 @@ export const useAdminStore = defineStore("admin-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $api<Product[]>("/products", {
+        const response = await $api<Product[]>("/admin/products", {
           method: "GET",
         });
         this.products = response.map((product: Product) => ({

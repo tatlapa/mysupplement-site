@@ -23,7 +23,6 @@ definePageMeta({
       </div>
       <Separator class="my-6" />
       <ViewsProfileAdminProducts />
-      <Separator class="my-6" />
     </CardContent>
   </Card>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const adminStore = useAdminStore();
 
 onMounted(async () => {
@@ -17,7 +16,6 @@ onMounted(async () => {
         <p>Description : {{ product.description }}</p>
         <p>Stock quantity : {{ product.stock_quantity }}</p>
         <p>Category : {{ product.category.name }}</p>
-        <p>Image : {{ `http://localhost:8000${product.image_url}` }}</p>
         <img
           :src="`http://localhost:8000${product.image_url}`"
           :alt="product.name"

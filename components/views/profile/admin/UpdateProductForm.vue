@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useAdminStore } from "@/stores/admin";
 import { useToast } from "@/components/ui/toast";
+import { Textarea } from "@/components/ui/textarea";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
@@ -118,7 +119,7 @@ const submitProduct = handleSubmit(async (values) => {
         <Pen class="w-4 h-4 mr-2" /> Modify Product
       </Button>
     </DialogTrigger>
-    <DialogContent>
+    <DialogScrollContent>
       <DialogHeader>
         <DialogTitle class="text-2xl font-bold">Modify Product</DialogTitle>
         <DialogDescription>Update product details.</DialogDescription>
@@ -158,7 +159,7 @@ const submitProduct = handleSubmit(async (values) => {
           <div class="mb-4">
             <Label for="productDescription">Description</Label>
             <Field v-slot="{ field, errorMessage }" name="productDescription">
-              <Input
+              <Textarea
                 id="productDescription"
                 v-bind="field"
                 placeholder="Enter product description"
@@ -238,6 +239,6 @@ const submitProduct = handleSubmit(async (values) => {
           </Button>
         </DialogFooter>
       </form>
-    </DialogContent>
+    </DialogScrollContent>
   </Dialog>
 </template>
