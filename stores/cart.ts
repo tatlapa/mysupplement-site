@@ -6,6 +6,7 @@ export const useCartStore = defineStore("cart-store", {
     cart: [] as Array<{
       id: number;
       name: string;
+      image_url: string;
       price: number;
       quantity: number;
     }>,
@@ -32,10 +33,12 @@ export const useCartStore = defineStore("cart-store", {
         this.cart.push({
           id: product.id,
           name: product.name,
+          image_url: product.image_url,
           price: product.price,
           quantity,
         });
       }
+      console.log(this.cart);
     },
 
     removeFromCart(productId: number) {

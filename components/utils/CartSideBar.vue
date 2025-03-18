@@ -7,7 +7,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { X } from "lucide-vue-next";
 
 const cartStore = useCartStore();
 const cartOpen = ref(false);
@@ -65,7 +65,7 @@ defineExpose({ cartOpen });
                         >
                           <span class="absolute -inset-0.5" />
                           <span class="sr-only">Close panel</span>
-                          <XMarkIcon class="size-6" aria-hidden="true" />
+                          <X />
                         </button>
                       </div>
                     </div>
@@ -103,13 +103,13 @@ defineExpose({ cartOpen });
                                 <p class="text-gray-500">
                                   Qty: {{ item.quantity }}
                                 </p>
-                                <button
+                                <Button
                                   type="button"
-                                  class="font-medium text-red-600 hover:text-red-500"
+                                  variant="destructive"
                                   @click="removeFromCart(item.id)"
                                 >
                                   Remove
-                                </button>
+                                </Button>
                               </div>
                             </div>
                           </li>
@@ -136,25 +136,25 @@ defineExpose({ cartOpen });
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
-                      <a
-                        href="/checkout"
+                      <NuxtLink
+                        to="/checkout"
                         class="flex items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-primary/90"
                       >
                         Checkout
-                      </a>
+                      </NuxtLink>
                     </div>
                     <div
                       class="mt-6 flex justify-center text-center text-sm text-gray-500"
                     >
                       <p>
                         or
-                        <button
+                        <Button
                           type="button"
-                          class="font-medium text-primary hover:text-primary/90"
+                          variant="link"
                           @click="cartOpen = false"
                         >
                           Continue Shopping →
-                        </button>
+                        </Button>
                       </p>
                     </div>
                   </div>
