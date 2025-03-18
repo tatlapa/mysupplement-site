@@ -108,11 +108,11 @@ const switchToLogin = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button variant="ghost" @click="toggleTheme">
+              <Button variant="outline" @click="toggleTheme">
                 <Sun v-if="!isDark" class="size-6" />
                 <Moon v-else class="size-6" />
-              </Button variant="ghost">
-              <Button @click="cartSidebar.cartOpen = true" class="relative p-2 rounded-md bg-gray-100 hover:bg-gray-200">
+              </Button>
+              <Button @click="cartSidebar.cartOpen = true" variant="outline">
         <ShoppingCart /> Cart ({{ cartStore.cartItemCount }})
       </Button>              <UtilsCartSideBar ref="cartSidebar" />
 
