@@ -1,5 +1,4 @@
 <script setup>
-import { ref, computed } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -9,6 +8,7 @@ import {
 } from "@headlessui/vue";
 import { X } from "lucide-vue-next";
 
+const config = useRuntimeConfig();
 const cartStore = useCartStore();
 const cartOpen = ref(false);
 
@@ -58,15 +58,16 @@ defineExpose({ cartOpen });
                         >Shopping cart</DialogTitle
                       >
                       <div class="ml-3 flex h-7 items-center">
-                        <button
+                        <Button
                           type="button"
+                          variant="ghost"
                           class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="cartOpen = false"
                         >
                           <span class="absolute -inset-0.5" />
                           <span class="sr-only">Close panel</span>
                           <X />
-                        </button>
+                        </Button>
                       </div>
                     </div>
 
@@ -81,8 +82,8 @@ defineExpose({ cartOpen });
                             <div
                               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
                             >
-                              <img
-                                :src="item.image_url"
+                              <NuxtImg
+                                :src="`${config.public.public.imageBaseUrl}${item.image_url}`"
                                 :alt="item.name"
                                 class="size-full object-cover"
                               />

@@ -38,7 +38,6 @@ export const useCartStore = defineStore("cart-store", {
           quantity,
         });
       }
-      console.log(this.cart);
     },
 
     removeFromCart(productId: number) {

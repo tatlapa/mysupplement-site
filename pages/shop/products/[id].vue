@@ -10,23 +10,14 @@ const cartStore = useCartStore();
 
 const quantity = ref(0);
 
-console.log(cartStore.cart);
-
-// Limiter la quantité en fonction du stock
-const maxQuantity = computed(() =>
-  Math.min(quantity.value, shopStore.product?.stock_quantity || 1)
-);
-
 watch(quantity, (newValue) => {
-  console.log("Updated quantity:", newValue);
-  console.log("Max quantity:", maxQuantity.value);
-
   if (newValue > (shopStore.product?.stock_quantity || 1)) {
     quantity.value = shopStore.product?.stock_quantity || 1;
   }
 });
 
 onMounted(async () => {
+  await shopStore.getProducts();
   await shopStore.getProduct(Number(route.params.id));
 });
 </script>
@@ -50,7 +41,7 @@ onMounted(async () => {
     <div class="flex items-center gap-4">
       <NumberField
         class="w-24"
-        :min="1"
+        :min="0"
         :max="shopStore.product.stock_quantity"
         v-model="quantity"
       >
@@ -64,7 +55,7 @@ onMounted(async () => {
       <Button
         variant="default"
         class="text-sm px-4 py-2"
-        :disabled="shopStore.product.stock_quantity === 0"
+        :disabled="shopStore.product.stock_quantity === 0 || quantity === 0"
         @click="cartStore.addToCart(shopStore.product.id, quantity)"
       >
         Add to Cart
