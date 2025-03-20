@@ -20,8 +20,8 @@ const config = useRuntimeConfig();
 const cartStore = useCartStore();
 const cartOpen = ref(false);
 
-onMounted(() => {
-  cartStore.getCartUser();
+onMounted(async () => {
+  await cartStore.getCartUser();
 });
 
 const updateQuantity = (productId, newQuantity) => {
@@ -123,7 +123,8 @@ defineExpose({ cartOpen });
                                     :max="item.product.stock_quantity"
                                     :model-value="item.quantity"
                                     @update:model-value="
-                                      (value) => updateQuantity(item.product.id, value)
+                                      (value) =>
+                                        updateQuantity(item.product.id, value)
                                     "
                                   >
                                     <NumberFieldContent>

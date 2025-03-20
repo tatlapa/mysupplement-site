@@ -55,7 +55,7 @@ export const useCartStore = defineStore("cart-store", {
         existingItem.quantity += quantity;
       } else {
         this.cart.push({
-          id: this.cart.length,
+          id: product.id,
           product: {
             id: product.id,
             name: product.name,
@@ -82,6 +82,7 @@ export const useCartStore = defineStore("cart-store", {
           method: "POST",
           body: { product_id: productId, quantity },
         });
+        await this.getCartUser();
       } catch (error) {
         console.error("❌ Failed to add to cart:", error);
       }
