@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useShopStore } from "~/stores/shop";
-import { useCartStore } from "~/stores/cart";
-
 const config = useRuntimeConfig();
 const route = useRoute();
 const shopStore = useShopStore();
 const cartStore = useCartStore();
+const cartSidebar = ref(null);
 
 const quantity = ref(0);
 
@@ -56,10 +53,14 @@ onMounted(async () => {
         variant="default"
         class="text-sm px-4 py-2"
         :disabled="shopStore.product.stock_quantity === 0 || quantity === 0"
-        @click="cartStore.addToCart(shopStore.product.id, quantity)"
+        @click="
+          cartStore.addToCart(shopStore.product.id, quantity),
+            (cartSidebar.cartOpen = true)
+        "
       >
         Add to Cart
       </Button>
+      <UtilsCartSideBar ref="cartSidebar" />
     </div>
   </div>
   <div v-else>Loading...</div>

@@ -1,4 +1,5 @@
 <script setup>
+import { ref, computed } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -7,10 +8,26 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { X } from "lucide-vue-next";
+import {
+  NumberField,
+  NumberFieldContent,
+  NumberFieldDecrement,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field";
 
 const config = useRuntimeConfig();
 const cartStore = useCartStore();
 const cartOpen = ref(false);
+
+onMounted(() => {
+  cartStore.getCartUser();
+});
+
+const updateQuantity = (productId, newQuantity) => {
+  if (newQuantity < 1) return;
+  cartStore.updateCartQuantityUser(productId, newQuantity);
+};
 
 const removeFromCart = (id) => {
   cartStore.removeFromCart(id);
@@ -64,8 +81,6 @@ defineExpose({ cartOpen });
                           class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="cartOpen = false"
                         >
-                          <span class="absolute -inset-0.5" />
-                          <span class="sr-only">Close panel</span>
                           <X />
                         </Button>
                       </div>
@@ -83,34 +98,48 @@ defineExpose({ cartOpen });
                               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
                             >
                               <NuxtImg
-                                :src="`${config.public.public.imageBaseUrl}${item.image_url}`"
+                                :src="`${config.public.public.imageBaseUrl}${item.product.image_url}`"
                                 :alt="item.name"
                                 class="size-full object-cover"
                               />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
-                              <div>
-                                <div
-                                  class="flex justify-between text-base font-medium text-gray-900"
-                                >
-                                  <h3>{{ item.name }}</h3>
-                                  <p class="ml-4">${{ item.price }}</p>
-                                </div>
+                              <div
+                                class="flex justify-between text-base font-medium text-gray-900"
+                              >
+                                <h3>{{ item.product.name }}</h3>
+                                <p class="ml-4">${{ item.product.price }}</p>
                               </div>
+
                               <div
                                 class="flex flex-1 items-end justify-between text-sm"
                               >
-                                <p class="text-gray-500">
-                                  Qty: {{ item.quantity }}
-                                </p>
+                                <div class="flex items-center gap-2">
+                                  <!-- ✅ Input pour modifier la quantité -->
+                                  <NumberField
+                                    class="w-24"
+                                    :min="1"
+                                    :max="item.product.stock_quantity"
+                                    :model-value="item.quantity"
+                                    @update:model-value="
+                                      (value) => updateQuantity(item.product.id, value)
+                                    "
+                                  >
+                                    <NumberFieldContent>
+                                      <NumberFieldDecrement />
+                                      <NumberFieldInput />
+                                      <NumberFieldIncrement />
+                                    </NumberFieldContent>
+                                  </NumberField>
+                                </div>
+
                                 <Button
                                   type="button"
                                   variant="destructive"
-                                  @click="removeFromCart(item.id)"
+                                  @click="removeFromCart(item.product.id)"
+                                  >Remove</Button
                                 >
-                                  Remove
-                                </Button>
                               </div>
                             </div>
                           </li>
@@ -153,9 +182,8 @@ defineExpose({ cartOpen });
                           type="button"
                           variant="link"
                           @click="cartOpen = false"
+                          >Continue Shopping →</Button
                         >
-                          Continue Shopping →
-                        </Button>
                       </p>
                     </div>
                   </div>
