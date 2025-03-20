@@ -82,6 +82,7 @@ export const useAuthStore = defineStore("auth-store", {
         });
         this.token = null;
         this.user = null;
+        localStorage.clear();
         navigateTo("/");
       } catch (error) {
         console.error("Logout failed", error);

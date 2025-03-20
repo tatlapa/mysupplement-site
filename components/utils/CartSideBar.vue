@@ -26,7 +26,7 @@ onMounted(() => {
 
 const updateQuantity = (productId, newQuantity) => {
   if (newQuantity < 1) return;
-  cartStore.updateCartQuantityUser(productId, newQuantity);
+  cartStore.updateCartQuantity(productId, newQuantity);
 };
 
 const removeFromCart = (id) => {

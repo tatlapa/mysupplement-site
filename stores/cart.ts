@@ -22,7 +22,7 @@ export const useCartStore = defineStore("cart-store", {
     /** ✅ Récupère le panier en base si l'utilisateur est connecté */
     async getCartUser() {
       const authStore = useAuthStore();
-      if (!authStore.isAuthenticated) return; // Si non connecté, on ne fait rien
+      if (!authStore.isAuthenticated) return;
 
       const { $api } = useNuxtApp();
       try {
@@ -33,25 +33,40 @@ export const useCartStore = defineStore("cart-store", {
       }
     },
 
-    // /** ✅ Ajoute un produit au panier pour un invité (localStorage) */
-    // addToCartGuest(productId: number, quantity: number = 1) {
-    //   const shopStore = useShopStore();
-    //   const product = shopStore.products.find((p) => p.id === productId);
-    //   if (!product || product.stock_quantity < quantity) return;
+    /** ✅ Vérifie si l'utilisateur est connecté et utilise la bonne méthode */
+    addToCart(productId: number, quantity: number = 1) {
+      const authStore = useAuthStore();
+      if (authStore.isAuthenticated) {
+        this.addToCartUser(productId, quantity);
+      } else {
+        this.addToCartGuest(productId, quantity);
+      }
+    },
 
-    //   const existingItem = this.cart.find((item) => item.id === productId);
-    //   if (existingItem) {
-    //     existingItem.quantity += quantity;
-    //   } else {
-    //     this.cart.push({
-    //       id: product.id,
-    //       name: product.name,
-    //       image_url: product.image_url,
-    //       price: product.price,
-    //       quantity,
-    //     });
-    //   }
-    // },
+    /** ✅ Ajoute un produit au panier pour un invité (localStorage) */
+    addToCartGuest(productId: number, quantity: number = 1) {
+      const shopStore = useShopStore();
+      const product = shopStore.products.find((p) => p.id === productId);
+
+      if (!product || product.stock_quantity < quantity) return;
+
+      const existingItem = this.cart.find((item) => item.id === productId);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        this.cart.push({
+          id: this.cart.length,
+          product: {
+            id: product.id,
+            name: product.name,
+            image_url: product.image_url,
+            price: product.price,
+            stock_quantity: product.stock_quantity,
+          },
+          quantity,
+        });
+      }
+    },
 
     /** ✅ Ajoute un produit au panier pour un utilisateur connecté (BDD) */
     async addToCartUser(productId: number, quantity: number = 1) {
@@ -67,38 +82,25 @@ export const useCartStore = defineStore("cart-store", {
           method: "POST",
           body: { product_id: productId, quantity },
         });
-        await this.getCartUser(); // Rafraîchit le panier depuis la BDD
       } catch (error) {
         console.error("❌ Failed to add to cart:", error);
       }
     },
 
     /** ✅ Vérifie si l'utilisateur est connecté et utilise la bonne méthode */
-    addToCart(productId: number, quantity: number = 1) {
-      const authStore = useAuthStore();
-      if (authStore.isAuthenticated) {
-        this.addToCartUser(productId, quantity);
-      }
-      // else {
-      //   this.addToCartGuest(productId, quantity);
-      // }
-    },
-
-    /** ✅ Supprime un item du panier */
     removeFromCart(productId: number) {
       const authStore = useAuthStore();
       if (authStore.isAuthenticated) {
         this.removeFromCartUser(productId);
+      } else {
+        this.removeFromCartGuest(productId);
       }
-      // else {
-      //   this.removeFromCartGuest(productId);
-      // }
     },
 
-    // /** ✅ Supprime un item du panier (invité) */
-    // removeFromCartGuest(productId: number) {
-    //   this.cart = this.cart.filter((item) => item.id !== productId);
-    // },
+    /** ✅ Supprime un item du panier (invité) */
+    removeFromCartGuest(productId: number) {
+      this.cart = this.cart.filter((item) => item.product.id !== productId);
+    },
 
     /** ✅ Supprime un produit du panier (BDD) */
     async removeFromCartUser(productId: number) {
@@ -111,24 +113,23 @@ export const useCartStore = defineStore("cart-store", {
       }
     },
 
-    /** ✅ Met à jour la quantité d'un produit dans le panier */
+    /** ✅ Vérifie si l'utilisateur est connecté et utilise la bonne méthode */
     updateCartQuantity(productId: number, quantity: number) {
       const authStore = useAuthStore();
       if (authStore.isAuthenticated) {
         this.updateCartQuantityUser(productId, quantity);
+      } else {
+        this.updateCartQuantityGuest(productId, quantity);
       }
-      // else {
-      //   this.updateCartQuantityGuest(productId, quantity);
-      // }
     },
 
-    // /** ✅ Met à jour la quantité dans le panier (invité) */
-    // updateCartQuantityGuest(productId: number, quantity: number) {
-    //   const item = this.cart.find((item) => item.id === productId);
-    //   if (item) {
-    //     item.quantity = quantity > 0 ? quantity : 1;
-    //   }
-    // },
+    /** ✅ Met à jour la quantité dans le panier (invité) */
+    updateCartQuantityGuest(productId: number, quantity: number) {
+      const item = this.cart.find((item) => item.product.id === productId);
+      if (item) {
+        item.quantity = quantity > 0 ? quantity : 1;
+      }
+    },
 
     /** ✅ Met à jour la quantité dans le panier (BDD) */
     async updateCartQuantityUser(productId: number, quantity: number) {
@@ -145,9 +146,9 @@ export const useCartStore = defineStore("cart-store", {
     },
   },
 
-  // persist: {
-  //   key: "cart-store",
-  //   storage: piniaPluginPersistedstate.localStorage(),
-  //   pick: ["cart"],
-  // },
+  persist: {
+    key: "cart-store",
+    storage: piniaPluginPersistedstate.localStorage(),
+    pick: ["cart"],
+  },
 });
