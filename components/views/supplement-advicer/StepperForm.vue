@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { toTypedSchema } from "@vee-validate/zod";
-import { Check, Circle, Dot, RefreshCcw } from "lucide-vue-next";
 import { h, ref } from "vue";
 import * as z from "zod";
 import type {
@@ -137,9 +136,9 @@ async function onSubmitAndNext(values: AdvicerForm) {
                   ]"
                   :disabled="state !== 'completed' && !meta.valid"
                 >
-                  <Check v-if="state === 'completed'" class="size-5" />
-                  <Circle v-if="state === 'active'" />
-                  <Dot v-if="state === 'inactive'" />
+                  <LucideCheck v-if="state === 'completed'" class="size-5" />
+                  <LucideCircle v-if="state === 'active'" />
+                  <LucideDot v-if="state === 'inactive'" />
                 </Button>
               </StepperTrigger>
 
@@ -389,7 +388,7 @@ async function onSubmitAndNext(values: AdvicerForm) {
                   :disabled="!meta.valid || advicerStore.formLoading"
                   @click="onSubmitAndNext(values as AdvicerForm)"
                 >
-                  <RefreshCcw
+                  <LucideRefreshCcw
                     v-if="advicerStore.formLoading"
                     class="w-4 h-4 mr-2 animate-spin"
                   />

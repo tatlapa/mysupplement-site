@@ -2,7 +2,6 @@
 import { onMounted, reactive, ref } from "vue";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { useAuthStore } from "@/stores/auth";
-import { Lock, Mail, RefreshCcw } from "lucide-vue-next";
 import { Input, InputError } from "~/components/ui/input";
 
 const props = defineProps(["open"]);
@@ -78,7 +77,7 @@ onMounted(() => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <Mail class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideMail class="size-5 text-muted-foreground" strokeWidth="1.5" />
             </span>
           </div>
           <InputError :message="authStore.formErrors.email" />
@@ -95,7 +94,7 @@ onMounted(() => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <Lock class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideLock class="size-5 text-muted-foreground" strokeWidth="1.5" />
             </span>
           </div>
           <InputError :message="authStore.formErrors.password" />
@@ -129,7 +128,7 @@ onMounted(() => {
             class="w-full"
             :disabled="authStore.formLoading"
           >
-            <RefreshCcw
+            <LucideRefreshCcw
               v-if="authStore.formLoading"
               class="w-4 h-4 mr-2 animate-spin"
             />

@@ -2,7 +2,6 @@
 import type { WithClassAsProps } from './interface'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-vue-next'
 import { useCarousel } from './useCarousel'
 
 const props = defineProps<WithClassAsProps>()
@@ -24,7 +23,7 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
     @click="scrollPrev"
   >
     <slot>
-      <ArrowLeft class="h-4 w-4 text-current" />
+      <LucideArrowLeft class="h-4 w-4 text-current" />
       <span class="sr-only">Previous Slide</span>
     </slot>
   </Button>

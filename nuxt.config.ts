@@ -2,10 +2,9 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      public: {
-        apiBaseUrl: process.env.NUXT_API_BASE_URL,
-        imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
-      },    },
+      apiBaseUrl: process.env.NUXT_API_BASE_URL,
+      imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+    },
   },
   modules: [
     "@nuxtjs/tailwindcss",
@@ -14,6 +13,7 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate/nuxt",
     "@nuxt/icon",
     "@nuxt/image",
+    "nuxt-lucide-icons",
   ],
   shadcn: {
     /**

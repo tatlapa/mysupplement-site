@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight, User, History, Store } from "lucide-vue-next";
+import { User, History, Store } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 import { useAdminStore } from "@/stores/admin"; // Ajout de l'import du store admin
 
@@ -64,7 +64,7 @@ const isActive = (path: string) => {
               </div>
               <h3 class="font-medium">{{ item.title }}</h3>
             </div>
-            <ChevronRight
+            <LucideChevronRight
               class="w-5 h-5"
               :class="[
                 isActive(item.path)

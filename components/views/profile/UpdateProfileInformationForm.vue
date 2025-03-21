@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import {reactive} from "vue";
-import {Input, InputError} from "~/components/ui/input";
-import {Mail, RefreshCcw, User} from "lucide-vue-next";
 import {useToast} from "~/components/ui/toast";
 
 const authStore = useAuthStore();
@@ -43,7 +40,7 @@ const handleSubmit = async () => {
           <div class="relative w-full items-center">
             <Input v-model="form.email" id="email" type="email" placeholder="Email Address" disabled class="pl-10"/>
             <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
-              <Mail class="size-5 text-muted-foreground" strokeWidth="1.5"/>
+              <LucideMail class="size-5 text-muted-foreground" strokeWidth="1.5"/>
             </span>
           </div>
           <InputError :message="authStore.formErrors.email"/>
@@ -51,7 +48,7 @@ const handleSubmit = async () => {
       </div>
 
       <Button type="submit" :disabled="authStore.formLoading">
-        <RefreshCcw v-if="authStore.formLoading" class="w-4 h-4 mr-2 animate-spin"/>
+        <LucideRefreshCcw v-if="authStore.formLoading" class="w-4 h-4 mr-2 animate-spin"/>
         Save
       </Button>
     </form>

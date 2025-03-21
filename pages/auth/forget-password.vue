@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Mail, RefreshCcw } from "lucide-vue-next";
 import { useToast } from "~/components/ui/toast";
 
 definePageMeta({
@@ -49,7 +48,7 @@ const handlePasswordReset = async () => {
                 class="pl-10"
                 required
               />
-              <Mail
+              <LucideMail
                 class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
               />
             </div>
@@ -60,7 +59,7 @@ const handlePasswordReset = async () => {
             class="w-full"
             :disabled="authStore.formLoading"
           >
-            <RefreshCcw
+            <LucideRefreshCcw
               v-if="authStore.formLoading"
               class="w-4 h-4 mr-2 animate-spin"
             />

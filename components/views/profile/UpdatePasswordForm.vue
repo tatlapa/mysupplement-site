@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RefreshCcw, Lock } from "lucide-vue-next";
 import { Input, InputError } from "~/components/ui/input";
 import { reactive } from "vue";
 import { useToast } from "~/components/ui/toast";
@@ -51,7 +50,7 @@ const handleSubmit = async () => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <Lock class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideLock class="size-5 text-muted-foreground" strokeWidth="1.5" />
             </span>
           </div>
           <InputError :message="authStore.formErrors.current_password" />
@@ -68,7 +67,7 @@ const handleSubmit = async () => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <Lock class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideLock class="size-5 text-muted-foreground" strokeWidth="1.5" />
             </span>
           </div>
           <InputError :message="authStore.formErrors.password" />
@@ -85,7 +84,7 @@ const handleSubmit = async () => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <Lock class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideLock class="size-5 text-muted-foreground" strokeWidth="1.5" />
             </span>
           </div>
           <InputError :message="authStore.formErrors.password_confirmation" />
@@ -93,7 +92,7 @@ const handleSubmit = async () => {
       </div>
 
       <Button type="submit" :disabled="authStore.formLoading">
-        <RefreshCcw
+        <LucideRefreshCcw
           v-if="authStore.formLoading"
           class="w-4 h-4 mr-2 animate-spin"
         />

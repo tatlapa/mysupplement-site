@@ -1,14 +1,4 @@
 <script setup lang="ts">
-import {
-  ChevronDown,
-  House,
-  Sun,
-  Moon,
-  Search,
-  User,
-  UserCog,
-  ShoppingCart,
-} from "lucide-vue-next";
 
 const authStore = useAuthStore();
 const adminStore = useAdminStore();
@@ -58,11 +48,11 @@ const switchToLogin = () => {
           to="/"
           class="rounded-full border p-2 hover:bg-secondary hover:duration-75"
         >
-          <House class="size-6"></House>
+          <LucideHouse class="size-6"></LucideHouse>
         </NuxtLink>
 
         <div class="relative">
-          <Search
+          <LucideSearch
             class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
           />
           <input
@@ -87,9 +77,9 @@ const switchToLogin = () => {
             <DropdownMenu v-if="authStore.isAuthenticated">
               <DropdownMenuTrigger as-child>
                 <Button variant="outline" size="sm" class="gap-2">
-                  <User v-if="!adminStore.isAdmin" />
-                  <UserCog v-if="adminStore.isAdmin" />
-                  <ChevronDown
+                  <LucideUser v-if="!adminStore.isAdmin" />
+                  <LucideUserCog v-if="adminStore.isAdmin" />
+                  <LucideChevronDown
                     class="w-4 h-4 transition-transform duration-200"
                   />
                 </Button>
@@ -118,11 +108,11 @@ const switchToLogin = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             <Button variant="outline" @click="toggleTheme">
-              <Sun v-if="!isDark" class="size-6" />
-              <Moon v-else class="size-6" />
+              <LucideSun v-if="!isDark" class="size-6" />
+              <LucideMoon v-else class="size-6" />
             </Button>
             <Button @click="cartSidebar.cartOpen = true" variant="outline">
-              <ShoppingCart /> Cart ({{ cartStore.cartItemCount }})
+              <LucideShoppingCart /> Cart ({{ cartStore.cartItemCount }})
             </Button>
             <UtilsCartSideBar ref="cartSidebar" />
           </div>

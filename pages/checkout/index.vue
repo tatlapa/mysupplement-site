@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { useCartStore } from "@/stores/cart";
+import { useStripeStore } from "@/stores/stripe";
+import { loadStripe } from "@stripe/stripe-js";
+import { onMounted, ref, computed, reactive } from "vue";
 
+const stripeStore = useStripeStore();
 const cartStore = useCartStore();
 const config = useRuntimeConfig();
 
+const stripePromise = loadStripe(
+  "pk_test_51R4yCHLm7mC4vi7yrFLKfVlv5xvUhXpTOy62QqNd2OMDVhos1t94Tcq3sjR5E9tstWid02DU1y1RIJoCdSokOR8s00yNd5fgHC"
+);
+
+const selectedPayment = ref<"card" | "paypal">("card");
 const cart = computed(() => cartStore.cart);
+
 const subtotal = computed(() =>
   cartStore.cart.reduce(
     (total, item) => total + item.product.price * item.quantity,
     0
   )
 );
-
 const shippingFee = 5.0;
-const taxRate = 0.1; // 10%
+const taxRate = 0.1;
 const taxAmount = computed(() => subtotal.value * taxRate);
 const grandTotal = computed(
   () => subtotal.value + shippingFee + taxAmount.value
@@ -27,58 +36,151 @@ const form = reactive({
   city: "",
   postal: "",
 });
+
+const paymentElementInstance = ref<any>(null);
+
+
+
+onMounted(async () => {
+  // Si pas encore de clientSecret, on initie un paiement
+  if (!stripeStore.clientSecret) {
+    const total = Math.round(grandTotal.value * 100);
+    await stripeStore.initiatePayment(total);
+  }
+
+  if (!stripeStore.clientSecret) return;
+
+  const stripe = await stripePromise;
+  if (!stripe) return;
+
+  const elements = stripe.elements({
+    clientSecret: stripeStore.clientSecret,
+  });
+
+  paymentElementInstance.value = elements.create("payment");
+  paymentElementInstance.value.mount("#payment-element");
+});
+
+// async function handleStripePayment() {
+//   const stripe = await stripePromise;
+//   if (!stripe || !stripeStore.clientSecret) return;
+
+//   const result = await stripe.confirmPayment({
+//     elements: stripe.elements({
+//       clientSecret: stripeStore.clientSecret,
+//     }),
+//     confirmParams: {
+//       return_url: window.location.origin + "/checkout/success",
+//       payment_method_data: {
+//         billing_details: {
+//           name: form.name,
+//           email: form.email,
+//           address: {
+//             line1: form.address,
+//             city: form.city,
+//             postal_code: form.postal,
+//             country: form.country,
+//           },
+//         },
+//       },
+//     },
+//   });
+
+//   if (result.error) {
+//     console.error(result.error.message);
+//   }
+// }
 </script>
 
 <template>
   <div
     class="max-w-6xl mx-auto py-10 px-4 grid grid-cols-1 md:grid-cols-2 gap-8"
   >
-    <!-- Shipping Info -->
-    <Card>
-      <CardHeader>
-        <CardTitle>Shipping Information</CardTitle>
-      </CardHeader>
-      <CardContent class="space-y-4">
-        <div class="space-y-2">
-          <Label for="name">Full Name</Label>
-          <Input v-model="form.name" id="name" placeholder="John Doe" />
-        </div>
-        <div class="space-y-2">
-          <Label for="email">Email</Label>
-          <Input
-            v-model="form.email"
-            id="email"
-            type="email"
-            placeholder="john@example.com"
-          />
-        </div>
-        <div class="space-y-2">
-          <Label for="address">Address</Label>
-          <Input
-            v-model="form.address"
-            id="address"
-            placeholder="123 Maple Street"
-          />
-        </div>
-        <div class="space-y-2">
-          <Label for="country">Country</Label>
-          <Input v-model="form.city" id="country" placeholder="Thailand" />
-        </div>
-        <div class="space-y-2">
-          <Label for="city">City</Label>
-          <Input v-model="form.city" id="city" placeholder="Bangkok" />
-        </div>
-        <div class="space-y-2">
-          <Label for="postal">Postal Code</Label>
-          <Input v-model="form.postal" id="postal" placeholder="10110" />
-        </div>
-        <Separator />
-      </CardContent>
-      <CardFooter class="flex justify-between">
-        You won't be charged until the next step.
-        <Button>Continue</Button>
-      </CardFooter>
-    </Card>
+    <div class="space-y-6">
+      <!-- 🚚 Shipping Info -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Shipping Information</CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-4">
+          <div class="space-y-2">
+            <Label for="name">Full Name</Label>
+            <Input v-model="form.name" id="name" placeholder="John Doe" />
+          </div>
+          <div class="space-y-2">
+            <Label for="email">Email</Label>
+            <Input
+              v-model="form.email"
+              id="email"
+              placeholder="john@example.com"
+            />
+          </div>
+          <div class="space-y-2">
+            <Label for="address">Address</Label>
+            <Input
+              v-model="form.address"
+              id="address"
+              placeholder="123 Main St"
+            />
+          </div>
+          <div class="space-y-2">
+            <Label for="country">Country</Label>
+            <Input v-model="form.country" id="country" placeholder="Thailand" />
+          </div>
+          <div class="space-y-2">
+            <Label for="city">City</Label>
+            <Input v-model="form.city" id="city" placeholder="Bangkok" />
+          </div>
+          <div class="space-y-2">
+            <Label for="postal">Postal Code</Label>
+            <Input v-model="form.postal" id="postal" placeholder="10110" />
+          </div>
+        </CardContent>
+      </Card>
+
+      <!-- 💳 Payment Accordion -->
+      <Card>
+        <CardHeader>
+          <CardTitle>Payment Method</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion
+            type="single"
+            collapsible
+            v-model="selectedPayment"
+            class="w-full"
+          >
+            <AccordionItem value="card">
+              <AccordionTrigger>
+                <div class="w-full h-full">
+                  <div class="flex items-center gap-2">
+                    <LucideCreditCard />
+                    <p>Credit / Debit card</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent class="space-y-4 mt-2">
+                <div class="mb-4" id="payment-element"></div>
+                <Button
+                  type="button"
+                  class="w-full"
+                  @click=""
+                >
+                  Pay now {{ grandTotal.toFixed(2) }} $
+                </Button>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="paypal">
+              <AccordionTrigger>PayPal</AccordionTrigger>
+              <AccordionContent class="text-muted-foreground text-sm mt-2">
+                You’ll be redirected to PayPal to complete your purchase.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
+    </div>
 
     <!-- Cart Summary -->
     <Card>
@@ -102,7 +204,7 @@ const form = reactive({
               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
             >
               <NuxtImg
-                :src="`${config.public.public.imageBaseUrl}${item.product.image_url}`"
+                :src="`${config.public.imageBaseUrl}${item.product.image_url}`"
                 :alt="item.product.name"
                 class="size-full object-cover"
               />

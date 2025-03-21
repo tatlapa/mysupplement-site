@@ -7,7 +7,6 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { X } from "lucide-vue-next";
 import {
   NumberField,
   NumberFieldContent,
@@ -81,7 +80,7 @@ defineExpose({ cartOpen });
                           class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
                           @click="cartOpen = false"
                         >
-                          <X />
+                          <LucideX />
                         </Button>
                       </div>
                     </div>
@@ -98,7 +97,7 @@ defineExpose({ cartOpen });
                               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
                             >
                               <NuxtImg
-                                :src="`${config.public.public.imageBaseUrl}${item.product.image_url}`"
+                                :src="`${config.public.imageBaseUrl}${item.product.image_url}`"
                                 :alt="item.name"
                                 class="size-full object-cover"
                               />

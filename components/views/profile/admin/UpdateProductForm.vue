@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
-import { Pen, RefreshCcw } from "lucide-vue-next";
 
 const adminStore = useAdminStore();
 const { toast } = useToast();
@@ -116,7 +115,7 @@ const submitProduct = handleSubmit(async (values) => {
   <Dialog>
     <DialogTrigger as-child>
       <Button variant="outline" @click="populateForm">
-        <Pen class="w-4 h-4 mr-2" /> Modify Product
+        <LucidePen class="w-4 h-4 mr-2" /> Modify Product
       </Button>
     </DialogTrigger>
     <DialogScrollContent>
@@ -231,7 +230,7 @@ const submitProduct = handleSubmit(async (values) => {
 
         <DialogFooter>
           <Button type="submit" :disabled="adminStore.formLoading">
-            <RefreshCcw
+            <LucideRefreshCcw
               v-if="adminStore.formLoading"
               class="w-4 h-4 mr-2 animate-spin"
             />

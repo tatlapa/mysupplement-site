@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RefreshCcw } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast";
 import { Textarea } from "@/components/ui/textarea";
 import { toTypedSchema } from "@vee-validate/zod";
@@ -195,7 +194,7 @@ const submitProduct = handleSubmit(async (values) => {
 
         <DialogFooter>
           <Button type="submit" :disabled="adminStore.formLoading">
-            <RefreshCcw
+            <LucideRefreshCcw
               v-if="adminStore.formLoading"
               class="w-4 h-4 mr-2 animate-spin"
             />
