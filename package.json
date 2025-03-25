@@ -26,7 +26,7 @@
     "nuxt-lucide-icons": "^1.0.5",
     "pinia-plugin-persistedstate": "^4.1.3",
     "radix-vue": "^1.9.9",
-    "reka-ui": "^2.1.0",
+    "reka-ui": "^2.1.1",
     "shadcn-nuxt": "^0.11.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",

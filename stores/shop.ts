@@ -6,7 +6,23 @@ export const useShopStore = defineStore("shop-store", {
     isLoading: false,
     products: [] as Product[],
     product: null as Product | null,
+    sortOrder: "asc" as "asc" | "desc",
+    priceRange: [0, 1000] as [number, number],
   }),
+  getters: {
+    filteredAndSortedProducts(state) {
+      return [...state.products]
+        .filter((product) => {
+          const [min, max] = state.priceRange;
+          return product.price >= min && product.price <= max;
+        })
+        .sort((a, b) => {
+          return state.sortOrder === "asc"
+            ? a.price - b.price
+            : b.price - a.price;
+        });
+    },
+  },
   actions: {
     async getProducts() {
       const { $api } = useNuxtApp();
@@ -41,6 +57,12 @@ export const useShopStore = defineStore("shop-store", {
       } finally {
         this.isLoading = false;
       }
+    },
+    setSortOrder(order: "asc" | "desc") {
+      this.sortOrder = order;
+    },
+    setPriceRange(range: [number, number]) {
+      this.priceRange = range;
     },
   },
 });

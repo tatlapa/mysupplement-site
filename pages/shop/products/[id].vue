@@ -22,6 +22,7 @@ onMounted(async () => {
 <template>
   <div v-if="shopStore.product">
     <h1 class="text-2xl font-bold">{{ shopStore.product.name }}</h1>
+    
     <NuxtImg
       :src="`${config.public.backUrl}${shopStore.product.image_url}`"
       :alt="shopStore.product.name"

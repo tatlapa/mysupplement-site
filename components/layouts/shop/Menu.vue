@@ -1,12 +1,26 @@
+<script setup lang="ts">
+const shopStore = useShopStore();
+
+const modelValue = ref([50]);
+</script>
+
 <template>
   <aside class="w-1/4">
     <Card class="bg-muted-foreground/[0.03]">
-      <CardHeader class="p-4">Filtrer la liste</CardHeader>
-      <CardContent class="flex items-center gap-2">
-        <Checkbox class="w-5 h-5" />
-        <label for="hideDroppable" class="text-sm cursor-pointer">
-          lol
-        </label>
+      <CardHeader class="p-4">
+        <CardTitle>Filter</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div class="mb-2">
+          ${{ shopStore.priceRange[0] }} - ${{ shopStore.priceRange[1] }}
+        </div>
+        <Slider
+          :min="0"
+          :max="1000"
+          :step="1"
+          :range="true"
+          v-model="shopStore.priceRange"
+        />
       </CardContent>
     </Card>
   </aside>
