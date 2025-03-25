@@ -30,6 +30,7 @@ const selectedProduct = computed(() => product.value);
         <NuxtImg
           :src="`http://localhost:8000${product.image_url}`"
           :alt="product.name"
+          class="w-full h-48"
         />
         <p class="text-lg font-medium text-gray-800">{{ product.price }} $</p>
       </CardContent>

@@ -2,8 +2,8 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_API_BASE_URL,
-      imageBaseUrl: process.env.NUXT_IMAGE_BASE_URL,
+      apiUrl: process.env.API_URL,
+      backUrl: process.env.BACK_URL,
     },
   },
   modules: [
