@@ -3,6 +3,7 @@ import { useCartStore } from "@/stores/cart";
 import { useStripeStore } from "@/stores/stripe";
 import { loadStripe } from "@stripe/stripe-js";
 import { onMounted, ref, computed, reactive } from "vue";
+import AccordionContentPersist from "~/components/ui/accordion/AccordionContentPersist.vue";
 
 const stripeStore = useStripeStore();
 const cartStore = useCartStore();
@@ -39,13 +40,10 @@ const form = reactive({
 
 const paymentElementInstance = ref<any>(null);
 
-
-
 onMounted(async () => {
-  // Si pas encore de clientSecret, on initie un paiement
   if (!stripeStore.clientSecret) {
     const total = Math.round(grandTotal.value * 100);
-    await stripeStore.initiatePayment(total);
+    await stripeStore.initiatePayment(total, "usd");
   }
 
   if (!stripeStore.clientSecret) return;
@@ -55,41 +53,42 @@ onMounted(async () => {
 
   const elements = stripe.elements({
     clientSecret: stripeStore.clientSecret,
+    locale: "en", // 🔤 Forcer la langue
   });
 
   paymentElementInstance.value = elements.create("payment");
   paymentElementInstance.value.mount("#payment-element");
 });
 
-// async function handleStripePayment() {
-//   const stripe = await stripePromise;
-//   if (!stripe || !stripeStore.clientSecret) return;
+async function handleStripePayment() {
+  const stripe = await stripePromise;
+  if (!stripe || !stripeStore.clientSecret) return;
 
-//   const result = await stripe.confirmPayment({
-//     elements: stripe.elements({
-//       clientSecret: stripeStore.clientSecret,
-//     }),
-//     confirmParams: {
-//       return_url: window.location.origin + "/checkout/success",
-//       payment_method_data: {
-//         billing_details: {
-//           name: form.name,
-//           email: form.email,
-//           address: {
-//             line1: form.address,
-//             city: form.city,
-//             postal_code: form.postal,
-//             country: form.country,
-//           },
-//         },
-//       },
-//     },
-//   });
+  const elements = stripe.elements({ clientSecret: stripeStore.clientSecret });
 
-//   if (result.error) {
-//     console.error(result.error.message);
-//   }
-// }
+  const result = await stripe.confirmPayment({
+    elements,
+    confirmParams: {
+      return_url: window.location.origin + "/checkout/success",
+      payment_method_data: {
+        billing_details: {
+          name: form.name,
+          email: form.email,
+          address: {
+            line1: form.address,
+            city: form.city,
+            postal_code: form.postal,
+            country: form.country,
+          },
+        },
+      },
+    },
+  });
+
+  if (result.error) {
+    console.error(result.error.message);
+  }
+}
 </script>
 
 <template>
@@ -159,16 +158,19 @@ onMounted(async () => {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent class="space-y-4 mt-2">
+              <AccordionContentPersist
+                :isOpen="selectedPayment === 'card'"
+                class="space-y-4 mt-2"
+              >
                 <div class="mb-4" id="payment-element"></div>
                 <Button
                   type="button"
                   class="w-full"
-                  @click=""
+                  @click="handleStripePayment"
                 >
                   Pay now {{ grandTotal.toFixed(2) }} $
                 </Button>
-              </AccordionContent>
+              </AccordionContentPersist>
             </AccordionItem>
 
             <AccordionItem value="paypal">
@@ -182,7 +184,7 @@ onMounted(async () => {
       </Card>
     </div>
 
-    <!-- Cart Summary -->
+    <!-- 🛒 Cart Summary -->
     <Card>
       <CardHeader>
         <CardTitle>Your Cart</CardTitle>

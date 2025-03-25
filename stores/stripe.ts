@@ -9,7 +9,7 @@ export const useStripeStore = defineStore("stripe", {
     error: "",
   }),
   actions: {
-    async initiatePayment(amount: number, currency: string = "eur") {
+    async initiatePayment(amount: number, currency: string = "usd") {
       const { $api } = useNuxtApp();
       this.loading = true;
       this.error = "";
