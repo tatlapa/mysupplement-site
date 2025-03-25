@@ -20,17 +20,17 @@ const selectedProduct = computed(() => product.value);
   <NuxtLink :to="`/shop/products/${selectedProduct.id}`">
     <Card class="shadow-md transition-transform hover:scale-105">
       <CardHeader>
-        <h3 class="text-lg font-semibold">{{ product.name }}</h3>
-        <p class="text-sm text-gray-500">
+        <CardTitle class="text-xl">{{ product.name }}</CardTitle>
+        <CardDescription class="text-sm text-gray-500">
           {{ product.category?.name || "No Category" }}
-        </p>
+        </CardDescription>
       </CardHeader>
 
       <CardContent>
         <NuxtImg
           :src="`http://localhost:8000${product.image_url}`"
           :alt="product.name"
-          class="w-full h-48"
+          class="w-full h-48 object-cover rounded-md"
         />
         <p class="text-lg font-medium text-gray-800">{{ product.price }} $</p>
       </CardContent>

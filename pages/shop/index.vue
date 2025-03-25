@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-12 w-full">
+  <div class="grid grid-cols-4 gap-6 w-full">
     <ViewsShopCardItem
       v-for="product in shopStore.products"
       :key="product.id"
