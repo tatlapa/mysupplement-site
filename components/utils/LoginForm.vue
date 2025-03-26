@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/toast/use-toast";
 import { useAuthStore } from "@/stores/auth";
 import { Input, InputError } from "~/components/ui/input";
 
+const config = useRuntimeConfig();
 const props = defineProps(["open"]);
 const emit = defineEmits(["update:open", "switchToRegister"]);
 const hostname = ref(typeof window !== "undefined" ? navigator.userAgent : "");
