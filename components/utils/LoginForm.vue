@@ -29,7 +29,7 @@ const handleLogin = async (event: Event) => {
 
 // Redirect to social providers
 const redirectToProvider = (provider: string) => {
-  const backendUrl = "config.public.backUrl"; // Hardcode l'URL du backend
+  const backendUrl = `${config.public.backUrl}`; // Hardcode l'URL du backend
   window.location.href = `${backendUrl}/api/auth/redirect/${provider}`;
 };
 
@@ -78,7 +78,10 @@ onMounted(() => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <LucideMail class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideMail
+                class="size-5 text-muted-foreground"
+                strokeWidth="1.5"
+              />
             </span>
           </div>
           <InputError :message="authStore.formErrors.email" />
@@ -95,7 +98,10 @@ onMounted(() => {
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
             >
-              <LucideLock class="size-5 text-muted-foreground" strokeWidth="1.5" />
+              <LucideLock
+                class="size-5 text-muted-foreground"
+                strokeWidth="1.5"
+              />
             </span>
           </div>
           <InputError :message="authStore.formErrors.password" />
@@ -153,7 +159,6 @@ onMounted(() => {
           >
             <Icon name="logos:facebook" style="color: black" />
             Facebook
-            
           </Button>
         </div>
       </form>
