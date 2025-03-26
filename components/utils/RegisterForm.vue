@@ -41,8 +41,7 @@ const onSubmit = async () => {
 
 // Redirect to social providers
 const redirectToProvider = (provider: string) => {
-  const backendUrl = `${config.public.backUrl}`; // Hardcode l'URL du backend
-  window.location.href = `${backendUrl}/api/auth/redirect/${provider}`;
+  window.location.href = `${config.public.backUrl}/api/auth/redirect/${provider}`;
 };
 
 // Switch to login form
