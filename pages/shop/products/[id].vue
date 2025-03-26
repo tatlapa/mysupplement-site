@@ -6,7 +6,7 @@ const cartStore = useCartStore();
 const cartSidebar = ref(null);
 
 const quantity = ref(0);
-
+//h
 watch(quantity, (newValue) => {
   if (newValue > (shopStore.product?.stock_quantity || 1)) {
     quantity.value = shopStore.product?.stock_quantity || 1;
