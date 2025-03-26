@@ -29,7 +29,7 @@ const handleLogin = async (event: Event) => {
 
 // Redirect to social providers
 const redirectToProvider = (provider: string) => {
-  window.location.href = `${config.public.backUrl}/api/auth/redirect/${provider}`;
+  window.location.href = `${config.public.BACK_URL}/api/auth/redirect/${provider}`;
 };
 
 const switchToRegister = () => {
