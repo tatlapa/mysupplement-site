@@ -2,8 +2,8 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      apiUrl: process.env.API_URL,
-      backUrl: process.env.BACK_URL,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
+      backUrl: process.env.NUXT_PUBLIC_BACK_URL,
     },
   },
   modules: [

@@ -28,7 +28,7 @@ export const useShopStore = defineStore("shop-store", {
       const { $api } = useNuxtApp();
       this.isLoading = true;
       try {
-        const response = await $fetch<Product[]>("/api/shop/products", {
+        const response = await $api<Product[]>("/shop/products", {
           method: "GET",
         });
         this.products = response.map((product: Product) => ({
