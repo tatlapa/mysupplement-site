@@ -10,7 +10,7 @@ const props = defineProps<{
     category?: { name: string };
   };
 }>();
-
+const config = useRuntimeConfig();
 const { product } = toRefs(props);
 
 const selectedProduct = computed(() => product.value);
@@ -28,7 +28,7 @@ const selectedProduct = computed(() => product.value);
 
       <CardContent>
         <NuxtImg
-          :src="`http://localhost:8000${product.image_url}`"
+          :src="`${config.public.backUrl}${product.image_url}`"
           :alt="product.name"
           class="w-full h-48 object-cover rounded-md"
         />

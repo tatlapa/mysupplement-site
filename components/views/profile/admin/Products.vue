@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const adminStore = useAdminStore();
+const config = useRuntimeConfig();
 
 onMounted(async () => {
   await adminStore.getProducts();
@@ -17,7 +18,7 @@ onMounted(async () => {
         <p>Stock quantity : {{ product.stock_quantity }}</p>
         <p>Category : {{ product.category.name }}</p>
         <img
-          :src="`http://localhost:8000${product.image_url}`"
+          :src="`${config.public.backUrl}${product.image_url}`"
           :alt="product.name"
           class="w-24 h-24"
         />

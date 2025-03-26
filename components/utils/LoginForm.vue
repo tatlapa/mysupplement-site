@@ -28,7 +28,7 @@ const handleLogin = async (event: Event) => {
 
 // Redirect to social providers
 const redirectToProvider = (provider: string) => {
-  const backendUrl = "http://localhost:8000"; // Hardcode l'URL du backend
+  const backendUrl = "config.public.backUrl"; // Hardcode l'URL du backend
   window.location.href = `${backendUrl}/api/auth/redirect/${provider}`;
 };
 
