@@ -1,7 +1,6 @@
 export default defineNuxtPlugin((nuxtApp) => {
   const authStore = useAuthStore();
   const config = useRuntimeConfig();
-  console.log(config.public.apiUrl);
 
   const api = $fetch.create({
     baseURL: `${config.public.apiUrl}`,

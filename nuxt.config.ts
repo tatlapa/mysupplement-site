@@ -2,8 +2,8 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      apiUrl: process.env.NUXT_PUBLIC_API_URL,
-      backUrl: process.env.NUXT_PUBLIC_BACK_URL,
+      apiUrl: "https://frosty-kapitsa.15-235-208-71.plesk.page/api",
+      backUrl: "https://frosty-kapitsa.15-235-208-71.plesk.page",
     },
   },
   modules: [
