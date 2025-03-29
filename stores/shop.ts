@@ -30,6 +30,9 @@ export const useShopStore = defineStore("shop-store", {
       try {
         const response = await $api<Product[]>("/shop/products", {
           method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
         this.products = response.map((product: Product) => ({
           ...product,
