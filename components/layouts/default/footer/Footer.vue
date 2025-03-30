@@ -8,17 +8,17 @@
           <ul class="space-y-2 text-gray-400">
             <li><NuxtLink to="/" class="hover:text-white">Home</NuxtLink></li>
             <li>
-              <NuxtLink to="/supplement-advicer" class="hover:text-white"
+              <NuxtLink to="/" class="hover:text-white"
                 >Personalized Supplements</NuxtLink
               >
             </li>
             <li>
-              <NuxtLink to="/limited-editions" class="hover:text-white"
+              <NuxtLink to="/" class="hover:text-white"
                 >Limited Editions</NuxtLink
               >
             </li>
             <li>
-              <NuxtLink to="/contact" class="hover:text-white"
+              <NuxtLink to="/" class="hover:text-white"
                 >Contact Us</NuxtLink
               >
             </li>
@@ -31,12 +31,12 @@
           <ul class="space-y-2 text-gray-400">
             <li><NuxtLink to="/faq" class="hover:text-white">FAQ</NuxtLink></li>
             <li>
-              <NuxtLink to="/shipping-returns" class="hover:text-white"
+              <NuxtLink to="/" class="hover:text-white"
                 >Shipping & Returns</NuxtLink
               >
             </li>
             <li>
-              <NuxtLink to="/policies" class="hover:text-white"
+              <NuxtLink to="/" class="hover:text-white"
                 >Policies</NuxtLink
               >
             </li>
