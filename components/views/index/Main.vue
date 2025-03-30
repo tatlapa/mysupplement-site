@@ -1,3 +1,7 @@
 <script setup lang="ts"></script>
 
-<template>yahou</template>
+<template>
+  <ViewsIndexFeaturesHowItWorks />
+  <ViewsIndexFeaturesSection />
+  <ViewsIndexFeaturesCallToAction />
+</template>
