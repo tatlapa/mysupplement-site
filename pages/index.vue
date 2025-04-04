@@ -1,4 +1,4 @@
 <template>
-    <ViewsIndexHero />
-    <ViewsIndexMain />
+  <ViewsIndexHero />
+  <ViewsIndexMain />
 </template>
