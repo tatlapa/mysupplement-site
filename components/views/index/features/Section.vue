@@ -3,10 +3,10 @@ import { Bolt, CheckCircle2, RefreshCw } from "lucide-vue-next";
 </script>
 
 <template>
-  <section class="py-12 bg-white">
+  <section class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
-        <h2 class="text-3xl font-extrabold text-gray-900">
+        <h2 class="text-3xl font-extrabold">
           Smart Supplement Recommendations
         </h2>
       </div>

@@ -105,7 +105,6 @@ onMounted(() => {
           </div>
           <InputError :message="authStore.formErrors.password" />
         </div>
-
         <!-- Footer with additional links and submit button -->
         <div
           class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4 mt-6"
@@ -141,26 +140,27 @@ onMounted(() => {
             Login
           </Button>
         </div>
-        <p>Or, login with</p>
-        <div class="flex w-full gap-4">
-          <Button
-            variant="outline"
-            @click="redirectToProvider('google')"
-            class="flex items-center justify-center gap-2"
-          >
-            <Icon name="logos:google-icon" style="color: black" />
-            Google
-          </Button>
-          <Button
-            variant="outline"
-            @click="redirectToProvider('facebook')"
-            class="flex items-center justify-center gap-2"
-          >
-            <Icon name="logos:facebook" style="color: black" />
-            Facebook
-          </Button>
-        </div>
       </form>
+
+      <p>Or, login with</p>
+      <div class="flex w-full gap-4">
+        <Button
+          variant="outline"
+          @click="redirectToProvider('google')"
+          class="flex items-center justify-center gap-2"
+        >
+          <Icon name="logos:google-icon" style="color: black" />
+          Google
+        </Button>
+        <Button
+          variant="outline"
+          @click="redirectToProvider('facebook')"
+          class="flex items-center justify-center gap-2"
+        >
+          <Icon name="logos:facebook" style="color: black" />
+          Facebook
+        </Button>
+      </div>
     </DialogContent>
   </Dialog>
 </template>

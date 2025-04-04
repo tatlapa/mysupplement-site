@@ -1,26 +1,36 @@
-<script setup>
-import { useRouter, useRoute } from "vue-router";
+<script setup lang="ts">
 import { useAuthStore } from "@/stores/auth";
 
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 const authStore = useAuthStore();
 
-const token = route.query.token;
+onMounted(async () => {
+  const token = route.query.token as string | undefined;
 
-if (token) {
-  // Enregistre le token dans le store
-  authStore.token = token;
+  if (token) {
+    authStore.token = token;
 
-  // Récupère les informations utilisateur
-  authStore.refreshUser().then(() => {
-    router.push("/"); // Redirige l'utilisateur après succès
-  });
-} else {
-  router.push("/error"); // Redirige en cas d'erreur
-}
+    try {
+      await authStore.refreshUser();
+      router.push("/");
+    } catch (err) {
+      console.error("Error during refreshUser", err);
+      router.push("/error");
+    }
+  } else {
+    router.push("/auth/error");
+  }
+});
 </script>
 
 <template>
-  <div>Authentification en cours...</div>
+  <div
+    class="flex h-screen items-center justify-center text-center text-gray-700 dark:text-gray-200"
+  >
+    <div>
+      <p class="text-xl font-semibold">Authentication in progress...</p>
+      <p class="text-sm text-muted-foreground">Please wait</p>
+    </div>
+  </div>
 </template>

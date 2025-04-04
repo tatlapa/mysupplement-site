@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -47,14 +47,12 @@ defineExpose({ cartOpen });
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" />
+        <div class="fixed inset-0 bg-gray-500/75 dark:bg-black/60 transition-opacity" />
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-hidden">
         <div class="absolute inset-0 overflow-hidden">
-          <div
-            class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10"
-          >
+          <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
             <TransitionChild
               as="template"
               enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -65,19 +63,17 @@ defineExpose({ cartOpen });
               leave-to="translate-x-full"
             >
               <DialogPanel class="pointer-events-auto w-screen max-w-md">
-                <div
-                  class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
-                >
+                <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                     <div class="flex items-start justify-between">
-                      <DialogTitle class="text-lg font-medium text-gray-900"
-                        >Shopping cart</DialogTitle
-                      >
+                      <DialogTitle class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        Shopping cart
+                      </DialogTitle>
                       <div class="ml-3 flex h-7 items-center">
                         <Button
                           type="button"
                           variant="ghost"
-                          class="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
+                          class="relative -m-2 p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
                           @click="cartOpen = false"
                         >
                           <LucideX />
@@ -87,15 +83,13 @@ defineExpose({ cartOpen });
 
                     <div v-if="cartStore.cart.length > 0" class="mt-8">
                       <div class="flow-root">
-                        <ul role="list" class="-my-6 divide-y divide-gray-200">
+                        <ul role="list" class="-my-6 divide-y divide-gray-200 dark:divide-gray-700">
                           <li
                             v-for="item in cartStore.cart"
                             :key="item.id"
                             class="flex py-6"
                           >
-                            <div
-                              class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
-                            >
+                            <div class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700">
                               <NuxtImg
                                 :src="`${config.public.backUrl}${item.product.image_url}`"
                                 :alt="item.name"
@@ -104,27 +98,19 @@ defineExpose({ cartOpen });
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
-                              <div
-                                class="flex justify-between text-base font-medium text-gray-900"
-                              >
+                              <div class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100">
                                 <h3>{{ item.product.name }}</h3>
                                 <p class="ml-4">${{ item.product.price }}</p>
                               </div>
 
-                              <div
-                                class="flex flex-1 items-end justify-between text-sm"
-                              >
+                              <div class="flex flex-1 items-end justify-between text-sm">
                                 <div class="flex items-center gap-2">
-                                  <!-- ✅ Input pour modifier la quantité -->
                                   <NumberField
                                     class="w-24"
                                     :min="1"
                                     :max="item.product.stock_quantity"
                                     :model-value="item.quantity"
-                                    @update:model-value="
-                                      (value) =>
-                                        updateQuantity(item.product.id, value)
-                                    "
+                                    @update:model-value="(value) => updateQuantity(item.product.id, value)"
                                   >
                                     <NumberFieldContent>
                                       <NumberFieldDecrement />
@@ -138,8 +124,9 @@ defineExpose({ cartOpen });
                                   type="button"
                                   variant="destructive"
                                   @click="removeFromCart(item.product.id)"
-                                  >Remove</Button
                                 >
+                                  Remove
+                                </Button>
                               </div>
                             </div>
                           </li>
@@ -147,22 +134,20 @@ defineExpose({ cartOpen });
                       </div>
                     </div>
 
-                    <p v-else class="text-center text-gray-500 mt-8">
+                    <p v-else class="text-center text-gray-500 dark:text-gray-400 mt-8">
                       Your cart is empty.
                     </p>
                   </div>
 
                   <div
                     v-if="cartStore.cart.length > 0"
-                    class="border-t border-gray-200 px-4 py-6 sm:px-6"
+                    class="border-t border-gray-200 dark:border-gray-700 px-4 py-6 sm:px-6"
                   >
-                    <div
-                      class="flex justify-between text-base font-medium text-gray-900"
-                    >
+                    <div class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100">
                       <p>Subtotal</p>
                       <p>${{ cartStore.cartTotal.toFixed(2) }}</p>
                     </div>
-                    <p class="mt-0.5 text-sm text-gray-500">
+                    <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
                       Shipping and taxes calculated at checkout.
                     </p>
                     <div class="mt-6">
@@ -173,17 +158,12 @@ defineExpose({ cartOpen });
                         Checkout
                       </NuxtLink>
                     </div>
-                    <div
-                      class="mt-6 flex justify-center text-center text-sm text-gray-500"
-                    >
+                    <div class="mt-6 flex justify-center text-center text-sm text-gray-500 dark:text-gray-400">
                       <p>
                         or
-                        <Button
-                          type="button"
-                          variant="link"
-                          @click="cartOpen = false"
-                          >Continue Shopping →</Button
-                        >
+                        <Button type="button" variant="link" @click="cartOpen = false">
+                          Continue Shopping →
+                        </Button>
                       </p>
                     </div>
                   </div>

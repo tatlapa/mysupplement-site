@@ -20,19 +20,19 @@ const menuItems = [
     title: "Supplement Advicer",
     path: "/supplement-advicer",
   },
-  {
-    title: "About",
-    path: "/about",
-  },
-  {
-    title: "Contact",
-    path: "/contact",
-  },
+  // {
+  //   title: "About",
+  //   path: "/about",
+  // },
+  // {
+  //   title: "Contact",
+  //   path: "/contact",
+  // },
 ];
 </script>
 
 <template>
-  <div class="flex flex-row-reverse py-2 px-2 bg-secondary">
+  <div class="flex flex-row-reverse py-2 px-2 bg-primary">
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem v-for="item in menuItems" :key="item.path">

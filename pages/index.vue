@@ -2,4 +2,3 @@
     <ViewsIndexHero />
     <ViewsIndexMain />
 </template>
-  

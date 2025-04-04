@@ -4,6 +4,8 @@ export default defineNuxtConfig({
     public: {
       apiUrl: "https://api.mysupplement.ai/api",
       backUrl: "https://api.mysupplement.ai",
+      // apiUrl: process.env.API_URL,
+      // backUrl: process.env.BACK_URL,
     },
   },
   modules: [
@@ -14,7 +16,11 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/image",
     "nuxt-lucide-icons",
+    "@nuxtjs/color-mode",
   ],
+  colorMode: {
+    classSuffix: "",
+  },
   shadcn: {
     /**
      * Prefix for all the imported component
