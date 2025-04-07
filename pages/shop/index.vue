@@ -38,8 +38,5 @@ onMounted(() => {
         :product="product"
       />
     </div>
-
-    <NuxtLink to="https://amzn.to/4lgjnCF">https://amzn.to/4lgjnCF</NuxtLink>
-    <NuxtLink to="https://amzn.to/3EgcG2P">https://amzn.to/3EgcG2P</NuxtLink>
   </div>
 </template>

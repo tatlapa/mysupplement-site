@@ -18,9 +18,7 @@
               >
             </li>
             <li>
-              <NuxtLink to="/" class="hover:text-white"
-                >Contact Us</NuxtLink
-              >
+              <NuxtLink to="/" class="hover:text-white">Contact Us</NuxtLink>
             </li>
           </ul>
         </div>
@@ -36,9 +34,7 @@
               >
             </li>
             <li>
-              <NuxtLink to="/" class="hover:text-white"
-                >Policies</NuxtLink
-              >
+              <NuxtLink to="/" class="hover:text-white">Policies</NuxtLink>
             </li>
           </ul>
         </div>
@@ -81,6 +77,8 @@
       <Separator class="mt-8" />
 
       <div class="mt-8 text-center text-sm text-gray-400">
+        As an Amazon Associate, I earn from qualifying purchases.
+        <br />
         &copy; {{ new Date().getFullYear() }} MySupplement – All rights
         reserved.
       </div>
