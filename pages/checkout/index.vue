@@ -205,7 +205,7 @@ async function handleStripePayment() {
             <div
               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
             >
-              <NuxtImg
+              <img
                 :src="`${config.public.backUrl}${item.product.image_url}`"
                 :alt="item.product.name"
                 class="size-full object-cover"
