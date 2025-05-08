@@ -18,13 +18,15 @@ export default defineNuxtConfig({
     "nuxt-lucide-icons",
     "@nuxtjs/color-mode",
   ],
+  image: {
+    domains: ["mysupplement-api.onrender.com"],
+  },
   colorMode: {
     classSuffix: "",
-    preference: 'light',
-    fallback: 'light',
-    storage: 'localStorage',
-    storageKey: 'nuxt-color-mode'
-
+    preference: "light",
+    fallback: "light",
+    storage: "localStorage",
+    storageKey: "nuxt-color-mode",
   },
   shadcn: {
     /**
