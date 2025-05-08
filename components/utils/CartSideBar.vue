@@ -103,8 +103,7 @@ defineExpose({ cartOpen });
                             <div
                               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700"
                             >
-                              <NuxtImg
-                                provider="none"
+                              <img
                                 :src="`${config.public.backUrl}${item.product.image_url}`"
                                 :alt="item.name"
                                 class="size-full object-cover"
