@@ -214,7 +214,7 @@ const submitProduct = handleSubmit(async (values) => {
           <div class="mb-4">
             <Label for="imageUrl">Product Image</Label>
             <div v-if="imagePreview" class="mb-2">
-              <NuxtImg :src="imagePreview" alt="Product Image" class="w-24 h-24" />
+              <img :src="imagePreview" alt="Product Image" class="w-24 h-24" />
             </div>
             <Input
               id="imageUrl"
