@@ -18,9 +18,6 @@ export default defineNuxtConfig({
     "nuxt-lucide-icons",
     "@nuxtjs/color-mode",
   ],
-  image: {
-    domains: ["mysupplement-api.onrender.com"],
-  },
   colorMode: {
     classSuffix: "",
     preference: "light",
