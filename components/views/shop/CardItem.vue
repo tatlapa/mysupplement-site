@@ -27,7 +27,7 @@ const selectedProduct = computed(() => product.value);
       </CardHeader>
 
       <CardContent>
-        <img
+        <NuxtImg
           :src="`${config.public.backUrl}${product.image_url}`"
           :alt="product.name"
           class="w-full h-48 object-cover rounded-md"

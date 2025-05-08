@@ -17,7 +17,7 @@ onMounted(async () => {
         <p>Description : {{ product.description }}</p>
         <p>Stock quantity : {{ product.stock_quantity }}</p>
         <p>Category : {{ product.category.name }}</p>
-        <img
+        <NuxtImg
           :src="`${config.public.backUrl}${product.image_url}`"
           :alt="product.name"
           class="w-24 h-24"
