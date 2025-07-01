@@ -57,8 +57,6 @@ const handleFileUpload = (event: Event) => {
 
 // Populate form when modal opens
 const populateForm = async () => {
-  console.log("Opening modal with product:", props.product);
-
   await nextTick();
 
   setValues({
@@ -116,7 +114,7 @@ const submitProduct = handleSubmit(async (values) => {
   <Dialog>
     <DialogTrigger as-child>
       <Button variant="outline" @click="populateForm">
-        <LucidePen class="w-4 h-4 mr-2" /> Modify Product
+        <LucidePen />
       </Button>
     </DialogTrigger>
     <DialogScrollContent>

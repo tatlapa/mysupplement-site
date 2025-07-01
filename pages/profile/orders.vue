@@ -13,7 +13,7 @@ definePageMeta({
     <CardContent class="p-4">
       <h2 class="text-lg font-medium">My Orders</h2>
       <Separator class="my-6" />
-      Haha
+      In progress...
     </CardContent>
   </Card>
 </template>

@@ -3,19 +3,41 @@ const props = defineProps<{
   icon: Function;
   title: string;
   description: string;
+  color?: string;
+  bgColor?: string;
 }>();
 </script>
 
 <template>
-  <div class="flex flex-col items-center text-center">
-    <div
-      class="flex items-center justify-center h-12 w-12 rounded-md bg-primary text-white"
-    >
-      <component :is="props.icon" />
+  <div
+    class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+  >
+    <!-- Icon container -->
+    <div class="flex justify-center mb-6">
+      <div
+        :class="`flex items-center justify-center h-16 w-16 rounded-xl ${
+          props.bgColor || 'bg-primary/10'
+        } group-hover:scale-110 transition-transform duration-300`"
+      >
+        <component :is="props.icon" :class="`w-8 h-8 text-primary`" />
+      </div>
     </div>
-    <h3 class="mt-4 text-lg font-medium text-primary">
-      {{ props.title }}
-    </h3>
-    <p class="mt-2 text-base text-muted-foreground">{{ props.description }}</p>
+
+    <!-- Content -->
+    <div class="text-center">
+      <h3
+        class="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors duration-300"
+      >
+        {{ props.title }}
+      </h3>
+      <p class="text-gray-600 leading-relaxed">
+        {{ props.description }}
+      </p>
+    </div>
+
+    <!-- Hover effect overlay -->
+    <div
+      class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+    ></div>
   </div>
 </template>

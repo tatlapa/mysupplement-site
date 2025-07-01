@@ -44,14 +44,14 @@ const isActive = (path: string) => {
           class="block group"
         >
           <div
-            class="w-full p-3 flex items-center justify-between rounded-lg transition-all duration-200"
+            class="w-full p-3 flex items-center justify-between rounded-lg transition-all duration-200 hover:text-gray-200"
             :class="[
               isActive(item.path)
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-zinc-800/50 hover:bg-zinc-800 group-hover:translate-x-2',
             ]"
           >
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 ">
               <div
                 class="w-10 h-10 rounded-lg p-2 flex items-center justify-center"
                 :class="[

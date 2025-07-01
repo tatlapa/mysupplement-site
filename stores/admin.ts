@@ -93,17 +93,41 @@ export const useAdminStore = defineStore("admin-store", {
       this.formLoading = true;
 
       try {
-        const response = await $api<Product>(
-          `/admin/products/${productId}`,
-          {
-            method: "POST",
-            body: form,
-          }
-        );
+        const response = await $api<Product>(`/admin/products/${productId}`, {
+          method: "POST",
+          body: form,
+        });
 
         return response;
       } catch (error) {
         console.error("Failed to update product:", error);
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    },
+    async deleteProduct(productId: number) {
+      if (!this.isAdmin) {
+        console.warn("Unauthorized access");
+        return;
+      }
+
+      const { $api } = useNuxtApp();
+      this.formLoading = true;
+
+      try {
+        const response = await $api(`/admin/products/${productId}`, {
+          method: "DELETE",
+        });
+
+        // Remove the deleted product from the local state
+        this.products = this.products.filter(
+          (product) => product.id !== productId
+        );
+
+        return response;
+      } catch (error) {
+        console.error("Failed to delete product:", error);
         throw error;
       } finally {
         this.formLoading = false;

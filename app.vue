@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "energy+ supplementary",
+  title: "MySupplement",
 });
 </script>
 

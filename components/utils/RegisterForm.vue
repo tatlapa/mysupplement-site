@@ -172,14 +172,6 @@ const switchToLogin = () => {
                 <Icon name="logos:google-icon" style="color: black" />
                 Google
               </Button>
-              <Button
-                variant="outline"
-                @click="redirectToProvider('facebook')"
-                class="flex items-center justify-center gap-2"
-              >
-                <Icon name="logos:facebook" style="color: black" />
-                Facebook
-              </Button>
             </div>
           </div>
         </DialogFooter>

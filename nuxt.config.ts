@@ -2,10 +2,10 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   runtimeConfig: {
     public: {
-      apiUrl: "https://mysupplement-api.onrender.com/api",
-      backUrl: "https://mysupplement-api.onrender.com",
-      // apiUrl: process.env.API_URL,
-      // backUrl: process.env.BACK_URL,
+      // apiUrl: "https://mysupplement-api.onrender.com/api",
+      // backUrl: "https://mysupplement-api.onrender.com",
+      apiUrl: process.env.API_URL,
+      backUrl: process.env.BACK_URL,
     },
   },
   modules: [
