@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const shopStore = useShopStore();
 
-const modelValue = ref([50]);
 </script>
 
 <template>
@@ -16,7 +15,7 @@ const modelValue = ref([50]);
         </div>
         <Slider
           :min="0"
-          :max="1000"
+          :max="100"
           :step="1"
           :range="true"
           v-model="shopStore.priceRange"

@@ -7,7 +7,7 @@ export const useShopStore = defineStore("shop-store", {
     products: [] as Product[],
     product: null as Product | null,
     sortOrder: "asc" as "asc" | "desc",
-    priceRange: [0, 1000] as [number, number],
+    priceRange: [0, 100] as [number, number],
   }),
   getters: {
     filteredAndSortedProducts(state) {
@@ -30,13 +30,8 @@ export const useShopStore = defineStore("shop-store", {
       try {
         const response = await $api<Product[]>("/shop/products", {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
         });
-        this.products = response.map((product: Product) => ({
-          ...product,
-        }));
+        this.products = response;
         return true;
       } catch (error) {
         console.error("Failed to request products:", error);

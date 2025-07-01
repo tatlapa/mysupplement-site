@@ -8,8 +8,8 @@ definePageMeta({
 
 const shopStore = useShopStore();
 
-onMounted(() => {
-  shopStore.getProducts();
+onMounted(async () => {
+  await shopStore.getProducts();
 });
 </script>
 

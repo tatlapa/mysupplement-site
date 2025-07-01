@@ -27,7 +27,13 @@ const selectedCategoryLabel = computed(() => {
 const formSchema = toTypedSchema(
   z.object({
     productName: z.string().min(1, "Product name is required"),
-    productPrice: z.string().min(1, "Price is required"),
+    productPrice: z
+      .string()
+      .min(1, "Price is required")
+      .refine((val) => {
+        const price = parseFloat(val);
+        return !isNaN(price) && price >= 1 && price <= 100;
+      }, "Price must be between $1 and $100"),
     productDescription: z.string().min(1, "Description is required"),
     stockQuantity: z.number().min(0, "Stock quantity is required"),
     category: z.number().min(1, "At least one category is required"),
@@ -147,6 +153,9 @@ const submitProduct = handleSubmit(async (values) => {
                 v-bind="field"
                 placeholder="Enter price"
                 type="number"
+                min="1"
+                max="100"
+                step="0.01"
               />
               <p v-if="errorMessage" class="text-red-500 text-sm">
                 {{ errorMessage }}
