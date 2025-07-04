@@ -1,5 +1,24 @@
 <script setup lang="ts">
 import { useShopStore } from "~/stores/shop";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationFirst,
+  PaginationLast,
+} from "~/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 definePageMeta({
   alias: ["/shop"],
@@ -38,10 +57,35 @@ onMounted(async () => {
 
     <div class="grid grid-cols-4 gap-6 w-full">
       <ViewsShopCardItem
-        v-for="product in shopStore.filteredAndSortedProducts"
+        v-for="product in shopStore.paginatedProducts"
         :key="product.id"
         :product="product"
       />
     </div>
+
+    <Pagination
+      v-if="shopStore.filteredAndSortedProducts.length > 1"
+      v-model:page="shopStore.currentPage"
+      :total="shopStore.filteredAndSortedProducts.length"
+      :items-per-page="shopStore.itemsPerPage"
+    >
+      <PaginationContent v-slot="{ items }">
+        <PaginationFirst />
+        <PaginationPrevious />
+        <template v-for="(item, index) in items" :key="index">
+          <PaginationItem
+            v-if="item.type === 'page'"
+            :value="item.value"
+            :is-active="item.value === shopStore.currentPage"
+          >
+            {{ item.value }}
+          </PaginationItem>
+          <PaginationEllipsis v-else-if="item.type === 'ellipsis'" />
+        </template>
+
+        <PaginationNext />
+        <PaginationLast />
+      </PaginationContent>
+    </Pagination>
   </div>
 </template>

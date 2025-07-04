@@ -165,12 +165,10 @@ onMounted(async () => {
                     :max="shopStore.product.stock_quantity"
                     v-model="quantity"
                   >
-                    <NumberFieldContent
-                      class="border border-gray-300 rounded-lg"
-                    >
-                      <NumberFieldDecrement class="hover:bg-gray-100" />
-                      <NumberFieldInput class="text-center font-medium" />
-                      <NumberFieldIncrement class="hover:bg-gray-100" />
+                    <NumberFieldContent>
+                      <NumberFieldDecrement />
+                      <NumberFieldInput />
+                      <NumberFieldIncrement />
                     </NumberFieldContent>
                   </NumberField>
                 </div>
