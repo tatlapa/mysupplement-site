@@ -34,9 +34,9 @@ const isActive = (path: string) => {
 </script>
 
 <template>
-  <aside class="w-full md:w-1/4">
+  <aside class="w-full md:w-1/4 lg:w-1/5">
     <Card class="bg-muted-foreground/[0.03]">
-      <CardContent class="p-4 space-y-3">
+      <CardContent class="p-3 sm:p-4 space-y-2 sm:space-y-3">
         <NuxtLink
           v-for="item in menuItems"
           :key="item.path"
@@ -44,28 +44,28 @@ const isActive = (path: string) => {
           class="block group"
         >
           <div
-            class="w-full p-3 flex items-center justify-between rounded-lg transition-all duration-200 hover:text-gray-200"
+            class="w-full p-2 sm:p-3 flex items-center justify-between rounded-lg transition-all duration-200 hover:text-gray-200"
             :class="[
               isActive(item.path)
                 ? 'bg-primary text-primary-foreground'
                 : 'bg-zinc-800/50 hover:bg-zinc-800 group-hover:translate-x-2',
             ]"
           >
-            <div class="flex items-center gap-3 ">
+            <div class="flex items-center gap-2 sm:gap-3">
               <div
-                class="w-10 h-10 rounded-lg p-2 flex items-center justify-center"
+                class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg p-1.5 sm:p-2 flex items-center justify-center"
                 :class="[
                   isActive(item.path)
                     ? 'bg-primary-foreground/10'
                     : 'bg-zinc-700/50',
                 ]"
               >
-                <component :is="item.icon" class="w-5 h-5" />
+                <component :is="item.icon" class="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
-              <h3 class="font-medium">{{ item.title }}</h3>
+              <h3 class="font-medium text-sm sm:text-base">{{ item.title }}</h3>
             </div>
             <LucideChevronRight
-              class="w-5 h-5"
+              class="w-4 h-4 sm:w-5 sm:h-5"
               :class="[
                 isActive(item.path)
                   ? 'text-primary-foreground'

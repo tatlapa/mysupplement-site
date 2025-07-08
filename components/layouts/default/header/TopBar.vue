@@ -27,26 +27,19 @@ const openCart = () => {
 
 <template>
   <div
-    class="bg-gradient-to-r from-primary via-green-600 to-emerald-600 shadow-lg border-b border-primary/20 flex justify-between items-center mx-auto py-2 xl:py-3 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+    class="bg-gradient-to-r from-primary via-green-600 to-emerald-600 shadow-lg border-b border-primary/20 flex justify-between items-center mx-auto py-2 sm:py-3 px-3 sm:px-6 md:px-8"
   >
-    <!-- Background decoration -->
-    <div
-      class="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"
-    ></div>
-    <div
-      class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"
-    ></div>
-
-    <div class="relative z-10 flex items-center">
       <!-- Logo text -->
-      <div class="hidden sm:block">
-        <h1 class="text-white font-bold text-lg">MySupplement</h1>
+      <div >
+        <h1 class="text-white font-bold text-base sm:text-lg">
+          MySupplement.ai
+        </h1>
         <p class="text-white/80 text-xs">Health & Wellness</p>
       </div>
-    </div>
 
-    <div class="relative z-10 flex gap-3 items-center">
-      <div v-if="!authStore.isAuthenticated" class="flex gap-2">
+    <div class="flex gap-2 sm:gap-3 items-center">
+      <!-- Auth buttons - responsive layout -->
+      <div v-if="!authStore.isAuthenticated" class="flex gap-1 sm:gap-2">
         <UtilsRegisterForm
           v-model:open="showRegisterDialog"
           @switchToLogin="switchToLogin"
@@ -57,18 +50,25 @@ const openCart = () => {
         />
       </div>
 
-      <div class="flex gap-2 items-center">
+      <div class="flex gap-1 sm:gap-2 items-center">
+        <!-- User dropdown - responsive button -->
         <DropdownMenu v-if="authStore.isAuthenticated">
           <DropdownMenuTrigger as-child>
             <Button
               variant="outline"
               size="sm"
-              class="gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              class="gap-1 sm:gap-2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm px-2 sm:px-3"
             >
-              <LucideUser v-if="!adminStore.isAdmin" class="text-white" />
-              <LucideUserCog v-if="adminStore.isAdmin" class="text-white" />
+              <LucideUser
+                v-if="!adminStore.isAdmin"
+                class="text-white w-4 h-4 sm:w-5 sm:h-5"
+              />
+              <LucideUserCog
+                v-if="adminStore.isAdmin"
+                class="text-white w-4 h-4 sm:w-5 sm:h-5"
+              />
               <LucideChevronDown
-                class="w-4 h-4 transition-transform duration-200 text-white"
+                class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 text-white"
               />
             </Button>
           </DropdownMenuTrigger>
@@ -96,33 +96,35 @@ const openCart = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        <!-- Theme toggle - responsive button -->
         <Button
           v-if="colorMode.preference === 'light'"
           variant="outline"
           @click="colorMode.preference = 'dark'"
-          class="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-300"
+          class="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 p-2 sm:p-2"
         >
-          <LucideMoon class="size-5" />
+          <LucideMoon class="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
         <Button
           v-else
           variant="outline"
           @click="colorMode.preference = 'light'"
-          class="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-300"
+          class="bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 p-2 sm:p-2"
         >
-          <LucideSun class="size-5" />
+          <LucideSun class="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
 
+        <!-- Cart button - responsive with text hidden on mobile -->
         <Button
           @click="openCart"
           variant="outline"
-          class="bg-yellow-500/20 border-yellow-400/30 text-yellow-100 hover:bg-yellow-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 relative group"
+          class="bg-yellow-500/20 border-yellow-400/30 text-yellow-100 hover:bg-yellow-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 relative group px-2 sm:px-3"
         >
-          <LucideShoppingCart class="mr-2" />
-          <span>Cart</span>
+          <LucideShoppingCart class="w-4 h-4 sm:w-5 sm:h-5 sm:mr-2" />
+          <span class="hidden sm:inline">Cart</span>
           <span
             v-if="cartStore.cartItemCount > 0"
-            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse"
+            class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center animate-pulse"
           >
             {{ cartStore.cartItemCount }}
           </span>

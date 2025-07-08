@@ -92,8 +92,8 @@ async function handleStripePayment() {
 </script>
 
 <template>
-  <div
-    class="max-w-6xl mx-auto py-10 px-4 grid grid-cols-1 md:grid-cols-2 gap-8"
+  <main
+    class="max-w-7xl mx-auto py-10 px-3 sm:px-4 md:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8"
   >
     <div class="space-y-6">
       <!-- 🚚 Shipping Info -->
@@ -208,7 +208,7 @@ async function handleStripePayment() {
               <img
                 :src="`${config.public.backUrl}${item.product.image_url}`"
                 :alt="item.product.name"
-                class="size-full object-cover"
+                class="size-full object-contain"
               />
             </div>
             <div class="flex-1">
@@ -248,5 +248,5 @@ async function handleStripePayment() {
         </div>
       </CardContent>
     </Card>
-  </div>
+  </main>
 </template>

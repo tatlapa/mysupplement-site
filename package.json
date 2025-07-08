@@ -19,7 +19,6 @@
     "@vueuse/core": "^11.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "embla-carousel-vue": "^8.5.1",
     "lucide-vue-next": "^0.454.0",
     "nuxt": "^3.14.159",
     "nuxt-lucide-icons": "^1.0.5",

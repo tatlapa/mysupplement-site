@@ -19,9 +19,9 @@ const products = [
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+  <main class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
     <!-- Header de la page -->
-    <section class="relative py-20 overflow-hidden">
+    <section class="relative py-10 md:py-20 overflow-hidden">
       <!-- Background decoration -->
       <div class="absolute inset-0">
         <div
@@ -111,5 +111,5 @@ const products = [
         </div>
       </div>
     </section>
-  </div>
+  </main>
 </template>

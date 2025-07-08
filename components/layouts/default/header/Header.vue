@@ -4,6 +4,8 @@ import TopBar from "~/components/layouts/default/header/TopBar.vue";
 </script>
 
 <template>
-  <TopBar />
-  <Menu />
+  <header>
+    <TopBar />
+    <Menu />
+  </header>
 </template>

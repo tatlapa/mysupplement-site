@@ -1,16 +1,6 @@
 <template>
-  <footer class="bg-gray-900 text-white relative overflow-hidden">
-    <!-- Background decoration -->
-    <div class="absolute inset-0">
-      <div
-        class="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"
-      ></div>
-    </div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <!-- Main footer content -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
         <!-- Brand section -->
@@ -21,7 +11,7 @@
             >
               <LucideLeaf class="w-6 h-6 text-white" />
             </div>
-            <span class="text-2xl font-bold">MySupplement</span>
+            <span class="text-2xl font-bold">MySupplement.ai</span>
           </div>
           <p class="text-gray-400 mb-6 leading-relaxed">
             Your personal AI-powered supplement advisor, helping you achieve

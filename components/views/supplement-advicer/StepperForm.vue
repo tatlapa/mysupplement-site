@@ -85,7 +85,7 @@ async function onSubmitAndNext(values: AdvicerForm) {
 </script>
 
 <template>
-  <div class="w-1/2">
+  <div class="w-full md:w-2/3">
     <Form
       v-slot="{ meta, values, validate }"
       as=""
@@ -205,13 +205,13 @@ async function onSubmitAndNext(values: AdvicerForm) {
                 </FormField>
               </template>
 
-              <template v-if="stepIndex === 2">
-                <FormField v-slot="{ value = [], handleChange }" name="goals">
-                  <FormItem>
+              <template v-if="stepIndex === 2" >
+                <FormField v-slot="{ value = [], handleChange }" name="goals" >
+                  <FormItem class="text-left">
                     <FormLabel>Health Goals</FormLabel>
                     <FormDescription>Select at least one goal</FormDescription>
                     <FormControl>
-                      <div class="grid grid-cols-3 gap-1 items-center">
+                      <div class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center">
                         <div
                           v-for="goal in goals"
                           :key="goal.id"
@@ -241,11 +241,11 @@ async function onSubmitAndNext(values: AdvicerForm) {
                   v-slot="{ value = [], handleChange }"
                   name="healthIssues"
                 >
-                  <FormItem>
+                  <FormItem class="text-left">
                     <FormLabel>Health Issues</FormLabel>
                     <FormDescription>Select issue - optional</FormDescription>
                     <FormControl>
-                      <div class="grid grid-cols-3 gap-1 items-center">
+                      <div class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center">
                         <div
                           v-for="healthIssue in healthIssues"
                           :key="healthIssue.id"

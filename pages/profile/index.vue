@@ -9,10 +9,10 @@ definePageMeta({
 </script>
 
 <template>
-  <Card class="w-full md:w-3/4">
-    <CardContent class="p-4">
+  <Card class="w-full md:w-3/4 lg:w-2/3">
+    <CardContent class="p-3 sm:p-4 md:p-6">
       <ViewsProfileUpdateProfileInformationForm />
-      <Separator class="my-6" />
+      <Separator class="my-4 sm:my-6" />
       <ViewsProfileUpdatePasswordForm />
     </CardContent>
   </Card>

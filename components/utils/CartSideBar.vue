@@ -106,7 +106,7 @@ defineExpose({ cartOpen });
                               <img
                                 :src="`${config.public.backUrl}${item.product.image_url}`"
                                 :alt="item.name"
-                                class="size-full object-cover"
+                                class="size-full object-contain"
                               />
                             </div>
 
@@ -179,6 +179,7 @@ defineExpose({ cartOpen });
                       <NuxtLink
                         to="/checkout"
                         class="flex items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-primary/90"
+                        @click="cartOpen = false"
                       >
                         Checkout
                       </NuxtLink>
