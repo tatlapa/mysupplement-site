@@ -51,7 +51,7 @@ onMounted(async () => {
           <!-- Product Image -->
           <div class="relative overflow-hidden bg-gray-100">
             <img
-              :src="`${config.public.backUrl}${shopStore.product.image_url}`"
+              :src="shopStore.product.image_url"
               :alt="shopStore.product.name"
               class="w-full h-96 lg:h-full object-cover hover:scale-105 transition-transform duration-500"
             />

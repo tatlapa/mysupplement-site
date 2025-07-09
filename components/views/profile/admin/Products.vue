@@ -90,7 +90,7 @@ const getProductName = (productId: number) => {
           </div>
 
           <img
-            :src="`${config.public.backUrl}${product.image_url}`"
+            :src="product.image_url"
             :alt="product.name"
             class="w-full h-32 object-cover rounded-md"
           />

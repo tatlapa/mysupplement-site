@@ -32,7 +32,7 @@ const selectedProduct = computed(() => product.value);
 
       <CardContent class="flex-1 flex flex-col p-3 sm:p-4">
         <img
-          :src="`${config.public.backUrl}${product.image_url}`"
+          :src="product.image_url"
           :alt="product.name"
           class="w-full h-40 sm:h-48 md:h-56 object-contain rounded-md flex-shrink-0"
         />

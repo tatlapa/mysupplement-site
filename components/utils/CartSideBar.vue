@@ -104,7 +104,7 @@ defineExpose({ cartOpen });
                               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700"
                             >
                               <img
-                                :src="`${config.public.backUrl}${item.product.image_url}`"
+                                :src="item.product.image_url"
                                 :alt="item.name"
                                 class="size-full object-contain"
                               />

@@ -4,7 +4,6 @@ import { useStripeStore } from "@/stores/stripe";
 import { loadStripe } from "@stripe/stripe-js";
 import { onMounted, ref, computed, reactive } from "vue";
 import AccordionContentPersist from "~/components/ui/accordion/AccordionContentPersist.vue";
-
 const stripeStore = useStripeStore();
 const cartStore = useCartStore();
 const config = useRuntimeConfig();
@@ -206,7 +205,7 @@ async function handleStripePayment() {
               class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
             >
               <img
-                :src="`${config.public.backUrl}${item.product.image_url}`"
+                :src="item.product.image_url"
                 :alt="item.product.name"
                 class="size-full object-contain"
               />

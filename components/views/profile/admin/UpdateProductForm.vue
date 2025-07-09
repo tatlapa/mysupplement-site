@@ -6,7 +6,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm, Field } from "vee-validate";
 import * as z from "zod";
-
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const { toast } = useToast();
@@ -74,9 +73,7 @@ const populateForm = async () => {
   });
 
   selectedCategory.value = props.product.category.id;
-  imagePreview.value = props.product.image_url
-    ? `${config.public.backUrl}${props.product.image_url}`
-    : null;
+  imagePreview.value = props.product.image_url || null;
 };
 
 // Submit the updated product
