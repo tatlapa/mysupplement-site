@@ -115,6 +115,7 @@ onMounted(() => {
               variant="link"
               as-child
               class="px-0 py-0 h-6 block"
+              @click="$emit('update:open', false)"
             >
               <NuxtLink to="/auth/forget-password"> Forgot password? </NuxtLink>
             </Button>
