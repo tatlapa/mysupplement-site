@@ -15,7 +15,7 @@ export interface UpdateProfileForm {
 }
 
 export interface UpdatePasswordForm {
-  current_password: string;
+  current_password?: string;
   password: string;
   password_confirmation: string;
 }
@@ -23,7 +23,7 @@ export interface UpdatePasswordForm {
 export interface FormErrors {
   email: string[];
   password: string[];
-  current_password: string[];
+  current_password?: string[];
   login: string[];
   secret_question: string[];
   password_confirmation: string[];
@@ -34,6 +34,7 @@ export interface User {
   id: number;
   email: string;
   role: string;
+  has_password?: boolean;
 }
 
 export interface ApiResponseUser {

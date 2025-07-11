@@ -11,8 +11,19 @@ const form = reactive({
   password_confirmation: "",
 });
 
+// Check if user has a password set
+const hasPassword = computed(() => authStore.user?.has_password ?? true);
+
 const handleSubmit = async () => {
-  const success = await authStore.updatePassword(form);
+  // If user doesn't have a password, don't send current_password
+  const submitData = hasPassword.value
+    ? form
+    : {
+        password: form.password,
+        password_confirmation: form.password_confirmation,
+      };
+
+  const success = await authStore.updatePassword(submitData);
 
   if (success) {
     toast({
@@ -49,6 +60,7 @@ const handleSubmit = async () => {
               type="password"
               placeholder="Current Password"
               class="pl-10"
+              :disabled="!hasPassword"
             />
             <span
               class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
@@ -60,6 +72,9 @@ const handleSubmit = async () => {
             </span>
           </div>
           <InputError :message="authStore.formErrors.current_password" />
+          <p v-if="!hasPassword" class="text-xs text-muted-foreground mt-1">
+            No password set for this account
+          </p>
         </div>
         <div class="w-full sm:w-1/3">
           <div class="relative w-full items-center">
