@@ -126,6 +126,7 @@ const submitProduct = handleSubmit(async (values) => {
         <DialogDescription>Update product details.</DialogDescription>
       </DialogHeader>
 
+
       <form @submit="submitProduct">
         <div class="grid grid-cols-2 gap-4">
           <div class="mb-4">

@@ -33,20 +33,85 @@ onMounted(async () => {
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Loading State -->
-      <div
-        v-if="!shopStore.product"
-        class="flex items-center justify-center min-h-[400px]"
-      >
-        <div class="text-center">
-          <div
-            class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"
-          ></div>
-          <p class="text-gray-600">Loading product...</p>
+      <div v-if="shopStore.isLoading" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+          <!-- Product Image Skeleton -->
+          <div class="relative overflow-hidden">
+            <Skeleton class="w-full h-96 lg:h-full" />
+            <!-- Category Badge Skeleton -->
+            <div class="absolute top-4 left-4">
+              <Skeleton class="w-20 h-6 rounded-full" />
+            </div>
+            <!-- Stock Badge Skeleton -->
+            <div class="absolute top-4 right-4">
+              <Skeleton class="w-24 h-6 rounded-full" />
+            </div>
+          </div>
+
+          <!-- Product Info Skeleton -->
+          <div class="p-8 lg:p-12 flex flex-col justify-center">
+            <!-- Breadcrumb Skeleton -->
+            <div class="flex mb-6">
+              <Skeleton class="h-4 w-16" />
+              <Skeleton class="h-4 w-4 mx-2" />
+              <Skeleton class="h-4 w-32" />
+            </div>
+
+            <!-- Product Title Skeleton -->
+            <div class="mb-4">
+              <Skeleton class="h-10 w-3/4 mb-2" />
+              <Skeleton class="h-10 w-1/2" />
+            </div>
+
+            <!-- Price Skeleton -->
+            <div class="flex items-baseline gap-3 mb-6">
+              <Skeleton class="h-12 w-24" />
+              <Skeleton class="h-6 w-12" />
+            </div>
+
+            <!-- Description Skeleton -->
+            <div class="mb-8">
+              <Skeleton class="h-6 w-32 mb-3" />
+              <div class="space-y-2">
+                <Skeleton class="h-4 w-full" />
+                <Skeleton class="h-4 w-5/6" />
+                <Skeleton class="h-4 w-4/6" />
+              </div>
+            </div>
+
+            <!-- Product Details Skeleton -->
+            <div class="space-y-4 mb-8">
+              <div class="flex items-center gap-3">
+                <Skeleton class="w-5 h-5" />
+                <Skeleton class="h-4 w-48" />
+              </div>
+              <div class="flex items-center gap-3">
+                <Skeleton class="w-5 h-5" />
+                <Skeleton class="h-4 w-40" />
+              </div>
+            </div>
+
+            <!-- Add to Cart Section Skeleton -->
+            <div class="border-t border-gray-200 pt-8">
+              <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <!-- Quantity Selector Skeleton -->
+                <div class="flex items-center gap-3">
+                  <Skeleton class="h-4 w-16" />
+                  <Skeleton class="w-32 h-10" />
+                </div>
+
+                <!-- Add to Cart Button Skeleton -->
+                <div class="flex-1 sm:flex-none">
+                  <Skeleton class="w-40 h-12" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Product Details -->
-      <div v-else class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div v-else-if="shopStore.product" class="bg-white rounded-2xl shadow-xl overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
           <!-- Product Image -->
           <div class="relative overflow-hidden bg-gray-100">
@@ -209,6 +274,21 @@ onMounted(async () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Product Not Found -->
+      <div v-else class="flex items-center justify-center min-h-[400px]">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
+          <p class="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
+          <NuxtLink
+            to="/shop"
+            class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Back to Shop
+          </NuxtLink>
         </div>
       </div>
 

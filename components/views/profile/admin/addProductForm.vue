@@ -93,6 +93,7 @@ const submitProduct = handleSubmit(async (values) => {
         <DialogTitle class="text-2xl font-bold"> Add Product </DialogTitle>
         <DialogDescription> Add a new product to the shop. </DialogDescription>
       </DialogHeader>
+         
       <form @submit="submitProduct">
         <div class="grid grid-cols-2 gap-4">
           <div class="mb-4">
