@@ -33,7 +33,10 @@ onMounted(async () => {
   <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Loading State -->
-      <div v-if="shopStore.isLoading" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div
+        v-if="shopStore.isLoading"
+        class="bg-white rounded-2xl shadow-xl overflow-hidden"
+      >
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
           <!-- Product Image Skeleton -->
           <div class="relative overflow-hidden">
@@ -93,7 +96,9 @@ onMounted(async () => {
 
             <!-- Add to Cart Section Skeleton -->
             <div class="border-t border-gray-200 pt-8">
-              <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+              <div
+                class="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
+              >
                 <!-- Quantity Selector Skeleton -->
                 <div class="flex items-center gap-3">
                   <Skeleton class="h-4 w-16" />
@@ -111,7 +116,10 @@ onMounted(async () => {
       </div>
 
       <!-- Product Details -->
-      <div v-else-if="shopStore.product" class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div
+        v-else-if="shopStore.product"
+        class="bg-white rounded-2xl shadow-xl overflow-hidden"
+      >
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
           <!-- Product Image -->
           <div class="relative overflow-hidden bg-gray-100">
@@ -217,7 +225,7 @@ onMounted(async () => {
             <!-- Add to Cart Section -->
             <div class="border-t border-gray-200 pt-8">
               <div
-                class="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
+                class="flex flex-col items-start sm:flex-row gap-4 sm:items-center"
               >
                 <!-- Quantity Selector -->
                 <div class="flex items-center gap-3">
@@ -242,7 +250,7 @@ onMounted(async () => {
                 <Button
                   variant="default"
                   size="lg"
-                  class="flex-1 sm:flex-none px-8 py-3 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300"
+                  class="w-full sm:w-auto"
                   :disabled="
                     shopStore.product.stock_quantity === 0 || quantity === 0
                   "
@@ -281,8 +289,12 @@ onMounted(async () => {
       <div v-else class="flex items-center justify-center min-h-[400px]">
         <div class="text-center">
           <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
-          <h2 class="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
-          <p class="text-gray-600 mb-4">The product you're looking for doesn't exist.</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">
+            Product Not Found
+          </h2>
+          <p class="text-gray-600 mb-4">
+            The product you're looking for doesn't exist.
+          </p>
           <NuxtLink
             to="/shop"
             class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
