@@ -19,97 +19,117 @@ const products = [
 </script>
 
 <template>
-  <main class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
+  <main class="pt-40 pb-20 container">
     <!-- Header de la page -->
-    <section class="relative py-10 md:py-20 overflow-hidden">
-      <!-- Background decoration -->
-      <div class="absolute inset-0">
-        <div
-          class="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
-        ></div>
-        <div
-          class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"
-        ></div>
-      </div>
+    <section class="pb-20 text-center">
+      <h1 class="mb-6 animate-slide-up gradient-text">
+        The {{ products.length }} most recommended supplements by AI
+      </h1>
 
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div
-          class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
-        >
-          <LucideStar class="w-4 h-4 mr-2" />
-          AI Recommendations
-        </div>
-
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-          The {{ products.length }} most recommended
-          <span class="gradient-text">supplements by AI</span>
-        </h1>
-
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-          Discover the most popular and effective nutritional supplements based
-          on our AI analysis of thousands of user profiles.
-        </p>
-      </div>
+      <p class="mt-8 max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed animate-slide-up-delay">
+        Discover the most popular and effective nutritional supplements based
+        on our AI analysis of thousands of user profiles.
+      </p>
     </section>
 
     <!-- Contenu principal -->
-    <section class="relative pb-20">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-8">
-          <div
-            v-for="(product, index) in products"
-            :key="product.id"
-            class="group relative"
+    <section class="animate-fade-in-delay">
+      <div class="grid gap-8 w-2/3 mx-auto">
+        <div
+          v-for="(product, index) in products"
+          :key="product.id"
+          class="group"
+        >
+          <Card
+            class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
           >
-            <Card
-              class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
-            >
-              <CardContent class="p-0">
-                <div class="grid md:grid-cols-2 gap-0">
-                  <!-- Image placeholder -->
-                  <div
-                    class="relative h-48 md:h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center"
-                  >
-                    <LucidePill
-                      class="w-16 h-16 text-primary/50 group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div class="absolute top-4 left-4">
-                      <Badge class="bg-primary text-white"
-                        >#{{ index + 1 }}</Badge
-                      >
-                    </div>
-                  </div>
-
-                  <!-- Contenu -->
-                  <div class="p-6 md:p-8">
-                    <h2
-                      class="text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors leading-tight"
+            <CardContent class="p-0">
+              <div class="grid md:grid-cols-2 gap-0">
+                <!-- Image placeholder -->
+                <div
+                  class="h-48 md:h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center"
+                >
+                  <LucidePill
+                    class="w-16 h-16 text-primary/50 group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div class="absolute top-4 left-4">
+                    <Badge class="bg-primary text-white"
+                      >#{{ index + 1 }}</Badge
                     >
-                      {{ product.name }}
-                    </h2>
-
-                    <div
-                      class="flex items-center gap-2 text-sm text-gray-500 mb-6"
-                    >
-                      <LucideShield class="w-4 h-4 text-green-500" />
-                      <span>Recommended by our AI</span>
-                    </div>
-
-                    <NuxtLink target="_blank" :to="product.link">
-                      <Button
-                        class="w-full bg-primary hover:bg-primary/90 text-white group-hover:scale-105 transition-all duration-200"
-                      >
-                        <LucideExternalLink class="w-4 h-4 mr-2" />
-                        View on Amazon
-                      </Button>
-                    </NuxtLink>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+
+                <!-- Contenu -->
+                <div class="p-6 md:p-8">
+                  <h2
+                    class="text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors leading-tight"
+                  >
+                    {{ product.name }}
+                  </h2>
+
+                  <div
+                    class="flex items-center gap-2 text-sm text-gray-500 mb-6"
+                  >
+                    <LucideShield class="w-4 h-4 text-green-500" />
+                    <span>Recommended by our AI</span>
+                  </div>
+
+                  <NuxtLink target="_blank" :to="product.link">
+                    <Button
+                      class="w-full bg-primary hover:bg-primary/90 text-white group-hover:scale-105 transition-all duration-200"
+                    >
+                      <LucideExternalLink class="w-4 h-4 mr-2" />
+                      View on Amazon
+                    </Button>
+                  </NuxtLink>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
   </main>
 </template>
+
+<style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 1s ease-out;
+}
+
+.animate-slide-up-delay {
+  animation: slide-up 1s ease-out 0.2s both;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slide-up 1s ease-out 0.4s both;
+}
+
+.animate-fade-in-delay {
+  animation: fade-in 1s ease-out 0.6s both;
+}
+</style>

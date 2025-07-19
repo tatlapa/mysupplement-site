@@ -54,7 +54,7 @@ onMounted(() => {
     <!-- Content of the dialog -->
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold"> Login </DialogTitle>
+        <DialogTitle> Login </DialogTitle>
         <DialogDescription> Log in to access your account. </DialogDescription>
       </DialogHeader>
 

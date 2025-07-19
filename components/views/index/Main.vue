@@ -3,5 +3,4 @@
 <template>
     <ViewsIndexFeaturesHowItWorks />
     <ViewsIndexFeaturesSection />
-    <ViewsIndexFeaturesCallToAction />
 </template>

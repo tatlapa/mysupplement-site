@@ -20,13 +20,13 @@ const getProductName = (productId: number) => {
 
 <template>
   <div class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-900">List of Products</h2>
+    <h2 class="text-lg font-medium">Products List</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <Card
         v-for="product in adminStore.products"
         :key="product.id"
-        class="hover:shadow-lg transition-shadow"
+        class="hover:shadow-lg transition-shadow bg-card dark:bg-card text-card-primary"
       >
         <CardHeader>
           <div class="flex justify-between items-start">
@@ -76,15 +76,17 @@ const getProductName = (productId: number) => {
 
         <CardContent class="space-y-3">
           <div class="flex items-center gap-2">
-            <span class="font-medium text-green-600">${{ product.price }}</span>
+            <span class="font-medium text-card-primary"
+              >${{ product.price }}</span
+            >
             <Badge variant="secondary">{{ product.category.name }}</Badge>
           </div>
 
-          <p class="text-sm text-gray-600 line-clamp-2">
+          <p class="text-sm text-card-secondary">
             {{ product.description }}
           </p>
 
-          <div class="flex items-center gap-2 text-sm text-gray-500">
+          <div class="flex items-center gap-2 text-sm text-card-secondary">
             <LucidePackage class="w-4 h-4" />
             <span>Stock: {{ product.stock_quantity }}</span>
           </div>

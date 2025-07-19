@@ -26,7 +26,7 @@ const handlePasswordReset = async () => {
   <div class="min-h-screen flex items-center justify-center px-4">
     <Card class="w-full max-w-md">
       <CardHeader class="space-y-1">
-        <CardTitle class="text-2xl font-bold">Forgot Password</CardTitle>
+        <CardTitle>Forgot Password</CardTitle>
         <CardDescription>
           Enter your email address to receive a password reset link.
         </CardDescription>

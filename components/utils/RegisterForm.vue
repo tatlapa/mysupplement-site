@@ -58,7 +58,7 @@ const switchToLogin = () => {
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold">Sign Up</DialogTitle>
+        <DialogTitle>Sign Up</DialogTitle>
         <DialogDescription>
           Fill in the fields below to create your account.
         </DialogDescription>

@@ -1,5 +1,5 @@
 <template>
-      <LayoutsDefaultHeader />
-      <slot />
-      <LayoutsDefaultFooter />
-  </template>
+  <LayoutsDefaultHeader />
+  <slot />
+  <LayoutsDefaultFooter />
+</template>

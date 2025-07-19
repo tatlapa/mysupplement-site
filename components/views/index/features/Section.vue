@@ -3,18 +3,8 @@ import { Bolt, CheckCircle2, RefreshCw } from "lucide-vue-next";
 </script>
 
 <template>
-  <section class="py-20 bg-white relative overflow-hidden">
-    <!-- Background decoration -->
-    <div class="absolute inset-0">
-      <div
-        class="absolute top-1/2 left-0 w-96 h-96 bg-gradient-to-r from-primary/5 to-transparent rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-l from-blue-500/5 to-transparent rounded-full blur-3xl"
-      ></div>
-    </div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-16">
         <div
           class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
@@ -22,10 +12,10 @@ import { Bolt, CheckCircle2, RefreshCw } from "lucide-vue-next";
           <LucideStar class="w-4 h-4 mr-2" />
           Advanced Features
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <h2 class="mb-6">
           Smart Supplement Recommendations
         </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
           Powered by cutting-edge AI technology to deliver personalized health
           solutions
         </p>

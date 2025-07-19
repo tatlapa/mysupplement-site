@@ -10,7 +10,6 @@ const props = defineProps<{
     category?: { name: string };
   };
 }>();
-const config = useRuntimeConfig();
 const { product } = toRefs(props);
 
 const selectedProduct = computed(() => product.value);
@@ -36,7 +35,7 @@ const selectedProduct = computed(() => product.value);
           :alt="product.name"
           class="w-full h-40 sm:h-48 md:h-56 object-contain rounded-md flex-shrink-0"
         />
-        <p class="text-base sm:text-lg font-medium text-gray-800 mt-3 sm:mt-4">
+        <p class="mt-2">
           {{ product.price }} $
         </p>
       </CardContent>

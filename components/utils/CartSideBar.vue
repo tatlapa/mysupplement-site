@@ -37,7 +37,7 @@ defineExpose({ cartOpen });
 
 <template>
   <TransitionRoot as="template" :show="cartOpen">
-    <Dialog class="relative z-10" @close="cartOpen = false">
+    <Dialog class="relative z-50" @close="cartOpen = false">
       <TransitionChild
         as="template"
         enter="ease-in-out duration-500"

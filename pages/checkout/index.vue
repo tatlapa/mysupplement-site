@@ -92,11 +92,11 @@ async function handleStripePayment() {
 
 <template>
   <main
-    class="max-w-7xl mx-auto py-10 px-3 sm:px-4 md:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8"
+    class="container pt-40 pb-20 grid grid-cols-1 md:grid-cols-2 gap-8"
   >
     <div class="space-y-6">
       <!-- 🚚 Shipping Info -->
-      <Card>
+      <Card class="bg-card dark:bg-card">
         <CardHeader>
           <CardTitle>Shipping Information</CardTitle>
         </CardHeader>
@@ -184,7 +184,7 @@ async function handleStripePayment() {
     </div>
 
     <!-- 🛒 Cart Summary -->
-    <Card>
+    <Card class="bg-card dark:bg-card">
       <CardHeader>
         <CardTitle>Your Cart</CardTitle>
       </CardHeader>
@@ -202,7 +202,7 @@ async function handleStripePayment() {
             class="flex justify-between items-start gap-4 border-b pb-4"
           >
             <div
-              class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
+              class="size-24 shrink-0 overflow-hidden rounded-md border border-card-secondary"
             >
               <img
                 :src="item.product.image_url"
@@ -212,7 +212,7 @@ async function handleStripePayment() {
             </div>
             <div class="flex-1">
               <div
-                class="flex justify-between text-base font-medium text-gray-900"
+                class="flex justify-between text-base font-medium text-card-foreground dark:text-card-foreground"
               >
                 <h3>{{ item.product.name }}</h3>
                 <p>{{ (item.quantity * item.product.price).toFixed(2) }} $</p>
@@ -224,7 +224,7 @@ async function handleStripePayment() {
           </div>
 
           <!-- Breakdown -->
-          <div class="space-y-2 pt-2 mt-4 text-sm text-gray-700">
+          <div class="space-y-2 pt-2 mt-4 text-sm text-card-foreground dark:text-card-foreground">
             <div class="flex justify-between">
               <span>Subtotal</span>
               <span>{{ subtotal.toFixed(2) }} $</span>

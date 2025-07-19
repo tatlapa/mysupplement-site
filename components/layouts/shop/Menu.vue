@@ -10,7 +10,7 @@ const toggleFilter = () => {
 
 <template>
   <!-- Mobile filter button -->
-  <div class="md:hidden mb-4">
+  <div class="md:hidden">
     <Button
       @click="toggleFilter"
       variant="outline"
@@ -49,7 +49,7 @@ const toggleFilter = () => {
 
   <!-- Desktop sidebar -->
   <aside class="hidden md:block w-full md:w-1/4 lg:w-1/5">
-    <Card class="bg-muted-foreground/[0.03] sticky top-4">
+    <Card>
       <CardHeader class="p-4">
         <CardTitle class="text-lg">Filter</CardTitle>
       </CardHeader>

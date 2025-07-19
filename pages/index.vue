@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="pt-40">
     <ViewsIndexHero />
     <ViewsIndexMain />
   </main>

@@ -34,7 +34,7 @@ const isActive = (path: string) => {
 </script>
 
 <template>
-  <aside class="w-full md:w-1/4 lg:w-1/5">
+  <aside class="w-full md:w-1/4">
     <Card class="bg-muted-foreground/[0.03]">
       <CardContent class="p-3 sm:p-4 space-y-2 sm:space-y-3">
         <NuxtLink

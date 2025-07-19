@@ -122,7 +122,7 @@ const submitProduct = handleSubmit(async (values) => {
     </DialogTrigger>
     <DialogScrollContent>
       <DialogHeader>
-        <DialogTitle class="text-2xl font-bold">Modify Product</DialogTitle>
+        <DialogTitle>Modify Product</DialogTitle>
         <DialogDescription>Update product details.</DialogDescription>
       </DialogHeader>
 

@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+    class="group relative bg-card dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-card-secondary"
   >
     <!-- Icon container -->
     <div class="flex justify-center mb-6">
@@ -26,11 +26,11 @@ const props = defineProps<{
     <!-- Content -->
     <div class="text-center">
       <h3
-        class="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors duration-300"
+        class="text-xl font-bold text-card-foreground dark:text-card-foreground mb-4 group-hover:text-primary transition-colors duration-300"
       >
         {{ props.title }}
       </h3>
-      <p class="text-gray-600 leading-relaxed">
+      <p class="text-muted-foreground leading-relaxed">
         {{ props.description }}
       </p>
     </div>

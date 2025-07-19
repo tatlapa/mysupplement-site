@@ -106,7 +106,7 @@ async function onSubmitAndNext(values: AdvicerForm) {
               validate();
             }
           "
-          class="flex flex-col gap-12 mb-12"
+          class="flex flex-col gap-12"
         >
           <div class="flex w-full flex-start gap-2">
             <StepperItem
