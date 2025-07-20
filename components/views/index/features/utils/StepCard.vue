@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
   <div
-    class="group relative bg-card dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+    class="group relative bg-card dark:bg-card rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-card-secondary"
   >
     <!-- Step number badge -->
     <div
