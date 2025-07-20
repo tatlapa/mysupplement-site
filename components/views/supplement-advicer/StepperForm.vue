@@ -118,7 +118,7 @@ async function onSubmitAndNext(values: AdvicerForm) {
             >
               <StepperSeparator
                 v-if="step.step !== steps[steps.length - 1].step"
-                class="absolute left-[calc(50%+20px)] right-[calc(-50%+10px)] top-5 block h-0.5 shrink-0 rounded-full bg-muted group-data-[state=completed]:bg-primary"
+                class="absolute left-[calc(50%+20px)] right-[calc(-50%+10px)] top-5 block h-0.5 shrink-0 rounded-full group-data-[state=completed]:bg-primary"
               />
 
               <StepperTrigger as-child>
@@ -205,13 +205,15 @@ async function onSubmitAndNext(values: AdvicerForm) {
                 </FormField>
               </template>
 
-              <template v-if="stepIndex === 2" >
-                <FormField v-slot="{ value = [], handleChange }" name="goals" >
+              <template v-if="stepIndex === 2">
+                <FormField v-slot="{ value = [], handleChange }" name="goals">
                   <FormItem class="text-left">
                     <FormLabel>Health Goals</FormLabel>
                     <FormDescription>Select at least one goal</FormDescription>
                     <FormControl>
-                      <div class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center">
+                      <div
+                        class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center"
+                      >
                         <div
                           v-for="goal in goals"
                           :key="goal.id"
@@ -245,7 +247,9 @@ async function onSubmitAndNext(values: AdvicerForm) {
                     <FormLabel>Health Issues</FormLabel>
                     <FormDescription>Select issue - optional</FormDescription>
                     <FormControl>
-                      <div class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center">
+                      <div
+                        class="grid grid-cols-2 md:grid-cols-3 gap-1 items-center"
+                      >
                         <div
                           v-for="healthIssue in healthIssues"
                           :key="healthIssue.id"
@@ -321,44 +325,39 @@ async function onSubmitAndNext(values: AdvicerForm) {
               </template>
 
               <template v-if="stepIndex === 4 && resultData">
-                <div class="p-6 bg-gray-100 rounded-lg shadow-md">
-                  <h2 class="text-lg font-bold mb-4">
-                    Your Supplement Recommendations
-                  </h2>
+                <h2 class="text-lg font-bold mb-4">
+                  Your Supplement Recommendations
+                </h2>
 
-                  <ul class="grid grid-cols-2 gap-4">
-                    <li
-                      v-for="(supplement, index) in resultData.supplements"
-                      :key="index"
-                      class="p-4 bg-white rounded-md shadow"
+                <ul class="grid grid-cols-2 gap-4">
+                  <li
+                    v-for="(supplement, index) in resultData.supplements"
+                    :key="index"
+                    class="p-4 bg-card rounded-md shadow"
+                  >
+                    <h3 class="text-md font-semibold text-primary">
+                      {{ supplement.name }}
+                    </h3>
+                    <p class="text-sm text-muted-foreground">
+                      {{ supplement.description }}
+                    </p>
+                    <p class="text-sm mt-2">
+                      <strong>Dosage:</strong> {{ supplement.dosage }}
+                    </p>
+
+                    <ul
+                      class="list-disc list-inside mt-2 text-sm text-muted-foreground"
                     >
-                      <h3 class="text-md font-semibold text-primary">
-                        {{ supplement.name }}
-                      </h3>
-                      <p class="text-sm text-gray-600">
-                        {{ supplement.description }}
-                      </p>
-                      <p class="text-sm mt-2">
-                        <strong>Dosage:</strong> {{ supplement.dosage }}
-                      </p>
+                      <li v-for="benefit in supplement.benefits" :key="benefit">
+                        {{ benefit }}
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
 
-                      <ul
-                        class="list-disc list-inside mt-2 text-sm text-gray-700"
-                      >
-                        <li
-                          v-for="benefit in supplement.benefits"
-                          :key="benefit"
-                        >
-                          {{ benefit }}
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-
-                  <p class="mt-6 text-sm text-gray-700">
-                    <strong>Explanation:</strong> {{ resultData.explanation }}
-                  </p>
-                </div>
+                <p class="mt-6 text-sm text-muted-foreground">
+                  <strong>Explanation:</strong> {{ resultData.explanation }}
+                </p>
               </template>
             </div>
 

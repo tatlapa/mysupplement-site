@@ -14,7 +14,7 @@ import {
 const authStore = useAuthStore();
 const adminStore = useAdminStore();
 const cartStore = useCartStore();
-const cartSidebar = ref(null);
+const cartSidebar = ref<any>(null);
 const colorMode = useColorMode();
 
 const showRegisterDialog = ref(false);
@@ -71,9 +71,14 @@ const closeMobileMenu = () => {
         <div class="flex items-center gap-2 sm:gap-4 md:gap-8">
           <NuxtLink
             to="/"
-            class="flex items-center gap-2"
+            class="flex items-center gap-2 group"
             @click="closeMobileMenu"
           >
+            <!-- Mobile icon -->
+            <Button variant="link" size="icon" class="sm:hidden">
+              <LucideHouse />
+            </Button>
+            <!-- Desktop text -->
             <div class="hidden sm:block">
               <h1 class="text-primary font-bold text-base sm:text-lg">
                 MySupplement.ai
