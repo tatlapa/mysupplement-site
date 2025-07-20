@@ -55,7 +55,7 @@ const steps = [
           <!-- Connection line -->
           <div
             v-if="index < steps.length - 1"
-            class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-gray-200 to-gray-300 transform -translate-y-1/2 z-0"
+            class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-gray-200 to-gray-300  transform -translate-y-1/2 z-0"
           ></div>
 
           <ViewsIndexFeaturesUtilsStepCard

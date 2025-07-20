@@ -41,7 +41,7 @@ const products = [
           class="group"
         >
           <Card
-            class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden"
+            class="bg-card dark:bg-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-card-secondary overflow-hidden"
           >
             <CardContent class="p-0">
               <div class="grid md:grid-cols-2 gap-0">
@@ -62,13 +62,13 @@ const products = [
                 <!-- Contenu -->
                 <div class="p-6 md:p-8">
                   <h2
-                    class="text-xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-primary transition-colors leading-tight"
+                    class="text-xl md:text-2xl font-bold text-card-foreground dark:text-card-foreground mb-4 group-hover:text-primary transition-colors leading-tight"
                   >
                     {{ product.name }}
                   </h2>
 
                   <div
-                    class="flex items-center gap-2 text-sm text-gray-500 mb-6"
+                    class="flex items-center gap-2 text-sm text-muted-foreground mb-6"
                   >
                     <LucideShield class="w-4 h-4 text-green-500" />
                     <span>Recommended by our AI</span>
@@ -76,7 +76,7 @@ const products = [
 
                   <NuxtLink target="_blank" :to="product.link">
                     <Button
-                      class="w-full bg-primary hover:bg-primary/90 text-white group-hover:scale-105 transition-all duration-200"
+                      class="w-full bg-primary hover:bg-primary/90 group-hover:scale-105 transition-all duration-200"
                     >
                       <LucideExternalLink class="w-4 h-4 mr-2" />
                       View on Amazon
