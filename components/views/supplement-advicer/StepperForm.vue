@@ -153,7 +153,7 @@ async function onSubmitAndNext(values: AdvicerForm) {
             </StepperItem>
           </div>
 
-          <div class="rounded-lg p-4 shadow-lg">
+          <div class="rounded-lg p-4 shadow-lg bg-card dark:bg-card">
             <div class="flex flex-col gap-4 mt-4">
               <template v-if="stepIndex === 1">
                 <FormField v-slot="{ componentField }" name="age">
@@ -329,11 +329,11 @@ async function onSubmitAndNext(values: AdvicerForm) {
                   Your Supplement Recommendations
                 </h2>
 
-                <ul class="grid grid-cols-2 gap-4">
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <li
                     v-for="(supplement, index) in resultData.supplements"
                     :key="index"
-                    class="p-4 bg-card rounded-md shadow"
+                    class="text-start p-4 border border-card-secondary rounded-md shadow"
                   >
                     <h3 class="text-md font-semibold text-primary">
                       {{ supplement.name }}
