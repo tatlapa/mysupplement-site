@@ -160,12 +160,12 @@
           </div>
           <div class="flex space-x-6 text-sm">
             <NuxtLink
-              to="/"
+              to="/privacy-policy"
               class="text-gray-400 hover:text-white transition-colors duration-200"
               >Privacy Policy</NuxtLink
             >
             <NuxtLink
-              to="/"
+              to="/terms"
               class="text-gray-400 hover:text-white transition-colors duration-200"
               >Terms of Service</NuxtLink
             >
