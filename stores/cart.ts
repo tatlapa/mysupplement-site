@@ -26,7 +26,7 @@ export const useCartStore = defineStore("cart-store", {
 
       const { $api } = useNuxtApp();
       try {
-        const response = await $api<Cart>("/cart", { method: "GET" });
+        const response = await $api<Cart[]>("/cart", { method: "GET" });
         this.cart = response;
       } catch (error) {
         console.error("❌ Failed to fetch cart:", error);

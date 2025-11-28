@@ -60,15 +60,11 @@ const handleSubmit = async () => {
         </div>
       </div>
 
-      <Button
-        type="submit"
-        :disabled="authStore.formLoading"
-        class="w-full sm:w-auto"
-      >
-        <LucideRefreshCcw
+      <Button type="submit" disabled class="w-full sm:w-auto">
+        <!-- <LucideRefreshCcw
           v-if="authStore.formLoading"
           class="w-4 h-4 mr-2 animate-spin"
-        />
+        /> -->
         Save
       </Button>
     </form>
