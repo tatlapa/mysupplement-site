@@ -14,6 +14,8 @@ definePageMeta({
       <ViewsProfileUpdateProfileInformationForm />
       <Separator class="my-4 sm:my-6" />
       <ViewsProfileUpdatePasswordForm />
+      <Separator class="my-4 sm:my-6" />
+      <ViewsProfileDeleteUserForm />
     </CardContent>
   </Card>
 </template>

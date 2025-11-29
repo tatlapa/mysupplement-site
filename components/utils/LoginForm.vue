@@ -16,7 +16,7 @@ const form = reactive({
 const { toast } = useToast();
 const authStore = useAuthStore();
 
-const handleLogin = async (event: Event) => {
+const handleLogin = async () => {
   const success = await authStore.login(form);
 
   if (success) {

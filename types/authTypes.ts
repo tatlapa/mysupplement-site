@@ -37,6 +37,10 @@ export interface User {
   has_password?: boolean;
 }
 
+export interface DeleteUser {
+  password: string;
+}
+
 export interface ApiResponseUser {
   access_token: string;
   user: User;

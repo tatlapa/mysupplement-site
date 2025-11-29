@@ -8,6 +8,7 @@ import type {
   ApiError,
   UpdatePasswordForm,
   UpdateProfileForm,
+  DeleteUser,
 } from "@/types/authTypes";
 
 export const useAuthStore = defineStore("auth-store", {
@@ -190,6 +191,37 @@ export const useAuthStore = defineStore("auth-store", {
 
         if (response) {
           this.user = response as User;
+          return true;
+        }
+        return false;
+      } catch (error: any) {
+        const apiError = error as ApiError;
+        if (apiError.status === 422 && apiError.data && apiError.data.errors) {
+          this.formErrors = apiError.data.errors as FormErrors;
+        } else {
+          this.formErrors = { global: apiError.message } as FormErrors;
+        }
+        throw error;
+      } finally {
+        this.formLoading = false;
+      }
+    },
+    async deleteUser(form: DeleteUser) {
+      const { $api } = useNuxtApp();
+
+      this.formErrors = {} as FormErrors;
+      this.formLoading = true;
+
+      try {
+        const response = await $api("/user/delete", {
+          method: "DELETE",
+          body: form,
+        });
+        if (response) {
+          this.user = null;
+          this.token = null;
+          localStorage.clear();
+          navigateTo("/");
           return true;
         }
         return false;
