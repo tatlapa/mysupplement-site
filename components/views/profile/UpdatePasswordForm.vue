@@ -46,9 +46,9 @@ const handleSubmit = async () => {
       @submit.prevent="handleSubmit"
       class="mt-4 sm:mt-6 space-y-4 sm:space-y-6"
     >
-      <Alert v-if="authStore.formErrors.global" variant="destructive">
+      <Alert v-if="authStore.formErrors.updatePassword_global" variant="destructive">
         <AlertDescription>
-          {{ authStore.formErrors.global }}
+          {{ authStore.formErrors.updatePassword_global }}
         </AlertDescription>
       </Alert>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">

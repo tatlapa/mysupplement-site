@@ -34,7 +34,12 @@ const handleSubmit = async () => {
         <DialogDescription
           >Are you sure you want to delete your account? This action cannot be
           undone.</DialogDescription
-        >
+        ><Alert v-if="authStore.formErrors.deleteUser_global" variant="destructive">
+          <AlertDescription>
+            {{ authStore.formErrors.deleteUser_global }}
+            
+          </AlertDescription>
+        </Alert>
         <form @submit.prevent="handleSubmit" class="mt-2">
           <Input
             type="password"

@@ -20,6 +20,8 @@ const handlePasswordReset = async () => {
     });
   }
 };
+
+console.log(authStore.formErrors.forgetPassword_global)
 </script>
 
 <template>
@@ -34,9 +36,12 @@ const handlePasswordReset = async () => {
 
       <CardContent>
         <form @submit.prevent="handlePasswordReset" class="space-y-4">
-          <Alert v-if="authStore.formErrors.global" variant="destructive">
+          <Alert
+            v-if="authStore.formErrors.forgetPassword_global"
+            variant="destructive"
+          >
             <AlertDescription>
-              {{ authStore.formErrors.global }}
+              {{ authStore.formErrors.forgetPassword_global }}
             </AlertDescription>
           </Alert>
           <div class="space-y-2">
@@ -46,14 +51,12 @@ const handlePasswordReset = async () => {
                 type="email"
                 placeholder="name@example.com"
                 class="pl-10"
-                required
               />
               <LucideMail
                 class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
               />
             </div>
           </div>
-
           <Button
             type="submit"
             class="w-full"

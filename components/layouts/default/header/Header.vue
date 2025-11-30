@@ -60,6 +60,18 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false;
 };
+
+watch(showLoginDialog, (value) => {
+  if (value === true) {
+    authStore.formErrors = {};
+  }
+});
+
+watch(showRegisterDialog, (value) => {
+  if (value === true) {
+    authStore.formErrors = {};
+  }
+});
 </script>
 
 <template>

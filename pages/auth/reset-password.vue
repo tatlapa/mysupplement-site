@@ -32,6 +32,7 @@ const handlePasswordReset = async () => {
     });
   }
 };
+
 </script>
 
 <template>
@@ -46,9 +47,9 @@ const handlePasswordReset = async () => {
 
       <CardContent>
         <form @submit.prevent="handlePasswordReset" class="space-y-4">
-          <Alert v-if="authStore.formErrors.global" variant="destructive">
+          <Alert v-if="authStore.formErrors.resetPassword_global" variant="destructive">
             <AlertDescription>
-              {{ authStore.formErrors.global }}
+              {{ authStore.formErrors.resetPassword_global }}
             </AlertDescription>
           </Alert>
           <div class="space-y-2">

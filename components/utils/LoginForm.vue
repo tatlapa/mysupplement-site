@@ -42,6 +42,7 @@ onMounted(() => {
     hostname.value = navigator.userAgent;
   }
 });
+
 </script>
 
 <template>
@@ -60,9 +61,9 @@ onMounted(() => {
 
       <!-- Login form -->
       <form class="space-y-4" @submit.prevent="handleLogin">
-        <Alert v-if="authStore.formErrors.global" variant="destructive">
+        <Alert v-if="authStore.formErrors.login_global" variant="destructive">
           <AlertDescription>
-            {{ authStore.formErrors.global }}
+            {{ authStore.formErrors.login_global }}
           </AlertDescription>
         </Alert>
         <div>

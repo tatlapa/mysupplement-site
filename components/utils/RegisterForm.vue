@@ -69,9 +69,9 @@ const switchToLogin = () => {
         class="space-y-4"
         @submit.prevent="onSubmit"
       >
-        <Alert v-if="authStore.formErrors.global" variant="destructive">
+        <Alert v-if="authStore.formErrors.register_global" variant="destructive">
           <AlertDescription>
-            {{ authStore.formErrors.global }}
+            {{ authStore.formErrors.register_global }}
           </AlertDescription>
         </Alert>
 

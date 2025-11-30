@@ -41,7 +41,9 @@ export const useAuthStore = defineStore("auth-store", {
         if (apiError.status === 422 && apiError.data) {
           this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message } as FormErrors;
+          this.formErrors = {
+            register_global: apiError.data?.message,
+          } as FormErrors;
         }
         throw error;
       } finally {
@@ -67,7 +69,9 @@ export const useAuthStore = defineStore("auth-store", {
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
           this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message } as FormErrors;
+          this.formErrors = {
+            login_global: apiError.data?.message,
+          } as FormErrors;
         }
         throw error;
       } finally {
@@ -100,7 +104,10 @@ export const useAuthStore = defineStore("auth-store", {
         });
         return true;
       } catch (error: any) {
-        console.error("Password reset request failed", error);
+        const apiError = error as ApiError;
+        this.formErrors = {
+          forgetPassword_global: apiError.data?.message,
+        } as FormErrors;
         return false;
       } finally {
         this.formLoading = false;
@@ -127,8 +134,15 @@ export const useAuthStore = defineStore("auth-store", {
         });
         return response;
       } catch (error: any) {
-        console.error("Failed to reset password", error);
-        throw new Error("Failed to reset password");
+        const apiError = error as ApiError;
+        if (apiError.status === 422 && apiError.data && apiError.data.errors) {
+          this.formErrors = apiError.data.errors as FormErrors;
+        } else {
+          this.formErrors = {
+            resetPassword_global: apiError.data?.message,
+          } as FormErrors;
+        }
+        throw error;
       } finally {
         this.formLoading = false;
       }
@@ -170,7 +184,9 @@ export const useAuthStore = defineStore("auth-store", {
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
           this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message } as FormErrors;
+          this.formErrors = {
+            updateProfile_global: apiError.data?.message,
+          } as FormErrors;
         }
         throw error;
       } finally {
@@ -199,7 +215,9 @@ export const useAuthStore = defineStore("auth-store", {
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
           this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message } as FormErrors;
+          this.formErrors = {
+            updatePassword_global: apiError.data?.message,
+          } as FormErrors;
         }
         throw error;
       } finally {
@@ -230,7 +248,9 @@ export const useAuthStore = defineStore("auth-store", {
         if (apiError.status === 422 && apiError.data && apiError.data.errors) {
           this.formErrors = apiError.data.errors as FormErrors;
         } else {
-          this.formErrors = { global: apiError.message } as FormErrors;
+          this.formErrors = {
+            deleteUser_global: apiError.data?.message,
+          } as FormErrors;
         }
         throw error;
       } finally {
