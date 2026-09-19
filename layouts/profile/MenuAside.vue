@@ -3,7 +3,7 @@
   <main
     class="container pt-12 md:pt-16 pb-20"
   >
-    <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex flex-col gap-10 md:flex-row md:gap-12">
       <LayoutsProfileMenu />
       <slot />
     </div>
