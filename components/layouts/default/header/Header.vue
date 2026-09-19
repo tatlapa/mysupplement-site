@@ -1,41 +1,22 @@
 <script setup lang="ts">
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-
 const authStore = useAuthStore();
 const adminStore = useAdminStore();
 const cartStore = useCartStore();
-const cartSidebar = ref<any>(null);
 const colorMode = useColorMode();
+const route = useRoute();
 
 const showRegisterDialog = ref(false);
 const showLoginDialog = ref(false);
 
 const menuItems = [
-  {
-    title: "Shop",
-    path: "/shop",
-  },
-  {
-    title: "Supplement Advicer",
-    path: "/supplement-advicer",
-  },
-  {
-    title: "Recommendations",
-    path: "/recommendations",
-  },
+  { title: "Advisor", path: "/supplement-advicer" },
+  { title: "Shop", path: "/shop" },
+  { title: "Top picks", path: "/recommendations" },
 ];
 
 const isMobileMenuOpen = ref(false);
+
+const isActive = (path: string) => route.path.startsWith(path);
 
 const switchToRegister = () => {
   showLoginDialog.value = false;
@@ -48,9 +29,7 @@ const switchToLogin = () => {
 };
 
 const openCart = () => {
-  if (cartSidebar.value) {
-    cartSidebar.value.cartOpen = true;
-  }
+  cartStore.isOpen = true;
 };
 
 const toggleMobileMenu = () => {
@@ -60,6 +39,9 @@ const toggleMobileMenu = () => {
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false;
 };
+
+// Changer de page referme le menu mobile
+watch(() => route.path, closeMobileMenu);
 
 watch(showLoginDialog, (value) => {
   if (value === true) {
@@ -75,220 +57,133 @@ watch(showRegisterDialog, (value) => {
 </script>
 
 <template>
-  <header class="fixed z-50 mt-4 w-full">
-    <div class="container">
-      <!-- Top Bar -->
-      <div class="flex justify-between items-center py-2 sm:py-3">
-        <!-- Logo -->
-        <div class="flex items-center gap-2 sm:gap-4 md:gap-8">
-          <NuxtLink
-            to="/"
-            class="flex items-center gap-2 group"
-            @click="closeMobileMenu"
-          >
-            <!-- Mobile icon -->
-            <Button variant="link" size="icon" class="sm:hidden">
-              <LucideHouse />
-            </Button>
-            <!-- Desktop text -->
-            <div class="hidden sm:block">
-              <h1 class="text-primary font-bold text-base sm:text-lg">
-                MySupplement.ai
-              </h1>
-              <p class="text-gray-600 dark:text-gray-400 text-xs">
-                Health & Wellness
-              </p>
-            </div>
-          </NuxtLink>
-        </div>
-
-        <!-- Desktop Navigation Menu - Centered -->
-        <div class="absolute left-1/2 transform -translate-x-1/2">
-          <NavigationMenu
-            class="hidden lg:block border rounded-full px-2 py-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md"
-          >
-            <NavigationMenuList class="flex gap-1 md:gap-3">
-              <NavigationMenuItem
-                v-for="(item, index) in menuItems"
-                :key="item.path"
-                class="relative"
-              >
-                <NuxtLink :to="item.path" class="block">
-                  <NavigationMenuLink
-                    :class="[
-                      navigationMenuTriggerStyle(),
-                      'py-2 transition-all duration-200 hover:bg-primary/5 hover:text-primary relative overflow-hidden',
-                    ]"
-                  >
-                    <div class="flex items-center gap-1 sm:gap-2 relative z-10">
-                      <LucideShoppingBag
-                        v-if="item.title === 'Shop'"
-                        class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 hover:scale-110"
-                      />
-                      <LucideBrain
-                        v-if="item.title === 'Supplement Advicer'"
-                        class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 hover:scale-110"
-                      />
-                      <LucideStar
-                        v-if="item.title === 'Recommendations'"
-                        class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 hover:scale-110"
-                      />
-                      <span class="font-medium text-sm sm:text-base">{{
-                        item.title
-                      }}</span>
-                    </div>
-                  </NavigationMenuLink>
-                </NuxtLink>
-                <!-- Bottom line hover effect -->
-                <div
-                  class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-green-600 hover:w-full hover:left-0 transition-all duration-300 ease-out"
-                ></div>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-
-        <!-- Right side actions -->
-        <div class="flex gap-2 sm:gap-3 items-center">
-          <!-- Auth buttons -->
-          <div v-if="!authStore.isAuthenticated" class="flex gap-1 sm:gap-2">
-            <UtilsRegisterForm
-              v-model:open="showRegisterDialog"
-              @switchToLogin="switchToLogin"
-            />
-            <UtilsLoginForm
-              v-model:open="showLoginDialog"
-              @switchToRegister="switchToRegister"
-            />
-          </div>
-
-          <div class="flex gap-1 sm:gap-2 items-center">
-            <!-- User dropdown -->
-            <DropdownMenu v-if="authStore.isAuthenticated">
-              <DropdownMenuTrigger as-child>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  class="gap-1 sm:gap-2 bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 backdrop-blur-sm px-2 sm:px-3"
-                >
-                  <LucideUser
-                    v-if="!adminStore.isAdmin"
-                    class="text-primary w-4 h-4 sm:w-5 sm:h-5"
-                  />
-                  <LucideUserCog
-                    v-if="adminStore.isAdmin"
-                    class="text-primary w-4 h-4 sm:w-5 sm:h-5"
-                  />
-                  <LucideChevronDown
-                    class="w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 text-primary"
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent class="w-fit" align="end">
-                <DropdownMenuLabel class="font-normal">
-                  <div class="flex flex-col space-y-1">
-                    <p class="text-sm font-medium leading-none">My account</p>
-                    <p class="text-xs leading-none text-muted-foreground">
-                      {{ authStore.user?.email }}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <NuxtLink to="/profile">
-                      <span>My profile</span>
-                    </NuxtLink>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem @click="authStore.logout">
-                  <span>Disconnect</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <!-- Theme toggle -->
-            <Button
-              v-if="colorMode.preference === 'light'"
-              variant="outline"
-              @click="colorMode.preference = 'dark'"
-              class="bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 p-2 sm:p-2"
-            >
-              <LucideMoon class="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
-            <Button
-              v-else
-              variant="outline"
-              @click="colorMode.preference = 'light'"
-              class="bg-primary/10 border-primary/20 text-primary hover:bg-primary/20 backdrop-blur-sm hover:scale-105 transition-all duration-300 p-2 sm:p-2"
-            >
-              <LucideSun class="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
-
-            <!-- Cart button -->
-            <Button
-              @click="openCart"
-              variant="outline"
-              class="bg-yellow-500/20 border-yellow-400/30 text-yellow-600 hover:bg-yellow-500/30 backdrop-blur-sm hover:scale-105 transition-all duration-300 relative group px-2 sm:px-3"
-            >
-              <LucideShoppingCart />
-              <span
-                v-if="cartStore.cartItemCount > 0"
-                class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center animate-pulse"
-              >
-                {{ cartStore.cartItemCount }}
-              </span>
-            </Button>
-            <UtilsCartSideBar ref="cartSidebar" class="z-50" />
-
-            <!-- Mobile menu button -->
-            <div class="lg:hidden">
-              <Button
-                variant="outline"
-                size="sm"
-                class="p-2"
-                @click="toggleMobileMenu"
-              >
-                <LucideMenu v-if="!isMobileMenuOpen" class="w-5 h-5" />
-                <LucideX v-else class="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile menu dropdown -->
-      <div
-        v-if="isMobileMenuOpen"
-        class="lg:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 shadow-lg z-50"
+  <header class="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
+    <div class="container flex h-16 items-center justify-between gap-4 md:h-[88px]">
+      <!-- Logo -->
+      <NuxtLink
+        to="/"
+        class="flex items-baseline gap-0.5 text-foreground"
+        @click="closeMobileMenu"
       >
-        <div class="px-3 py-4 space-y-2">
-          <NuxtLink
-            v-for="item in menuItems"
-            :key="item.path"
-            :to="item.path"
-            @click="closeMobileMenu"
-            class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+        <span class="font-display text-[21px] font-semibold tracking-tight md:text-[26px]">
+          mysupplement
+        </span>
+        <span class="font-mono text-[11px] text-primary md:text-[13px]">.ai</span>
+      </NuxtLink>
+
+      <!-- Navigation -->
+      <nav aria-label="Main" class="hidden items-center gap-10 text-[15px] font-medium lg:flex">
+        <NuxtLink
+          v-for="item in menuItems"
+          :key="item.path"
+          :to="item.path"
+          :aria-current="isActive(item.path) ? 'page' : undefined"
+          :class="[
+            'transition-colors hover:text-primary',
+            isActive(item.path) && 'text-primary underline underline-offset-[6px]',
+          ]"
+        >
+          {{ item.title }}
+        </NuxtLink>
+      </nav>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <template v-if="!authStore.isAuthenticated">
+          <UtilsLoginForm
+            v-model:open="showLoginDialog"
+            @switchToRegister="switchToRegister"
+          />
+          <UtilsRegisterForm
+            v-model:open="showRegisterDialog"
+            @switchToLogin="switchToLogin"
+          />
+        </template>
+
+        <DropdownMenu v-if="authStore.isAuthenticated">
+          <DropdownMenuTrigger as-child>
+            <button type="button" class="btn-icon border-rule" aria-label="My account">
+              <LucideUserCog v-if="adminStore.isAdmin" class="h-5 w-5" />
+              <LucideUser v-else class="h-5 w-5" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent class="w-56" align="end">
+            <DropdownMenuLabel class="font-normal">
+              <div class="flex flex-col gap-1">
+                <p class="text-sm font-medium leading-none">My account</p>
+                <p class="text-xs leading-none text-muted-foreground">
+                  {{ authStore.user?.email }}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem as-child>
+                <NuxtLink to="/profile">My profile</NuxtLink>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem @click="authStore.logout">Sign out</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <button
+          type="button"
+          class="btn-icon hidden border-transparent sm:inline-flex"
+          :aria-label="colorMode.value === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+          @click="colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'"
+        >
+          <LucideSun v-if="colorMode.value === 'dark'" class="h-5 w-5" />
+          <LucideMoon v-else class="h-5 w-5" />
+        </button>
+
+        <button
+          type="button"
+          class="btn-icon relative border-rule"
+          :aria-label="`Cart, ${cartStore.cartItemCount} items`"
+          @click="openCart"
+        >
+          <LucideShoppingBag class="h-5 w-5" />
+          <span
+            v-if="cartStore.cartItemCount > 0"
+            class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 font-mono text-[11px] text-primary-foreground"
           >
-            <LucideShoppingBag
-              v-if="item.title === 'Shop'"
-              class="w-5 h-5 text-primary"
-            />
-            <LucideBrain
-              v-if="item.title === 'Supplement Advicer'"
-              class="w-5 h-5 text-primary"
-            />
-            <LucideStar
-              v-if="item.title === 'Recommendations'"
-              class="w-5 h-5 text-primary"
-            />
-            <span class="font-medium text-gray-900 dark:text-gray-100">{{
-              item.title
-            }}</span>
-          </NuxtLink>
-        </div>
+            {{ cartStore.cartItemCount }}
+          </span>
+        </button>
+        <UtilsCartSideBar />
+
+        <button
+          type="button"
+          class="btn-icon border-transparent lg:hidden"
+          :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+          :aria-expanded="isMobileMenuOpen"
+          @click="toggleMobileMenu"
+        >
+          <LucideX v-if="isMobileMenuOpen" class="h-5 w-5" />
+          <LucideMenu v-else class="h-5 w-5" />
+        </button>
       </div>
     </div>
+
+    <!-- Menu mobile -->
+    <nav
+      v-if="isMobileMenuOpen"
+      aria-label="Mobile"
+      class="border-t bg-background lg:hidden"
+    >
+      <div class="container flex flex-col py-2">
+        <NuxtLink
+          v-for="item in menuItems"
+          :key="item.path"
+          :to="item.path"
+          class="flex h-14 items-center justify-between border-b font-display text-2xl last:border-b-0"
+          @click="closeMobileMenu"
+        >
+          {{ item.title }}
+          <LucideArrowRight class="h-5 w-5" />
+        </NuxtLink>
+      </div>
+    </nav>
   </header>
 </template>

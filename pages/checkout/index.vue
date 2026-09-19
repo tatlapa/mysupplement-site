@@ -92,7 +92,7 @@ async function handleStripePayment() {
 
 <template>
   <main
-    class="container pt-40 pb-20 grid grid-cols-1 md:grid-cols-2 gap-8"
+    class="container pt-12 md:pt-16 pb-20 grid grid-cols-1 md:grid-cols-2 gap-8"
   >
     <div class="space-y-6">
       <!-- 🚚 Shipping Info -->

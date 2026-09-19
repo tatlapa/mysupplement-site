@@ -1,181 +1,32 @@
 <template>
-  <footer class="bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <!-- Main footer content -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-        <!-- Brand section -->
-        <div class="lg:col-span-1">
-          <div class="flex items-center space-x-2 mb-6">
-            <div
-              class="w-10 h-10 bg-gradient-to-r from-primary to-green-600 rounded-lg flex items-center justify-center"
-            >
-              <LucideLeaf class="w-6 h-6 text-white" />
-            </div>
-            <span class="text-2xl font-bold">MySupplement.ai</span>
-          </div>
-          <p class="text-gray-400 mb-6 leading-relaxed">
-            Your personal AI-powered supplement advisor, helping you achieve
-            optimal health through personalized recommendations.
-          </p>
-          <div class="flex space-x-4">
-            <NuxtLink
-              to="/"
-              class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors duration-200"
-            >
-              <LucideInstagram class="w-5 h-5" />
-            </NuxtLink>
-            <NuxtLink
-              to="/"
-              class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors duration-200"
-            >
-              <LucideTwitter class="w-5 h-5" />
-            </NuxtLink>
-            <NuxtLink
-              to="/"
-              class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors duration-200"
-            >
-              <LucideLinkedin class="w-5 h-5" />
-            </NuxtLink>
-          </div>
-        </div>
+  <footer class="border-t">
+    <div class="border-b bg-card">
+      <p class="container py-5 text-sm leading-relaxed text-muted-foreground">
+        <span class="mr-2 font-mono text-xs tracking-[0.08em] text-primary">DEMO PROJECT</span>
+        This site is a portfolio lab, built to show how I design and develop a
+        full product. Nothing here is actually for sale: shop products, prices and
+        orders are fictional, and no payment is ever taken. The only real items are
+        the Amazon links on the Top picks page.
+      </p>
+    </div>
+    <div
+      class="container flex flex-col gap-8 py-10 text-[15px] text-muted-foreground md:flex-row md:items-center md:justify-between md:py-12"
+    >
+      <NuxtLink to="/" class="flex items-baseline gap-0.5 text-foreground">
+        <span class="font-display text-[22px] font-semibold tracking-tight">mysupplement</span>
+        <span class="font-mono text-xs text-primary">.ai</span>
+      </NuxtLink>
 
-        <!-- Explore -->
-        <div>
-          <h3 class="text-lg font-semibold mb-6 text-white">Explore</h3>
-          <ul class="space-y-3">
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Home</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Personalized Supplements</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Limited Editions</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Contact Us</NuxtLink
-              >
-            </li>
-          </ul>
-        </div>
+      <nav aria-label="Footer" class="grid grid-cols-2 gap-x-8 gap-y-1 md:flex md:gap-8">
+        <NuxtLink to="/about" class="flex h-11 items-center hover:text-foreground">About</NuxtLink>
+        <NuxtLink to="/contact" class="flex h-11 items-center hover:text-foreground">Contact</NuxtLink>
+        <NuxtLink to="/privacy-policy" class="flex h-11 items-center hover:text-foreground">Privacy policy</NuxtLink>
+        <NuxtLink to="/terms" class="flex h-11 items-center hover:text-foreground">Terms</NuxtLink>
+      </nav>
 
-        <!-- Customer Service -->
-        <div>
-          <h3 class="text-lg font-semibold mb-6 text-white">
-            Customer Service
-          </h3>
-          <ul class="space-y-3">
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >FAQ</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Shipping & Returns</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Policies</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Support</NuxtLink
-              >
-            </li>
-          </ul>
-        </div>
-
-        <!-- About -->
-        <div>
-          <h3 class="text-lg font-semibold mb-6 text-white">About</h3>
-          <ul class="space-y-3">
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Our Story</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Vision for the Future</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Team</NuxtLink
-              >
-            </li>
-            <li>
-              <NuxtLink
-                to="/"
-                class="text-gray-400 hover:text-white transition-colors duration-200"
-                >Careers</NuxtLink
-              >
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Bottom section -->
-      <div class="border-t border-gray-800 pt-8">
-        <div
-          class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
-        >
-          <div class="text-sm text-gray-400">
-            As an Amazon Associate, I earn from qualifying purchases.
-            <br />
-            &copy; {{ new Date().getFullYear() }} MySupplement – All rights
-            reserved.
-          </div>
-          <div class="flex space-x-6 text-sm">
-            <NuxtLink
-              to="/privacy-policy"
-              class="text-gray-400 hover:text-white transition-colors duration-200"
-              >Privacy Policy</NuxtLink
-            >
-            <NuxtLink
-              to="/terms"
-              class="text-gray-400 hover:text-white transition-colors duration-200"
-              >Terms of Service</NuxtLink
-            >
-            <NuxtLink
-              to="/"
-              class="text-gray-400 hover:text-white transition-colors duration-200"
-              >Cookie Policy</NuxtLink
-            >
-          </div>
-        </div>
+      <div class="flex flex-col gap-1 font-mono text-xs md:items-end">
+        <span>© {{ new Date().getFullYear() }} mysupplement.ai</span>
+        <span>As an Amazon Associate, I earn from qualifying purchases.</span>
       </div>
     </div>
   </footer>

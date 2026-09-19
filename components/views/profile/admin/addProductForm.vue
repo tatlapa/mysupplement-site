@@ -104,7 +104,7 @@ const submitProduct = handleSubmit(async (values) => {
                 v-bind="field"
                 placeholder="Enter product name"
               />
-              <p v-if="errorMessage" class="text-red-500 text-sm">
+              <p v-if="errorMessage" class="text-destructive text-sm">
                 {{ errorMessage }}
               </p>
             </Field>
@@ -122,7 +122,7 @@ const submitProduct = handleSubmit(async (values) => {
                 max="100"
                 step="0.01"
               />
-              <p v-if="errorMessage" class="text-red-500 text-sm">
+              <p v-if="errorMessage" class="text-destructive text-sm">
                 {{ errorMessage }}
               </p>
             </Field>
@@ -137,7 +137,7 @@ const submitProduct = handleSubmit(async (values) => {
                 placeholder="Enter product description"
                 class="p-0.5"
               />
-              <p v-if="errorMessage" class="text-red-500 text-sm">
+              <p v-if="errorMessage" class="text-destructive text-sm">
                 {{ errorMessage }}
               </p>
             </Field>
@@ -152,7 +152,7 @@ const submitProduct = handleSubmit(async (values) => {
                 placeholder="Enter stock quantity"
                 type="number"
               />
-              <p v-if="errorMessage" class="text-red-500 text-sm">
+              <p v-if="errorMessage" class="text-destructive text-sm">
                 {{ errorMessage }}
               </p>
             </Field>
@@ -178,7 +178,7 @@ const submitProduct = handleSubmit(async (values) => {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <p v-if="errorMessage" class="text-red-500 text-sm">
+              <p v-if="errorMessage" class="text-destructive text-sm">
                 {{ errorMessage }}
               </p>
             </Field>
@@ -193,7 +193,7 @@ const submitProduct = handleSubmit(async (values) => {
               class="border rounded p-2 w-full"
               @change="handleFileUpload"
             />
-            <p v-if="imageError" class="text-red-500 text-sm">
+            <p v-if="imageError" class="text-destructive text-sm">
               {{ imageError }}
             </p>
           </div>

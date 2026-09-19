@@ -1,5 +1,5 @@
 <template>
-  <section class="container py-40">
+  <section class="container py-12 md:py-20">
     <h1 class="text-3xl md:text-4xl font-bold mb-6">Privacy Policy</h1>
     <p class="text-muted-foreground mb-4">
       We value your privacy. This basic policy explains what information we

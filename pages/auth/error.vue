@@ -1,12 +1,12 @@
 <template>
   <div class="flex items-center justify-center h-screen">
     <div class="text-center">
-      <h1 class="text-red-500">Erreur d'authentification</h1>
-      <p class="mt-4 text-gray-600">{{ message }}</p>
+      <h1 class="text-destructive">Erreur d'authentification</h1>
+      <p class="mt-4 text-muted-foreground">{{ message }}</p>
       <div class="mt-6">
         <nuxt-link
           to="/"
-          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          class="btn-primary h-12"
         >
           Retour à l'accueil
         </nuxt-link>

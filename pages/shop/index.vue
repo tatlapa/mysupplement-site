@@ -7,23 +7,7 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
-  PaginationFirst,
-  PaginationLast,
 } from "~/components/ui/pagination";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
-
-definePageMeta({
-  alias: ["/shop"],
-  layout: "shop-menu-filter",
-});
 
 const shopStore = useShopStore();
 
@@ -33,78 +17,96 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-4 w-full">
-    <!-- Header with sort and count -->
-    <div
-      class="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-3 sm:gap-4"
-    >
-      <Select
-        :model-value="shopStore.sortOrder"
-        @update:model-value="shopStore.setSortOrder"
-      >
-        <SelectTrigger class="w-full sm:w-[180px]">
-          <SelectValue placeholder="sort" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Sort by :</SelectLabel>
-            <SelectItem value="asc">Price: Low to High</SelectItem>
-            <SelectItem value="desc">Price: High to Low</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <span class="text-sm sm:text-base text-gray-600">
-        {{ shopStore.filteredAndSortedProducts.length }} products found
-      </span>
-    </div>
+  <main class="container pb-24 pt-12 md:pt-[72px]">
+    <section class="flex flex-col justify-between gap-8 pb-10 lg:flex-row lg:items-end">
+      <div class="flex flex-col gap-5">
+        <p class="kicker">The shelf</p>
+        <h1 class="md:text-7xl">
+          {{ shopStore.products.length ? `${shopStore.products.length} essentials.` : "The essentials." }}
+        </h1>
+        <p class="max-w-[520px] text-lg leading-relaxed text-muted-foreground">
+          Every product here is one the advisor can recommend. Not sure where to
+          start?
+          <NuxtLink to="/supplement-advicer" class="font-semibold text-primary underline-offset-4 hover:underline">
+            Take the analysis</NuxtLink>.
+        </p>
+      </div>
 
-    <!-- Products grid - responsive -->
-    <div
-      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 w-full"
-    >
-      <!-- Skeleton loading -->
-      <template v-if="shopStore.isLoading">
-        <Card
-          v-for="n in shopStore.itemsPerPage"
-          :key="`skeleton-${n}`"
-          class="shadow-md h-full flex flex-col"
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div
+          role="group"
+          aria-label="Category"
+          class="flex w-full overflow-x-auto rounded-full border bg-card p-1 sm:w-auto"
         >
-          <CardHeader class="flex-shrink-0 p-3 sm:p-4">
-            <Skeleton class="h-6 mb-2" />
-            <Skeleton class="h-4 w-3/4" />
-          </CardHeader>
+          <button
+            type="button"
+            :aria-pressed="shopStore.category === null"
+            :class="[
+              'flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[15px] transition-colors',
+              shopStore.category === null ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
+            ]"
+            @click="shopStore.setCategory(null)"
+          >
+            All
+            <span class="font-mono text-xs opacity-70">{{ shopStore.products.length }}</span>
+          </button>
+          <button
+            v-for="category in shopStore.categories"
+            :key="category.name"
+            type="button"
+            :aria-pressed="shopStore.category === category.name"
+            :class="[
+              'flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[15px] transition-colors',
+              shopStore.category === category.name ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
+            ]"
+            @click="shopStore.setCategory(category.name)"
+          >
+            {{ category.name }}
+            <span class="font-mono text-xs opacity-70">{{ category.count }}</span>
+          </button>
+        </div>
 
-          <CardContent class="flex-1 flex flex-col p-3 sm:p-4">
-            <Skeleton class="w-full h-40 sm:h-48 md:h-56 flex-shrink-0" />
-            <Skeleton class="h-6 mt-3 sm:mt-4 w-1/3" />
-          </CardContent>
+        <Select :model-value="shopStore.sortOrder" @update:model-value="shopStore.setSortOrder">
+          <SelectTrigger class="h-[52px] w-full rounded-full px-5 sm:w-[210px]" aria-label="Sort">
+            <SelectValue placeholder="Sort" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="asc">Price: low to high</SelectItem>
+            <SelectItem value="desc">Price: high to low</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </section>
 
-          <CardFooter class="flex flex-start gap-3 flex-shrink-0 p-3 sm:p-4">
-            <Skeleton class="h-4 w-1/2" />
-          </CardFooter>
-        </Card>
+    <section
+      aria-label="Products"
+      class="grid grid-cols-2 gap-x-3 gap-y-10 pt-4 md:grid-cols-3 md:gap-x-6 lg:grid-cols-4 xl:grid-cols-5"
+    >
+      <template v-if="shopStore.isLoading && shopStore.products.length === 0">
+        <div v-for="n in 10" :key="`skeleton-${n}`" class="flex flex-col gap-3.5">
+          <Skeleton class="h-[200px] rounded-2xl md:h-[280px]" />
+          <Skeleton class="h-3 w-1/3" />
+          <Skeleton class="h-5 w-2/3" />
+        </div>
       </template>
-      
-      <!-- Actual products -->
-      <template v-else>
-        <ViewsShopCardItem
-          v-for="product in shopStore.paginatedProducts"
-          :key="product.id"
-          :product="product"
-        />
-      </template>
-    </div>
+      <ViewsShopCardItem
+        v-for="product in shopStore.paginatedProducts"
+        v-else
+        :key="product.id"
+        :product="product"
+      />
+    </section>
 
-    <!-- Pagination -->
-    <div class="w-full flex justify-center">
+    <div
+      v-if="shopStore.filteredAndSortedProducts.length > shopStore.itemsPerPage"
+      class="flex justify-center pt-16"
+    >
       <Pagination
-        v-if="shopStore.filteredAndSortedProducts.length > 1"
         v-model:page="shopStore.currentPage"
         :total="shopStore.filteredAndSortedProducts.length"
         :items-per-page="shopStore.itemsPerPage"
       >
         <PaginationContent v-slot="{ items }">
-          <PaginationFirst />
           <PaginationPrevious />
           <template v-for="(item, index) in items" :key="index">
             <PaginationItem
@@ -116,11 +118,9 @@ onMounted(async () => {
             </PaginationItem>
             <PaginationEllipsis v-else-if="item.type === 'ellipsis'" />
           </template>
-
           <PaginationNext />
-          <PaginationLast />
         </PaginationContent>
       </Pagination>
     </div>
-  </div>
+  </main>
 </template>

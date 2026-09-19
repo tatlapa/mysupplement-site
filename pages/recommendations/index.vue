@@ -1,135 +1,71 @@
-<script setup>
+<script setup lang="ts">
+// Seule partie « réelle » du site : des liens affiliés Amazon
 const products = [
   {
     id: 1,
-    name: "Vital Proteins Collagen Peptides Powder Advanced with Hyaluronic Acid & Vitamin C - 20 oz Collagen, Unflavored, 28 Servings",
+    name: "Vital Proteins Collagen Peptides",
+    detail: "With hyaluronic acid & vitamin C · 20 oz, unflavored · 28 servings",
+    why: "Skin, joints and hair — one of the most studied collagen powders.",
     link: "https://amzn.to/4ckUVfz",
   },
   {
     id: 2,
-    name: "Nordic Naturals Ultimate Omega, Lemon Flavor - 180 Soft Gels - 1280 mg Omega-3 - High-Potency Fish Oil with EPA & DHA - Promotes Brain & Heart Health - Non-GMO - 90 Servings",
+    name: "Nordic Naturals Ultimate Omega",
+    detail: "Lemon flavor · 180 soft gels · 1280 mg omega-3 (EPA & DHA)",
+    why: "A high-potency fish oil for heart and brain health.",
     link: "https://amzn.to/4226DZ5",
   },
   {
     id: 3,
-    name: "Nature Made Vitamin D3 2000 IU (50 mcg), Dietary Supplement for Bone, Teeth, Muscle and Immune Health Support, 90 Softgels, 90 Day Supply",
+    name: "Nature Made Vitamin D3 2000 IU",
+    detail: "50 mcg · 90 softgels · 90-day supply",
+    why: "Bones, teeth, muscles and immunity, especially in winter.",
     link: "https://amzn.to/4coNT9B",
   },
 ];
 </script>
 
 <template>
-  <main class="pt-40 pb-20 container">
-    <!-- Header de la page -->
-    <section class="pb-20 text-center">
-      <h1 class="mb-6 animate-slide-up gradient-text">
-        The {{ products.length }} most recommended supplements by AI
-      </h1>
-
-      <p class="mt-8 max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed animate-slide-up-delay">
-        Discover the most popular and effective nutritional supplements based
-        on our AI analysis of thousands of user profiles.
+  <main class="container pb-24 pt-12 md:pt-[72px]">
+    <section class="rise-in flex max-w-3xl flex-col gap-6 pb-12">
+      <p class="kicker">Top picks</p>
+      <h1 class="md:text-7xl">Three to start with.</h1>
+      <p class="text-lg leading-relaxed text-muted-foreground">
+        The basics that come up again and again, from brands with a solid track
+        record. These are real products, sold on Amazon.
       </p>
     </section>
 
-    <!-- Contenu principal -->
-    <section class="animate-fade-in-delay">
-      <div class="grid gap-8 w-2/3 mx-auto">
-        <div
-          v-for="(product, index) in products"
-          :key="product.id"
-          class="group"
-        >
-          <Card
-            class="bg-card dark:bg-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-card-secondary overflow-hidden"
-          >
-            <CardContent class="p-0">
-              <div class="grid md:grid-cols-2 gap-0">
-                <!-- Image placeholder -->
-                <div
-                  class="h-48 md:h-full bg-gradient-to-br from-primary/20 to-blue-500/20 flex items-center justify-center"
-                >
-                  <LucidePill
-                    class="w-16 h-16 text-primary/50 group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div class="absolute top-4 left-4">
-                    <Badge class="bg-primary text-white"
-                      >#{{ index + 1 }}</Badge
-                    >
-                  </div>
-                </div>
-
-                <!-- Contenu -->
-                <div class="p-6 md:p-8">
-                  <h2
-                    class="text-xl md:text-2xl font-bold text-card-foreground dark:text-card-foreground mb-4 group-hover:text-primary transition-colors leading-tight"
-                  >
-                    {{ product.name }}
-                  </h2>
-
-                  <div
-                    class="flex items-center gap-2 text-sm text-muted-foreground mb-6"
-                  >
-                    <LucideShield class="w-4 h-4 text-green-500" />
-                    <span>Recommended by our AI</span>
-                  </div>
-
-                  <NuxtLink target="_blank" :to="product.link">
-                    <Button
-                      class="w-full bg-primary hover:bg-primary/90 group-hover:scale-105 transition-all duration-200"
-                    >
-                      <LucideExternalLink class="w-4 h-4 mr-2" />
-                      View on Amazon
-                    </Button>
-                  </NuxtLink>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+    <ol>
+      <li
+        v-for="(product, index) in products"
+        :key="product.id"
+        class="grid gap-5 border-t py-10 md:grid-cols-[72px_minmax(0,1fr)_auto] md:items-center md:gap-8"
+      >
+        <span class="font-mono text-[15px] text-primary">0{{ index + 1 }}</span>
+        <div class="flex flex-col gap-2.5">
+          <h2 class="text-3xl md:text-4xl">{{ product.name }}</h2>
+          <p class="font-mono text-xs uppercase tracking-[0.04em] text-muted-foreground">
+            {{ product.detail }}
+          </p>
+          <p class="text-[17px] leading-relaxed">{{ product.why }}</p>
         </div>
-      </div>
-    </section>
+        <a
+          :href="product.link"
+          target="_blank"
+          rel="noopener sponsored"
+          class="btn-outline h-[52px] self-start md:self-center"
+        >
+          View on Amazon
+          <LucideArrowUpRight class="h-[18px] w-[18px]" />
+          <span class="sr-only">(opens in a new tab)</span>
+        </a>
+      </li>
+    </ol>
+
+    <p class="border-t pt-6 text-sm text-muted-foreground">
+      As an Amazon Associate, I earn from qualifying purchases. Buying through
+      these links costs you nothing more.
+    </p>
   </main>
 </template>
-
-<style scoped>
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out;
-}
-
-.animate-slide-up {
-  animation: slide-up 1s ease-out;
-}
-
-.animate-slide-up-delay {
-  animation: slide-up 1s ease-out 0.2s both;
-}
-
-.animate-slide-up-delay-2 {
-  animation: slide-up 1s ease-out 0.4s both;
-}
-
-.animate-fade-in-delay {
-  animation: fade-in 1s ease-out 0.6s both;
-}
-</style>

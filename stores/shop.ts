@@ -4,16 +4,15 @@ import type { Product } from "@/types/shopTypes";
 // Fonction utilitaire pour filtrer et trier les produits
 const getFilteredAndSortedProducts = (
   products: Product[],
-  priceRange: [number, number],
+  category: string | null,
   sortOrder: "asc" | "desc"
 ) => {
   return [...products]
-    .filter((product) => {
-      const [min, max] = priceRange;
-      return product.price >= min && product.price <= max;
-    })
+    .filter((product) => !category || product.category?.name === category)
     .sort((a, b) => {
-      return sortOrder === "asc" ? a.price - b.price : b.price - a.price;
+      // L'API renvoie le prix en chaîne (« 39.99 ») : on compare des nombres
+      const diff = Number(a.price) - Number(b.price);
+      return sortOrder === "asc" ? diff : -diff;
     });
 };
 
@@ -23,7 +22,8 @@ export const useShopStore = defineStore("shop-store", {
     products: [] as Product[],
     product: null as Product | null,
     sortOrder: "asc" as "asc" | "desc",
-    priceRange: [0, 100] as [number, number],
+    // Catégorie affichée, par son nom ; null = toutes
+    category: null as string | null,
     currentPage: 1,
     itemsPerPage: 12,
   }),
@@ -31,16 +31,25 @@ export const useShopStore = defineStore("shop-store", {
     filteredAndSortedProducts(state) {
       return getFilteredAndSortedProducts(
         state.products,
-        state.priceRange,
+        state.category,
         state.sortOrder
       );
+    },
+    categories(state) {
+      const names = state.products
+        .map((product) => product.category?.name)
+        .filter((name): name is string => Boolean(name));
+      return [...new Set(names)].map((name) => ({
+        name,
+        count: state.products.filter((p) => p.category?.name === name).length,
+      }));
     },
     paginatedProducts(state) {
       const startIndex = (state.currentPage - 1) * state.itemsPerPage;
       const endIndex = startIndex + state.itemsPerPage;
       const filtered = getFilteredAndSortedProducts(
         state.products,
-        state.priceRange,
+        state.category,
         state.sortOrder
       );
       return filtered.slice(startIndex, endIndex);
@@ -84,8 +93,9 @@ export const useShopStore = defineStore("shop-store", {
         this.sortOrder = order;
       }
     },
-    setPriceRange(range: [number, number]) {
-      this.priceRange = range;
+    setCategory(category: string | null) {
+      this.category = category;
+      this.currentPage = 1;
     },
   },
 });

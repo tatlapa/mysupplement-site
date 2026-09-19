@@ -6,6 +6,8 @@ import type { Cart } from "~/types/cartTypes";
 export const useCartStore = defineStore("cart-store", {
   state: () => ({
     cart: [] as Cart[],
+    // Tiroir du panier : un seul, dans l'en-tête, ouvert depuis n'importe quelle page
+    isOpen: false,
   }),
 
   getters: {

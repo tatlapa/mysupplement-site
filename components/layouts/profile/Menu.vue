@@ -44,7 +44,7 @@ const isActive = (path: string) => {
           class="block group"
         >
           <div
-            class="w-full p-2 sm:p-3 flex items-center justify-between rounded-lg transition-all duration-200 hover:text-gray-200"
+            class="w-full p-2 sm:p-3 flex items-center justify-between rounded-lg transition-all duration-200 hover:text-primary"
             :class="[
               isActive(item.path)
                 ? 'bg-primary text-primary-foreground'

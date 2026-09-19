@@ -54,7 +54,7 @@ const switchToLogin = () => {
 <template>
   <Dialog :open="open" @update:open="(value) => $emit('update:open', value)">
     <DialogTrigger asChild>
-      <Button size="sm"> Sign Up </Button>
+      <Button variant="outline" class="hidden sm:inline-flex"> Sign up </Button>
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>

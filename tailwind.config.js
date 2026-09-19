@@ -9,13 +9,28 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: { DEFAULT: "1.25rem", md: "2.5rem", lg: "5rem" },
+      // Toutes les largeurs sont listées : n'en donner qu'une annulerait les marges par palier
       screens: {
-        "2xl": "1400px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1440px",
       },
     },
     extend: {
+      fontFamily: {
+        display: ["Fraunces", "Georgia", "serif"],
+        sans: ["'Instrument Sans'", "system-ui", "sans-serif"],
+        mono: ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
       colors: {
+        // Palette « étiquette de pharmacie » de la v2
+        paper: "hsl(var(--paper))",
+        ink: "hsl(var(--ink))",
+        rule: "hsl(var(--rule))",
+        lime: "#CFE87A",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

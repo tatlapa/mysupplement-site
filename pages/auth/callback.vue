@@ -26,7 +26,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex h-screen items-center justify-center text-center text-gray-700 dark:text-gray-200"
+    class="flex h-screen items-center justify-center text-center text-muted-foreground"
   >
     <div>
       <p class="text-xl font-semibold">Authentication in progress...</p>

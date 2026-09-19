@@ -1,303 +1,158 @@
 <script setup lang="ts">
-const config = useRuntimeConfig();
 const route = useRoute();
 const shopStore = useShopStore();
 const cartStore = useCartStore();
-const cartSidebar = ref(null);
 
 const quantity = ref(1);
 
-watch(quantity, (newValue) => {
-  if (newValue > (shopStore.product?.stock_quantity || 1)) {
-    quantity.value = shopStore.product?.stock_quantity || 1;
-  }
-  if (newValue < 1) {
-    quantity.value = 1;
-  }
-});
+const product = computed(() => shopStore.product);
+const stock = computed(() => product.value?.stock_quantity ?? 0);
+const total = computed(() =>
+  product.value ? (Number(product.value.price) * quantity.value).toFixed(2) : "0.00"
+);
+
+const decrement = () => {
+  quantity.value = Math.max(1, quantity.value - 1);
+};
+
+const increment = () => {
+  quantity.value = Math.min(stock.value, quantity.value + 1);
+};
 
 const addToCart = () => {
-  if (cartSidebar.value) {
-    cartStore.addToCart(shopStore.product!.id, quantity.value);
-    cartSidebar.value.cartOpen = true;
-  }
+  if (!product.value) return;
+  cartStore.addToCart(product.value.id, quantity.value);
+  cartStore.isOpen = true;
+  quantity.value = 1;
 };
 
 onMounted(async () => {
-  await shopStore.getProducts();
+  // Le panier invité retrouve le produit dans la liste : elle doit être chargée
+  if (shopStore.products.length === 0) {
+    await shopStore.getProducts();
+  }
   await shopStore.getProduct(Number(route.params.id));
 });
 </script>
 
 <template>
-  <main class="container pt-40 pb-20">
-    <!-- Loading State -->
-    <div
-      v-if="shopStore.isLoading"
-      class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden"
-    >
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <!-- Product Image Skeleton -->
-        <div class="relative overflow-hidden">
-          <Skeleton class="w-full h-96 lg:h-full" />
-          <!-- Category Badge Skeleton -->
-          <div class="absolute top-4 left-4">
-            <Skeleton class="w-20 h-6 rounded-full" />
-          </div>
-          <!-- Stock Badge Skeleton -->
-          <div class="absolute top-4 right-4">
-            <Skeleton class="w-24 h-6 rounded-full" />
-          </div>
-        </div>
-
-        <!-- Product Info Skeleton -->
-        <div class="p-8 lg:p-12 flex flex-col justify-center">
-          <!-- Breadcrumb Skeleton -->
-          <div class="flex mb-6">
-            <Skeleton class="h-4 w-16" />
-            <Skeleton class="h-4 w-4 mx-2" />
-            <Skeleton class="h-4 w-32" />
-          </div>
-
-          <!-- Product Title Skeleton -->
-          <div class="mb-4">
-            <Skeleton class="h-10 w-3/4 mb-2" />
-            <Skeleton class="h-10 w-1/2" />
-          </div>
-
-          <!-- Price Skeleton -->
-          <div class="flex items-baseline gap-3 mb-6">
-            <Skeleton class="h-12 w-24" />
-            <Skeleton class="h-6 w-12" />
-          </div>
-
-          <!-- Description Skeleton -->
-          <div class="mb-8">
-            <Skeleton class="h-6 w-32 mb-3" />
-            <div class="space-y-2">
-              <Skeleton class="h-4 w-full" />
-              <Skeleton class="h-4 w-5/6" />
-              <Skeleton class="h-4 w-4/6" />
-            </div>
-          </div>
-
-          <!-- Product Details Skeleton -->
-          <div class="space-y-4 mb-8">
-            <div class="flex items-center gap-3">
-              <Skeleton class="w-5 h-5" />
-              <Skeleton class="h-4 w-48" />
-            </div>
-            <div class="flex items-center gap-3">
-              <Skeleton class="w-5 h-5" />
-              <Skeleton class="h-4 w-40" />
-            </div>
-          </div>
-
-          <!-- Add to Cart Section Skeleton -->
-          <div class="border-t border-gray-200 pt-8">
-            <div
-              class="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
-            >
-              <!-- Quantity Selector Skeleton -->
-              <div class="flex items-center gap-3">
-                <Skeleton class="h-4 w-16" />
-                <Skeleton class="w-32 h-10" />
-              </div>
-
-              <!-- Add to Cart Button Skeleton -->
-              <div class="flex-1 sm:flex-none">
-                <Skeleton class="w-40 h-12" />
-              </div>
-            </div>
-          </div>
-        </div>
+  <main class="container pb-24 pt-7">
+    <!-- Chargement -->
+    <div v-if="shopStore.isLoading" class="grid gap-10 pt-8 lg:grid-cols-2 lg:gap-20">
+      <Skeleton class="h-[420px] rounded-3xl lg:h-[640px]" />
+      <div class="flex flex-col gap-5 pt-6">
+        <Skeleton class="h-4 w-40" />
+        <Skeleton class="h-16 w-2/3" />
+        <Skeleton class="h-8 w-28" />
+        <Skeleton class="h-24 w-full" />
+        <Skeleton class="h-14 w-full rounded-full" />
       </div>
     </div>
 
-    <!-- Product Details -->
-    <div
-      v-else-if="shopStore.product"
-      class="bg-card dark:bg-card text-card-primary rounded-2xl shadow-xl overflow-hidden"
-    >
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-        <!-- Product Image -->
-        <div class="relative overflow-hidden bg-card dark:bg-card">
+    <template v-else-if="product">
+      <nav
+        aria-label="Breadcrumb"
+        class="flex gap-2.5 font-mono text-xs uppercase tracking-[0.06em] text-muted-foreground"
+      >
+        <NuxtLink to="/shop" class="hover:text-foreground">Shop</NuxtLink>
+        <span aria-hidden="true">/</span>
+        <NuxtLink
+          v-if="product.category"
+          to="/shop"
+          class="hover:text-foreground"
+          @click="shopStore.setCategory(product.category.name)"
+        >
+          {{ product.category.name }}
+        </NuxtLink>
+        <span v-if="product.category" aria-hidden="true">/</span>
+        <span class="text-foreground">{{ product.name }}</span>
+      </nav>
+
+      <section class="grid items-start gap-10 pt-8 lg:grid-cols-2 lg:gap-20">
+        <div class="product-tile h-[380px] rounded-3xl p-10 md:h-[560px] lg:h-[680px] lg:p-16">
           <img
-            :src="shopStore.product.image_url"
-            :alt="shopStore.product.name"
-            class="w-full h-96 lg:h-full object-cover hover:scale-105 transition-transform duration-500"
+            :src="product.image_url"
+            :alt="product.name"
+            class="max-h-full max-w-full object-contain"
           />
-          <!-- Category Badge -->
-          <div class="absolute top-4 left-4">
-            <Badge variant="secondary" class="bg-card-secondary backdrop-blur-sm">
-              {{ shopStore.product.category?.name || "No Category" }}
-            </Badge>
-          </div>
-          <!-- Stock Badge -->
-          <div class="absolute top-4 right-4">
-            <Badge
-              :variant="
-                shopStore.product.stock_quantity > 0 ? 'default' : 'destructive'
-              "
-              class="backdrop-blur-sm"
-            >
-              {{
-                shopStore.product.stock_quantity > 0
-                  ? `${shopStore.product.stock_quantity} in stock`
-                  : "Out of stock"
-              }}
-            </Badge>
-          </div>
         </div>
 
-        <!-- Product Info -->
-        <div class="p-8 lg:p-12 flex flex-col justify-center">
-          <!-- Breadcrumb -->
-          <nav class="flex mb-6" aria-label="Breadcrumb">
-            <ol class="inline-flex items-center space-x-1 md:space-x-3">
-              <li class="inline-flex items-center">
-                <NuxtLink
-                  to="/shop"
-                  class="text-card-secondary hover:text-primary transition-colors"
-                >
-                  Shop
-                </NuxtLink>
-              </li>
-              <li>
-                <div class="flex items-center">
-                  <LucideChevronRight class="w-4 h-4 text-card-secondary mx-2" />
-                  <span class="text-card-primary font-medium">{{
-                    shopStore.product.name
-                  }}</span>
-                </div>
-              </li>
-            </ol>
-          </nav>
-
-          <!-- Product Title -->
-          <h1 class="text-card-primary mb-4 leading-tight">
-            {{ shopStore.product.name }}
-          </h1>
-
-          <!-- Price -->
-          <div class="flex items-baseline gap-3 mb-6">
-            <span class="text-4xl font-bold text-card-primary">
-              ${{ shopStore.product.price }}
-            </span>
-            <span class="text-lg text-card-secondary">USD</span>
+        <div class="flex flex-col gap-7 lg:pt-6">
+          <div class="flex flex-col gap-3.5">
+            <p class="kicker">{{ product.category?.name || "Supplement" }}</p>
+            <h1 class="text-5xl md:text-[76px] md:leading-none">{{ product.name }}</h1>
+            <span class="font-mono text-2xl md:text-[26px]">${{ product.price }}</span>
           </div>
 
-          <!-- Description -->
-          <div class="mb-8">
-            <h3 class="text-lg font-semibold text-card-primary mb-3">
-              Description
-            </h3>
-            <p class="text-card-secondary leading-relaxed">
-              {{
-                shopStore.product.description ||
-                "No description available for this product."
-              }}
+          <p class="text-lg leading-relaxed text-foreground/85 md:text-[19px]">
+            {{ product.description || "No description available for this product." }}
+          </p>
+
+          <div class="flex flex-col gap-4 border-t pt-7">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div
+                role="group"
+                aria-label="Quantity"
+                class="flex h-14 items-center justify-between rounded-full border border-foreground px-1.5 sm:justify-start"
+              >
+                <button
+                  type="button"
+                  class="btn-icon border-transparent"
+                  aria-label="Decrease quantity"
+                  :disabled="quantity <= 1"
+                  @click="decrement"
+                >
+                  <LucideMinus class="h-[18px] w-[18px]" />
+                </button>
+                <span aria-live="polite" class="w-9 text-center font-mono">{{ quantity }}</span>
+                <button
+                  type="button"
+                  class="btn-icon border-transparent"
+                  aria-label="Increase quantity"
+                  :disabled="quantity >= stock"
+                  @click="increment"
+                >
+                  <LucidePlus class="h-[18px] w-[18px]" />
+                </button>
+              </div>
+              <button
+                type="button"
+                class="btn-primary flex-1 text-[17px]"
+                :disabled="stock === 0"
+                @click="addToCart"
+              >
+                {{ stock === 0 ? "Out of stock" : `Add to cart · $${total}` }}
+              </button>
+            </div>
+            <p class="font-mono text-xs tracking-[0.04em] text-muted-foreground">
+              <template v-if="stock === 0">OUT OF STOCK</template>
+              <template v-else-if="stock <= 5">ONLY {{ stock }} LEFT</template>
+              <template v-else>IN STOCK · {{ stock }} UNITS</template>
+              · DEMO SHOP, NO REAL ORDERS
             </p>
           </div>
 
-          <!-- Product Details -->
-          <div class="space-y-4 mb-8">
-            <div class="flex items-center gap-3">
-              <LucidePackage class="w-5 h-5 text-card-secondary" />
-              <span class="text-card-secondary">
-                <strong>Stock:</strong>
-                {{ shopStore.product.stock_quantity }} units available
+          <NuxtLink
+            to="/supplement-advicer"
+            class="label-card mt-3 flex items-center justify-between gap-6 px-7 py-6 [box-shadow:6px_6px_0_hsl(var(--primary))]"
+          >
+            <span class="flex flex-col gap-1.5">
+              <span class="font-display text-[22px]">Is it right for you?</span>
+              <span class="text-[15px] text-muted-foreground">
+                Four questions, and you’ll know if it belongs in your protocol.
               </span>
-            </div>
-            <div class="flex items-center gap-3">
-              <LucideShield class="w-5 h-5 text-card-secondary" />
-              <span class="text-card-secondary">
-                <strong>Quality:</strong> Premium grade supplements
-              </span>
-            </div>
-          </div>
-
-          <!-- Add to Cart Section -->
-          <div class="border-t border-card-secondary pt-8">
-            <div
-              class="flex flex-col items-start sm:flex-row gap-4 sm:items-center"
-            >
-              <!-- Quantity Selector -->
-              <div class="flex items-center gap-3">
-                <label class="text-sm font-medium text-card-secondary"
-                  >Quantity:</label
-                >
-                <NumberField
-                  class="w-32"
-                  :min="1"
-                  :max="shopStore.product.stock_quantity"
-                  v-model="quantity"
-                >
-                  <NumberFieldContent>
-                    <NumberFieldDecrement />
-                    <NumberFieldInput />
-                    <NumberFieldIncrement />
-                  </NumberFieldContent>
-                </NumberField>
-              </div>
-
-              <!-- Add to Cart Button -->
-              <Button
-                variant="default"
-                size="lg"
-                class="w-full sm:w-auto"
-                :disabled="
-                  shopStore.product.stock_quantity === 0 || quantity === 0
-                "
-                @click="addToCart"
-              >
-                <LucideShoppingCart class="w-5 h-5 mr-2" />
-                {{
-                  shopStore.product.stock_quantity === 0
-                    ? "Out of Stock"
-                    : "Add to Cart"
-                }}
-              </Button>
-            </div>
-
-            <!-- Stock Warning -->
-            <div
-              v-if="
-                shopStore.product.stock_quantity <= 5 &&
-                shopStore.product.stock_quantity > 0
-              "
-              class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg"
-            >
-              <div class="flex items-center gap-2">
-                <LucideAlertTriangle class="w-4 h-4 text-yellow-600" />
-                <span class="text-sm text-yellow-800">
-                  Only {{ shopStore.product.stock_quantity }} left in stock!
-                </span>
-              </div>
-            </div>
-          </div>
+            </span>
+            <LucideArrowRight class="h-[22px] w-[22px] shrink-0" />
+          </NuxtLink>
         </div>
-      </div>
-    </div>
+      </section>
+    </template>
 
-    <!-- Product Not Found -->
-    <div v-else class="flex items-center justify-center min-h-[400px]">
-      <div class="text-center">
-        <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4"></div>
-        <h2 class="text-gray-900 mb-2">Product Not Found</h2>
-        <p class="text-gray-600 mb-4">
-          The product you're looking for doesn't exist.
-        </p>
-        <NuxtLink
-          to="/shop"
-          class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-        >
-          Back to Shop
-        </NuxtLink>
-      </div>
+    <!-- Produit introuvable -->
+    <div v-else class="flex min-h-[400px] flex-col items-center justify-center gap-4 text-center">
+      <h1 class="text-4xl">Product not found</h1>
+      <p class="text-muted-foreground">The product you’re looking for doesn’t exist.</p>
+      <NuxtLink to="/shop" class="btn-outline h-12">Back to the shop</NuxtLink>
     </div>
-
-    <!-- Cart Sidebar -->
-    <UtilsCartSideBar ref="cartSidebar" />
   </main>
 </template>

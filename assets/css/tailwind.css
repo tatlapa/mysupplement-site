@@ -2,66 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design v2 — « étiquette de pharmacie » : fond papier, encre vert profond,
+ * titres en Fraunces, étiquettes en JetBrains Mono.
+ * Les jetons shadcn reprennent la même palette, pour que tous les composants
+ * (formulaires, dialogues, administration) suivent sans être réécrits.
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --paper: 42 35% 93%;
+    --ink: 147 16% 11%;
+    --rule: 42 21% 81%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --background: var(--paper);
+    --foreground: var(--ink);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --card: 43 47% 97%;
+    --card-foreground: var(--ink);
 
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --popover: 43 47% 97%;
+    --popover-foreground: var(--ink);
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --primary: 153 40% 20%;
+    --primary-foreground: 43 47% 97%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --secondary: 42 28% 88%;
+    --secondary-foreground: var(--ink);
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --muted: 42 28% 88%;
+    --muted-foreground: 153 7% 31%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --accent: 42 28% 88%;
+    --accent-foreground: var(--ink);
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
-    --radius: 0.5rem;
+    --destructive: 3 71% 41%;
+    --destructive-foreground: 43 47% 97%;
+
+    --border: var(--rule);
+    --input: var(--rule);
+    --ring: 153 40% 20%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
+    --paper: 140 14% 8%;
+    --ink: 42 35% 93%;
+    --rule: 144 10% 19%;
 
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
+    --background: var(--paper);
+    --foreground: var(--ink);
 
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
+    --card: 142 13% 12%;
+    --card-foreground: var(--ink);
 
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
+    --popover: 142 13% 12%;
+    --popover-foreground: var(--ink);
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --primary: 144 33% 67%;
+    --primary-foreground: 140 14% 8%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
+    --secondary: 144 10% 19%;
+    --secondary-foreground: var(--ink);
 
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 144 10% 19%;
+    --muted-foreground: 144 6% 66%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
+    --accent: 144 10% 19%;
+    --accent-foreground: var(--ink);
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.4 71.8% 29.2%;
+    --destructive: 3 70% 58%;
+    --destructive-foreground: 140 14% 8%;
+
+    --border: var(--rule);
+    --input: var(--rule);
+    --ring: 144 33% 67%;
   }
 }
 
@@ -69,76 +83,100 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
 
-@layer components {
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar */
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-medium tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl leading-[1.02];
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl leading-[1.05];
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+}
+
+@layer components {
+  /* Petite étiquette en capitales monospace, au-dessus des titres */
+  .kicker {
+    @apply font-mono text-xs md:text-[13px] tracking-[0.08em] uppercase text-primary;
+  }
+
+  /* Encadré façon étiquette imprimée, avec son ombre décalée */
+  .label-card {
+    @apply bg-card border-[1.5px] border-foreground rounded-md;
+    box-shadow: 10px 10px 0 hsl(var(--primary));
+  }
+
+  .btn-primary {
+    @apply inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-primary px-7 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-outline {
+    @apply inline-flex h-14 items-center justify-center gap-2.5 rounded-full border border-foreground px-7 text-base font-semibold text-foreground transition-colors hover:bg-foreground hover:text-background disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-icon {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-foreground text-foreground transition-colors hover:bg-foreground hover:text-background disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .chip {
+    @apply inline-flex h-11 items-center rounded-full border border-foreground/40 px-5 text-[15px] text-foreground transition-colors hover:border-foreground;
+  }
+
+  .chip[aria-pressed="true"] {
+    @apply border-foreground bg-foreground text-background;
+  }
+
+  /* Fond blanc des photos produit : les visuels sont détourés sur blanc */
+  .product-tile {
+    @apply flex items-center justify-center rounded-2xl border border-[#E4DED1] bg-white p-6 dark:border-rule;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    @apply bg-background;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary/30 rounded-full;
+    @apply rounded-full bg-foreground/20;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary/50;
+    @apply bg-foreground/40;
   }
 
-  /* Gradient text utility */
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary via-green-600 to-blue-600 bg-clip-text text-transparent;
+  .rise-in {
+    animation: rise-in 0.6s ease-out both;
   }
 
-  @keyframes dots {
-    0%,
-    20% {
-      content: "";
-    }
-    40% {
-      content: ".";
-    }
-    60% {
-      content: "..";
-    }
-    80%,
-    100% {
-      content: "...";
-    }
-  }
-
-  /* Pulse animation */
-  .pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* Bounce animation */
-  .bounce-slow {
-    animation: bounce 2s infinite;
-  }
-
-  /* Fade in animation */
-  .fade-in {
-    animation: fadeIn 0.6s ease-out;
-  }
-
-  @keyframes fadeIn {
+  @keyframes rise-in {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
@@ -146,64 +184,9 @@
     }
   }
 
-  /* Slide in animation */
-  .slide-in-left {
-    animation: slideInLeft 0.6s ease-out;
-  }
-
-  .slide-in-right {
-    animation: slideInRight 0.6s ease-out;
-  }
-
-  @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
+  @media (prefers-reduced-motion: reduce) {
+    .rise-in {
+      animation: none;
     }
   }
-
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  /* Scale animation */
-  .scale-in {
-    animation: scaleIn 0.6s ease-out;
-  }
-
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-}
-
-/* Standardized heading sizes */
-h1 {
-  @apply text-3xl md:text-5xl font-bold;
-}
-h2 {
-  @apply text-2xl md:text-4xl font-bold;
-}
-h3 {
-  @apply text-xl md:text-3xl font-semibold;
-}
-h4 {
-  @apply text-lg md:text-2xl font-semibold;
 }

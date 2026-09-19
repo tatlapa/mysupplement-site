@@ -1,73 +1,48 @@
 <script setup lang="ts">
-import { ClipboardCheck, BrainCircuit, PackageCheck } from "lucide-vue-next";
-
 const steps = [
-  {
-    icon: ClipboardCheck,
-    title: "Complete Assessment",
-    description: "Answer questions about your health, lifestyle, and goals.",
-    color: "from-blue-500 to-blue-600",
-    bgColor: "bg-blue-500/10",
-  },
-  {
-    icon: BrainCircuit,
-    title: "AI Analysis",
-    description:
-      "Our AI analyzes your data and creates personalized recommendations.",
-    color: "from-primary to-green-600",
-    bgColor: "bg-primary/10",
-  },
-  {
-    icon: PackageCheck,
-    title: "Get Your Plan",
-    description:
-      "Receive your customized supplement recommendations and start your journey.",
-    color: "from-purple-500 to-purple-600",
-    bgColor: "bg-purple-500/10",
-  },
+  { title: "Basic info", description: "Age and sex, the two things that shift most doses." },
+  { title: "Health goals", description: "Pick what you want to improve, from sleep to performance." },
+  { title: "Lifestyle", description: "Sleep quality and stress level sharpen the picture." },
+  { title: "Your protocol", description: "A short list with dose, timing and why each one is there." },
 ];
 </script>
 
 <template>
-  <section class="py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
-        <div
-          class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
-        >
-          <LucideArrowRight class="w-4 h-4 mr-2" />
-          Simple Process
+  <section class="border-y bg-card">
+    <div class="container flex flex-col gap-10 py-16 md:gap-14 md:py-24">
+      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div class="flex flex-col gap-4">
+          <p class="kicker">How it works</p>
+          <h2>Four questions. One protocol.</h2>
         </div>
-        <h2 class="mb-6">
-          How It Works
-        </h2>
-        <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Get your personalized supplement plan in three easy steps
-        </p>
+        <NuxtLink
+          to="/supplement-advicer"
+          class="flex items-center gap-2 font-semibold text-primary"
+        >
+          Try it now <LucideArrowRight class="h-[18px] w-[18px]" />
+        </NuxtLink>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
+      <ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <li
           v-for="(step, index) in steps"
           :key="step.title"
-          class="group relative"
+          :class="[
+            'flex flex-col gap-3 border-t-2 pt-6',
+            index === steps.length - 1 ? 'border-primary' : 'border-foreground',
+          ]"
         >
-          <!-- Connection line -->
-          <div
-            v-if="index < steps.length - 1"
-            class="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gradient-to-r from-gray-200 to-gray-300  transform -translate-y-1/2 z-0"
-          ></div>
-
-          <ViewsIndexFeaturesUtilsStepCard
-            :icon="step.icon"
-            :title="step.title"
-            :description="step.description"
-            :number="index + 1"
-            :color="step.color"
-            :bg-color="step.bgColor"
-          />
-        </div>
-      </div>
+          <span
+            :class="[
+              'font-mono text-[13px]',
+              index === steps.length - 1 ? 'text-primary' : 'text-muted-foreground',
+            ]"
+          >
+            0{{ index + 1 }}
+          </span>
+          <h3 class="text-2xl md:text-[26px]">{{ step.title }}</h3>
+          <p class="leading-relaxed text-muted-foreground">{{ step.description }}</p>
+        </li>
+      </ol>
     </div>
   </section>
 </template>

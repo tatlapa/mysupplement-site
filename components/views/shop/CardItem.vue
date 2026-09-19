@@ -1,48 +1,54 @@
 <script setup lang="ts">
-const props = defineProps<{
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    description?: string | null;
-    stock_quantity: number;
-    image_url: string;
-    category?: { name: string };
-  };
-}>();
-const { product } = toRefs(props);
+import type { Product } from "~/types/shopTypes";
 
-const selectedProduct = computed(() => product.value);
+const props = defineProps<{ product: Product }>();
+
+const cartStore = useCartStore();
+
+const outOfStock = computed(() => props.product.stock_quantity <= 0);
+
+const addToCart = () => {
+  cartStore.addToCart(props.product.id, 1);
+  cartStore.isOpen = true;
+};
 </script>
 
 <template>
-  <NuxtLink :to="`/shop/products/${selectedProduct.id}`">
-    <Card
-      class="shadow-md transition-transform hover:scale-105 h-full flex flex-col"
+  <div class="group flex flex-col gap-3.5">
+    <NuxtLink
+      :to="`/shop/products/${product.id}`"
+      :aria-label="product.name"
+      class="product-tile h-[200px] transition-transform duration-300 group-hover:-translate-y-1 md:h-[280px]"
     >
-      <CardHeader class="flex-shrink-0 p-3 sm:p-4">
-        <CardTitle class="text-base sm:text-lg lg:text-xl line-clamp-2">{{
-          product.name
-        }}</CardTitle>
-        <CardDescription class="text-xs sm:text-sm text-gray-500">
-          {{ product.category?.name || "No Category" }}
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent class="flex-1 flex flex-col p-3 sm:p-4">
-        <img
-          :src="product.image_url"
-          :alt="product.name"
-          class="w-full h-40 sm:h-48 md:h-56 object-contain rounded-md flex-shrink-0"
-        />
-        <p class="mt-2">
-          {{ product.price }} $
-        </p>
-      </CardContent>
-
-      <CardFooter class="flex flex-start gap-3 flex-shrink-0 p-3 sm:p-4">
-        <p class="text-xs sm:text-sm">Stock : {{ product.stock_quantity }}</p>
-      </CardFooter>
-    </Card>
-  </NuxtLink>
+      <img
+        :src="product.image_url"
+        alt=""
+        loading="lazy"
+        class="max-h-full max-w-full object-contain"
+      />
+    </NuxtLink>
+    <span class="font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground">
+      {{ product.category?.name || "Supplement" }}
+    </span>
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex min-w-0 flex-col gap-1">
+        <NuxtLink
+          :to="`/shop/products/${product.id}`"
+          class="font-display text-lg leading-tight hover:text-primary md:text-[22px]"
+        >
+          {{ product.name }}
+        </NuxtLink>
+        <span class="font-mono text-sm md:text-[15px]">${{ product.price }}</span>
+      </div>
+      <button
+        type="button"
+        class="btn-icon"
+        :disabled="outOfStock"
+        :aria-label="outOfStock ? `${product.name} is out of stock` : `Add ${product.name} to cart`"
+        @click="addToCart"
+      >
+        <LucidePlus class="h-[18px] w-[18px]" />
+      </button>
+    </div>
+  </div>
 </template>

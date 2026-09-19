@@ -50,7 +50,7 @@ onMounted(() => {
   <Dialog :open="open" @update:open="(value) => $emit('update:open', value)">
     <!-- Trigger button for the dialog -->
     <DialogTrigger asChild>
-      <Button size="sm"> Login </Button>
+      <Button variant="ghost"> Sign in </Button>
     </DialogTrigger>
     <!-- Content of the dialog -->
     <DialogContent class="sm:max-w-[425px]">

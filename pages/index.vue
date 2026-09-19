@@ -1,6 +1,9 @@
 <template>
-  <main class="pt-40">
+  <main>
     <ViewsIndexHero />
-    <ViewsIndexMain />
+    <ViewsIndexFeaturesHowItWorks />
+    <ViewsIndexGoals />
+    <ViewsIndexShelf />
+    <ViewsIndexDisclaimer />
   </main>
 </template>

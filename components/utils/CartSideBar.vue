@@ -17,7 +17,10 @@ import {
 
 const config = useRuntimeConfig();
 const cartStore = useCartStore();
-const cartOpen = ref(false);
+const cartOpen = computed({
+  get: () => cartStore.isOpen,
+  set: (value) => (cartStore.isOpen = value),
+});
 
 onMounted(async () => {
   await cartStore.getCartUser();
@@ -32,7 +35,6 @@ const removeFromCart = (id) => {
   cartStore.removeFromCart(id);
 };
 
-defineExpose({ cartOpen });
 </script>
 
 <template>
@@ -48,7 +50,7 @@ defineExpose({ cartOpen });
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-gray-500/75 dark:bg-black/60 transition-opacity"
+          class="fixed inset-0 bg-foreground/40 transition-opacity"
         />
       </TransitionChild>
 
@@ -67,137 +69,85 @@ defineExpose({ cartOpen });
               leave-to="translate-x-full"
             >
               <DialogPanel class="pointer-events-auto w-screen max-w-md">
-                <div
-                  class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black"
-                >
-                  <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                    <div class="flex items-start justify-between">
-                      <DialogTitle
-                        class="text-lg font-medium text-gray-900 dark:text-gray-100"
-                      >
-                        Shopping cart
-                      </DialogTitle>
-                      <div class="ml-3 flex h-7 items-center">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          class="relative -m-2 p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-                          @click="cartOpen = false"
-                        >
-                          <LucideX />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div v-if="cartStore.cart.length > 0" class="mt-8">
-                      <div class="flow-root">
-                        <ul
-                          role="list"
-                          class="-my-6 divide-y divide-gray-200 dark:divide-gray-700"
-                        >
-                          <li
-                            v-for="item in cartStore.cart"
-                            :key="item.id"
-                            class="flex py-6"
-                          >
-                            <div
-                              class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700"
-                            >
-                              <img
-                                :src="item.product.image_url"
-                                :alt="item.name"
-                                class="size-full object-contain"
-                              />
-                            </div>
-
-                            <div class="ml-4 flex flex-1 flex-col">
-                              <div
-                                class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100"
-                              >
-                                <h3>{{ item.product.name }}</h3>
-                                <p class="ml-4">${{ item.product.price }}</p>
-                              </div>
-
-                              <div
-                                class="flex flex-1 items-end justify-between text-sm"
-                              >
-                                <div class="flex items-center gap-2">
-                                  <NumberField
-                                    class="w-24"
-                                    :min="1"
-                                    :max="item.product.stock_quantity"
-                                    :model-value="item.quantity"
-                                    @update:model-value="
-                                      (value) =>
-                                        updateQuantity(item.product.id, value)
-                                    "
-                                  >
-                                    <NumberFieldContent>
-                                      <NumberFieldDecrement />
-                                      <NumberFieldInput />
-                                      <NumberFieldIncrement />
-                                    </NumberFieldContent>
-                                  </NumberField>
-                                </div>
-
-                                <Button
-                                  type="button"
-                                  variant="destructive"
-                                  @click="removeFromCart(item.product.id)"
-                                >
-                                  Remove
-                                </Button>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <p
-                      v-else
-                      class="text-center text-gray-500 dark:text-gray-400 mt-8"
+                <div class="flex h-full flex-col bg-background">
+                  <div class="flex h-20 items-center justify-between border-b px-6">
+                    <DialogTitle class="font-display text-2xl font-medium">
+                      Your cart
+                    </DialogTitle>
+                    <button
+                      type="button"
+                      class="btn-icon border-transparent"
+                      aria-label="Close cart"
+                      @click="cartOpen = false"
                     >
-                      Your cart is empty.
-                    </p>
+                      <LucideX class="h-5 w-5" />
+                    </button>
                   </div>
 
-                  <div
-                    v-if="cartStore.cart.length > 0"
-                    class="border-t border-gray-200 dark:border-gray-700 px-4 py-6 sm:px-6"
-                  >
-                    <div
-                      class="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100"
-                    >
-                      <p>Subtotal</p>
-                      <p>${{ cartStore.cartTotal.toFixed(2) }}</p>
-                    </div>
-                    <p class="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
-                      Shipping and taxes calculated at checkout.
-                    </p>
-                    <div class="mt-6">
-                      <NuxtLink
-                        to="/checkout"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-primary px-6 py-3 text-base font-medium text-white shadow-xs hover:bg-primary/90"
-                        @click="cartOpen = false"
+                  <div class="flex-1 overflow-y-auto px-6">
+                    <ul v-if="cartStore.cart.length > 0" role="list" class="divide-y">
+                      <li
+                        v-for="item in cartStore.cart"
+                        :key="item.id"
+                        class="flex gap-4 py-6"
                       >
-                        Checkout
+                        <div class="product-tile h-24 w-24 shrink-0 p-2">
+                          <img
+                            :src="item.product.image_url"
+                            :alt="item.product.name"
+                            class="max-h-full max-w-full object-contain"
+                          />
+                        </div>
+                        <div class="flex flex-1 flex-col justify-between gap-3">
+                          <div class="flex justify-between gap-4">
+                            <h3 class="font-display text-lg">{{ item.product.name }}</h3>
+                            <p class="font-mono text-sm">${{ item.product.price }}</p>
+                          </div>
+                          <div class="flex items-center justify-between">
+                            <NumberField
+                              class="w-28"
+                              :min="1"
+                              :max="item.product.stock_quantity"
+                              :model-value="item.quantity"
+                              @update:model-value="(value) => updateQuantity(item.product.id, value)"
+                            >
+                              <NumberFieldContent>
+                                <NumberFieldDecrement />
+                                <NumberFieldInput />
+                                <NumberFieldIncrement />
+                              </NumberFieldContent>
+                            </NumberField>
+                            <button
+                              type="button"
+                              class="text-sm text-muted-foreground underline underline-offset-4 hover:text-destructive"
+                              @click="removeFromCart(item.product.id)"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+
+                    <div v-else class="flex flex-col items-center gap-4 py-20 text-center">
+                      <p class="font-display text-2xl">Your cart is empty.</p>
+                      <NuxtLink to="/shop" class="btn-outline h-12" @click="cartOpen = false">
+                        Browse the shop
                       </NuxtLink>
                     </div>
-                    <div
-                      class="mt-6 flex justify-center text-center text-sm text-gray-500 dark:text-gray-400"
-                    >
-                      <p>
-                        or
-                        <Button
-                          type="button"
-                          variant="link"
-                          @click="cartOpen = false"
-                        >
-                          Continue Shopping →
-                        </Button>
-                      </p>
+                  </div>
+
+                  <div v-if="cartStore.cart.length > 0" class="border-t px-6 py-6">
+                    <div class="flex items-baseline justify-between">
+                      <p class="font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground">Subtotal</p>
+                      <p class="font-mono text-xl">${{ cartStore.cartTotal.toFixed(2) }}</p>
                     </div>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                      Shipping and taxes calculated at checkout.
+                    </p>
+                    <NuxtLink to="/checkout" class="btn-primary mt-6 w-full" @click="cartOpen = false">
+                      Checkout
+                    </NuxtLink>
                   </div>
                 </div>
               </DialogPanel>

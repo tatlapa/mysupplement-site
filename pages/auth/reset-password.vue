@@ -63,7 +63,7 @@ const handlePasswordReset = async () => {
                   required
                 />
                 <LucideLock
-                  class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
                 />
               </div>
               <InputError :message="authStore.formErrors.password" />
@@ -77,7 +77,7 @@ const handlePasswordReset = async () => {
                 required
               />
               <LucideLock
-                class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+                class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground"
               />
             </div>
           </div>
@@ -97,7 +97,7 @@ const handlePasswordReset = async () => {
       </CardContent>
 
       <CardFooter class="flex justify-center">
-        <NuxtLink to="/" class="text-sm text-gray-600 text-foreground">
+        <NuxtLink to="/" class="text-sm text-muted-foreground hover:text-foreground">
           Back to home
         </NuxtLink>
       </CardFooter>

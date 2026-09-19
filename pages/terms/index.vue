@@ -1,5 +1,5 @@
 <template>
-  <section class="container py-40">
+  <section class="container py-12 md:py-20">
     <h1 class="text-3xl md:text-4xl font-bold mb-6">Terms of Service</h1>
     <p class="text-muted-foreground mb-4">
       These are basic terms governing the use of our website and services.
