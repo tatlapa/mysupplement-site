@@ -36,13 +36,13 @@ onMounted(async () => {
         <div
           role="group"
           aria-label="Category"
-          class="flex w-full overflow-x-auto rounded-full border bg-card p-1 sm:w-auto"
+          class="flex w-full divide-x overflow-x-auto rounded-xl border bg-card sm:w-auto"
         >
           <button
             type="button"
             :aria-pressed="shopStore.category === null"
             :class="[
-              'flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[15px] transition-colors',
+              'flex h-[50px] flex-1 shrink-0 items-center justify-center gap-2 px-5 text-[15px] transition-colors sm:flex-none',
               shopStore.category === null ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
             ]"
             @click="shopStore.setCategory(null)"
@@ -56,7 +56,7 @@ onMounted(async () => {
             type="button"
             :aria-pressed="shopStore.category === category.name"
             :class="[
-              'flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[15px] transition-colors',
+              'flex h-[50px] flex-1 shrink-0 items-center justify-center gap-2 px-5 text-[15px] transition-colors sm:flex-none',
               shopStore.category === category.name ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
             ]"
             @click="shopStore.setCategory(category.name)"
@@ -67,7 +67,7 @@ onMounted(async () => {
         </div>
 
         <Select :model-value="shopStore.sortOrder" @update:model-value="shopStore.setSortOrder">
-          <SelectTrigger class="h-[52px] w-full rounded-full px-5 sm:w-[210px]" aria-label="Sort">
+          <SelectTrigger class="h-[52px] w-full rounded-xl bg-card px-5 sm:w-[210px]" aria-label="Sort">
             <SelectValue placeholder="Sort" />
           </SelectTrigger>
           <SelectContent>
