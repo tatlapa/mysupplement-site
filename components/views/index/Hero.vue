@@ -21,11 +21,15 @@ const sample = [
         short protocol with doses, timing, and the reason behind each pick.
       </p>
       <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-        <NuxtLink to="/supplement-advicer" class="btn-primary">
-          Start the analysis
-          <LucideArrowRight class="h-[18px] w-[18px]" />
-        </NuxtLink>
-        <NuxtLink to="/shop" class="btn-outline">Browse the shop</NuxtLink>
+        <Button size="lg" class="h-14 px-7 text-base" as-child>
+          <NuxtLink to="/supplement-advicer">
+            Start the analysis
+            <LucideArrowRight />
+          </NuxtLink>
+        </Button>
+        <Button variant="outline" size="lg" class="h-14 border-foreground px-7 text-base" as-child>
+          <NuxtLink to="/shop">Browse the shop</NuxtLink>
+        </Button>
       </div>
       <p class="font-mono text-xs tracking-[0.04em] text-muted-foreground max-sm:text-center">
         4 QUESTIONS · NO ACCOUNT NEEDED · FREE
@@ -33,12 +37,12 @@ const sample = [
     </div>
 
     <div class="flex justify-center">
-      <div
-        class="label-card rise-in flex w-full max-w-[520px] flex-col gap-5 p-6 [animation-delay:150ms] md:p-8"
+      <Card
+        class="rise-in flex rounded-md border-[1.5px] border-foreground shadow-[10px_10px_0_hsl(var(--primary))] w-full max-w-[520px] flex-col gap-5 p-6 [animation-delay:150ms] md:p-8"
       >
         <div class="flex justify-between font-mono text-xs tracking-[0.08em]">
           <span>YOUR PROTOCOL</span>
-          <span class="text-muted-foreground">SAMPLE</span>
+          <Badge variant="outline" class="font-mono font-normal">SAMPLE</Badge>
         </div>
         <p
           class="border-b-[1.5px] border-dashed border-foreground/30 pb-4 font-mono text-xs text-muted-foreground"
@@ -66,7 +70,7 @@ const sample = [
           <span>+ 3 MORE IN YOUR RESULTS</span>
           <span>NOT MEDICAL ADVICE</span>
         </div>
-      </div>
+      </Card>
     </div>
   </section>
 </template>

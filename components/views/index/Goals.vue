@@ -9,14 +9,17 @@ import { goals } from "~/utils/advicerOptions";
       <h2>What are you working on?</h2>
     </div>
     <div class="flex max-w-[1120px] flex-wrap gap-2 md:gap-3">
-      <NuxtLink
+      <Button
         v-for="goal in goals"
         :key="goal.id"
-        :to="{ path: '/supplement-advicer', query: { goal: goal.id } }"
-        class="chip border-foreground md:h-[52px] md:px-6 md:text-[17px]"
+        variant="outline"
+        class="border-foreground text-[15px] font-normal md:h-[52px] md:px-6 md:text-[17px]"
+        as-child
       >
-        {{ goal.label }}
-      </NuxtLink>
+        <NuxtLink :to="{ path: '/supplement-advicer', query: { goal: goal.id } }">
+          {{ goal.label }}
+        </NuxtLink>
+      </Button>
     </div>
   </section>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+
 const authStore = useAuthStore();
 const adminStore = useAdminStore();
 const cartStore = useCartStore();
@@ -30,10 +32,6 @@ const switchToLogin = () => {
 
 const openCart = () => {
   cartStore.isOpen = true;
-};
-
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
 const closeMobileMenu = () => {
@@ -72,20 +70,22 @@ watch(showRegisterDialog, (value) => {
       </NuxtLink>
 
       <!-- Navigation -->
-      <nav aria-label="Main" class="hidden items-center gap-10 text-[15px] font-medium lg:flex">
-        <NuxtLink
-          v-for="item in menuItems"
-          :key="item.path"
-          :to="item.path"
-          :aria-current="isActive(item.path) ? 'page' : undefined"
-          :class="[
-            'transition-colors hover:text-primary',
-            isActive(item.path) && 'text-primary underline underline-offset-[6px]',
-          ]"
-        >
-          {{ item.title }}
-        </NuxtLink>
-      </nav>
+      <NavigationMenu class="hidden lg:flex">
+        <NavigationMenuList class="gap-2">
+          <NavigationMenuItem v-for="item in menuItems" :key="item.path">
+            <NavigationMenuLink
+              as-child
+              :active="isActive(item.path)"
+              :class="[
+                navigationMenuTriggerStyle(),
+                'bg-transparent text-[15px] data-[active]:text-primary data-[active]:underline data-[active]:underline-offset-[6px]',
+              ]"
+            >
+              <NuxtLink :to="item.path">{{ item.title }}</NuxtLink>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
 
       <!-- Actions -->
       <div class="flex items-center gap-1 sm:gap-2">
@@ -102,10 +102,10 @@ watch(showRegisterDialog, (value) => {
 
         <DropdownMenu v-if="authStore.isAuthenticated">
           <DropdownMenuTrigger as-child>
-            <button type="button" class="btn-icon border-rule" aria-label="My account">
-              <LucideUserCog v-if="adminStore.isAdmin" class="h-5 w-5" />
-              <LucideUser v-else class="h-5 w-5" />
-            </button>
+            <Button variant="ghost" size="icon" aria-label="My account">
+              <LucideUserCog v-if="adminStore.isAdmin" class="!size-5" />
+              <LucideUser v-else class="!size-5" />
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent class="w-56" align="end">
             <DropdownMenuLabel class="font-normal">
@@ -127,63 +127,61 @@ watch(showRegisterDialog, (value) => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <button
-          type="button"
-          class="btn-icon hidden border-transparent sm:inline-flex"
+        <Button
+          variant="ghost"
+          size="icon"
+          class="hidden sm:inline-flex"
           :aria-label="colorMode.value === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
           @click="colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'"
         >
-          <LucideSun v-if="colorMode.value === 'dark'" class="h-5 w-5" />
-          <LucideMoon v-else class="h-5 w-5" />
-        </button>
+          <LucideSun v-if="colorMode.value === 'dark'" class="!size-5" />
+          <LucideMoon v-else class="!size-5" />
+        </Button>
 
-        <button
-          type="button"
-          class="btn-icon relative border-rule"
+        <Button
+          variant="outline"
+          size="icon"
+          class="relative"
           :aria-label="`Cart, ${cartStore.cartItemCount} items`"
           @click="openCart"
         >
-          <LucideShoppingBag class="h-5 w-5" />
-          <span
+          <LucideShoppingBag class="!size-5" />
+          <Badge
             v-if="cartStore.cartItemCount > 0"
-            class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 font-mono text-[11px] text-primary-foreground"
+            class="absolute -right-2 -top-2 h-5 min-w-5 justify-center px-1 font-mono text-[11px]"
           >
             {{ cartStore.cartItemCount }}
-          </span>
-        </button>
+          </Badge>
+        </Button>
         <UtilsCartSideBar />
 
-        <button
-          type="button"
-          class="btn-icon border-transparent lg:hidden"
-          :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
-          :aria-expanded="isMobileMenuOpen"
-          @click="toggleMobileMenu"
-        >
-          <LucideX v-if="isMobileMenuOpen" class="h-5 w-5" />
-          <LucideMenu v-else class="h-5 w-5" />
-        </button>
+        <!-- Menu mobile -->
+        <Sheet v-model:open="isMobileMenuOpen">
+          <SheetTrigger as-child>
+            <Button variant="ghost" size="icon" class="lg:hidden" aria-label="Open menu">
+              <LucideMenu class="!size-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" class="w-full bg-background sm:max-w-sm">
+            <SheetHeader>
+              <SheetTitle class="text-left font-display text-2xl">Menu</SheetTitle>
+              <SheetDescription class="sr-only">Site navigation</SheetDescription>
+            </SheetHeader>
+            <nav aria-label="Mobile" class="mt-6 flex flex-col">
+              <NuxtLink
+                v-for="item in menuItems"
+                :key="item.path"
+                :to="item.path"
+                class="flex h-16 items-center justify-between border-t font-display text-3xl last:border-b"
+                @click="closeMobileMenu"
+              >
+                {{ item.title }}
+                <LucideArrowRight class="h-5 w-5" />
+              </NuxtLink>
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
-
-    <!-- Menu mobile -->
-    <nav
-      v-if="isMobileMenuOpen"
-      aria-label="Mobile"
-      class="border-t bg-background lg:hidden"
-    >
-      <div class="container flex flex-col py-2">
-        <NuxtLink
-          v-for="item in menuItems"
-          :key="item.path"
-          :to="item.path"
-          class="flex h-14 items-center justify-between border-b font-display text-2xl last:border-b-0"
-          @click="closeMobileMenu"
-        >
-          {{ item.title }}
-          <LucideArrowRight class="h-5 w-5" />
-        </NuxtLink>
-      </div>
-    </nav>
   </header>
 </template>

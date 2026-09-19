@@ -11,6 +11,12 @@ import {
 
 const shopStore = useShopStore();
 
+// « all » tient lieu de null : un ToggleGroup ne sait pas sélectionner l'absence de valeur
+const categoryOptions = computed(() => [
+  { name: "all", label: "All", count: shopStore.products.length },
+  ...shopStore.categories.map((category) => ({ ...category, label: category.name })),
+]);
+
 onMounted(async () => {
   await shopStore.getProducts();
 });
@@ -33,41 +39,27 @@ onMounted(async () => {
       </div>
 
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div
-          role="group"
+        <!-- Segments droits, séparés par des filets : le rayon n'est gardé qu'à l'extérieur -->
+        <ToggleGroup
+          type="single"
+          :model-value="shopStore.category ?? 'all'"
           aria-label="Category"
-          class="flex w-full divide-x overflow-x-auto rounded-xl border bg-card sm:w-auto"
+          class="w-full gap-0 divide-x overflow-hidden rounded-md border bg-card sm:w-auto"
+          @update:model-value="(value) => value && shopStore.setCategory(value === 'all' ? null : String(value))"
         >
-          <button
-            type="button"
-            :aria-pressed="shopStore.category === null"
-            :class="[
-              'flex h-[50px] flex-1 shrink-0 items-center justify-center gap-2 px-5 text-[15px] transition-colors sm:flex-none',
-              shopStore.category === null ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
-            ]"
-            @click="shopStore.setCategory(null)"
-          >
-            All
-            <span class="font-mono text-xs opacity-70">{{ shopStore.products.length }}</span>
-          </button>
-          <button
-            v-for="category in shopStore.categories"
+          <ToggleGroupItem
+            v-for="category in categoryOptions"
             :key="category.name"
-            type="button"
-            :aria-pressed="shopStore.category === category.name"
-            :class="[
-              'flex h-[50px] flex-1 shrink-0 items-center justify-center gap-2 px-5 text-[15px] transition-colors sm:flex-none',
-              shopStore.category === category.name ? 'bg-foreground font-semibold text-background' : 'hover:bg-accent',
-            ]"
-            @click="shopStore.setCategory(category.name)"
+            :value="category.name"
+            class="h-[50px] flex-1 rounded-none px-5 text-[15px] hover:bg-accent hover:text-foreground data-[state=on]:bg-foreground data-[state=on]:font-semibold data-[state=on]:text-background data-[state=on]:hover:bg-foreground data-[state=on]:hover:text-background sm:flex-none"
           >
-            {{ category.name }}
+            {{ category.label }}
             <span class="font-mono text-xs opacity-70">{{ category.count }}</span>
-          </button>
-        </div>
+          </ToggleGroupItem>
+        </ToggleGroup>
 
         <Select :model-value="shopStore.sortOrder" @update:model-value="shopStore.setSortOrder">
-          <SelectTrigger class="h-[52px] w-full rounded-xl bg-card px-5 sm:w-[210px]" aria-label="Sort">
+          <SelectTrigger class="h-[52px] w-full bg-card px-5 sm:w-[210px]" aria-label="Sort">
             <SelectValue placeholder="Sort" />
           </SelectTrigger>
           <SelectContent>

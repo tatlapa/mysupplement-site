@@ -20,9 +20,9 @@ onMounted(async () => {
           {{ shopStore.products.length ? `${shopStore.products.length} essentials` : "Essentials" }}, nothing more.
         </h2>
       </div>
-      <NuxtLink to="/shop" class="flex items-center gap-2 font-semibold text-primary">
-        See the whole shelf <LucideArrowRight class="h-[18px] w-[18px]" />
-      </NuxtLink>
+      <Button variant="link" class="self-start px-0 text-base" as-child>
+        <NuxtLink to="/shop">See the whole shelf <LucideArrowRight /></NuxtLink>
+      </Button>
     </div>
 
     <div class="grid grid-cols-2 gap-x-3 gap-y-8 md:gap-6 lg:grid-cols-4">

@@ -11,14 +11,6 @@ const total = computed(() =>
   product.value ? (Number(product.value.price) * quantity.value).toFixed(2) : "0.00"
 );
 
-const decrement = () => {
-  quantity.value = Math.max(1, quantity.value - 1);
-};
-
-const increment = () => {
-  quantity.value = Math.min(stock.value, quantity.value + 1);
-};
-
 const addToCart = () => {
   if (!product.value) return;
   cartStore.addToCart(product.value.id, quantity.value);
@@ -50,36 +42,42 @@ onMounted(async () => {
     </div>
 
     <template v-else-if="product">
-      <nav
-        aria-label="Breadcrumb"
-        class="flex gap-2.5 font-mono text-xs uppercase tracking-[0.06em] text-muted-foreground"
-      >
-        <NuxtLink to="/shop" class="hover:text-foreground">Shop</NuxtLink>
-        <span aria-hidden="true">/</span>
-        <NuxtLink
-          v-if="product.category"
-          to="/shop"
-          class="hover:text-foreground"
-          @click="shopStore.setCategory(product.category.name)"
-        >
-          {{ product.category.name }}
-        </NuxtLink>
-        <span v-if="product.category" aria-hidden="true">/</span>
-        <span class="text-foreground">{{ product.name }}</span>
-      </nav>
+      <Breadcrumb>
+        <BreadcrumbList class="font-mono text-xs uppercase tracking-[0.06em]">
+          <BreadcrumbItem>
+            <BreadcrumbLink as-child><NuxtLink to="/shop">Shop</NuxtLink></BreadcrumbLink>
+          </BreadcrumbItem>
+          <template v-if="product.category">
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink as-child>
+                <NuxtLink to="/shop" @click="shopStore.setCategory(product.category.name)">
+                  {{ product.category.name }}
+                </NuxtLink>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </template>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{{ product.name }}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <section class="grid items-start gap-10 pt-8 lg:grid-cols-2 lg:gap-20">
-        <div class="product-tile h-[380px] rounded-3xl p-10 md:h-[560px] lg:h-[680px] lg:p-16">
+        <Card class="flex h-[380px] items-center justify-center border-[#E4DED1] bg-white p-10 shadow-none dark:border-rule md:h-[560px] lg:h-[680px] lg:p-16">
           <img
             :src="product.image_url"
             :alt="product.name"
             class="max-h-full max-w-full object-contain"
           />
-        </div>
+        </Card>
 
         <div class="flex flex-col gap-7 lg:pt-6">
           <div class="flex flex-col gap-3.5">
-            <p class="kicker">{{ product.category?.name || "Supplement" }}</p>
+            <Badge variant="outline" class="self-start font-mono font-normal uppercase tracking-[0.08em]">
+              {{ product.category?.name || "Supplement" }}
+            </Badge>
             <h1 class="text-5xl md:text-[76px] md:leading-none">{{ product.name }}</h1>
             <span class="font-mono text-2xl md:text-[26px]">${{ product.price }}</span>
           </div>
@@ -90,39 +88,23 @@ onMounted(async () => {
 
           <div class="flex flex-col gap-4 border-t pt-7">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div
-                role="group"
-                aria-label="Quantity"
-                class="flex h-14 items-center justify-between rounded-full border border-foreground px-1.5 sm:justify-start"
-              >
-                <button
-                  type="button"
-                  class="btn-icon border-transparent"
-                  aria-label="Decrease quantity"
-                  :disabled="quantity <= 1"
-                  @click="decrement"
-                >
-                  <LucideMinus class="h-[18px] w-[18px]" />
-                </button>
-                <span aria-live="polite" class="w-9 text-center font-mono">{{ quantity }}</span>
-                <button
-                  type="button"
-                  class="btn-icon border-transparent"
-                  aria-label="Increase quantity"
-                  :disabled="quantity >= stock"
-                  @click="increment"
-                >
-                  <LucidePlus class="h-[18px] w-[18px]" />
-                </button>
-              </div>
-              <button
-                type="button"
-                class="btn-primary flex-1 text-[17px]"
+              <NumberField
+                v-model="quantity"
+                :min="1"
+                :max="Math.max(stock, 1)"
                 :disabled="stock === 0"
-                @click="addToCart"
+                class="w-full sm:w-36"
               >
+                <Label for="quantity" class="sr-only">Quantity</Label>
+                <NumberFieldContent>
+                  <NumberFieldDecrement />
+                  <NumberFieldInput id="quantity" class="h-14 font-mono text-base" />
+                  <NumberFieldIncrement />
+                </NumberFieldContent>
+              </NumberField>
+              <Button size="lg" class="h-14 flex-1 text-[17px]" :disabled="stock === 0" @click="addToCart">
                 {{ stock === 0 ? "Out of stock" : `Add to cart · $${total}` }}
-              </button>
+              </Button>
             </div>
             <p class="font-mono text-xs tracking-[0.04em] text-muted-foreground">
               <template v-if="stock === 0">OUT OF STOCK</template>
@@ -132,18 +114,19 @@ onMounted(async () => {
             </p>
           </div>
 
-          <NuxtLink
-            to="/supplement-advicer"
-            class="label-card mt-3 flex items-center justify-between gap-6 px-7 py-6 [box-shadow:6px_6px_0_hsl(var(--primary))]"
+          <Card
+            class="mt-3 rounded-md border-[1.5px] border-foreground shadow-[6px_6px_0_hsl(var(--primary))] transition-transform hover:-translate-y-0.5"
           >
-            <span class="flex flex-col gap-1.5">
-              <span class="font-display text-[22px]">Is it right for you?</span>
-              <span class="text-[15px] text-muted-foreground">
-                Four questions, and you’ll know if it belongs in your protocol.
+            <NuxtLink to="/supplement-advicer" class="flex items-center justify-between gap-6 px-7 py-6">
+              <span class="flex flex-col gap-1.5">
+                <CardTitle class="font-display text-[22px] font-medium">Is it right for you?</CardTitle>
+                <CardDescription class="text-[15px]">
+                  Four questions, and you’ll know if it belongs in your protocol.
+                </CardDescription>
               </span>
-            </span>
-            <LucideArrowRight class="h-[22px] w-[22px] shrink-0" />
-          </NuxtLink>
+              <LucideArrowRight class="h-[22px] w-[22px] shrink-0" />
+            </NuxtLink>
+          </Card>
         </div>
       </section>
     </template>
@@ -152,7 +135,9 @@ onMounted(async () => {
     <div v-else class="flex min-h-[400px] flex-col items-center justify-center gap-4 text-center">
       <h1 class="text-4xl">Product not found</h1>
       <p class="text-muted-foreground">The product you’re looking for doesn’t exist.</p>
-      <NuxtLink to="/shop" class="btn-outline h-12">Back to the shop</NuxtLink>
+      <Button variant="outline" size="lg" as-child>
+        <NuxtLink to="/shop">Back to the shop</NuxtLink>
+      </Button>
     </div>
   </main>
 </template>

@@ -15,12 +15,9 @@ const steps = [
           <p class="kicker">How it works</p>
           <h2>Four questions. One protocol.</h2>
         </div>
-        <NuxtLink
-          to="/supplement-advicer"
-          class="flex items-center gap-2 font-semibold text-primary"
-        >
-          Try it now <LucideArrowRight class="h-[18px] w-[18px]" />
-        </NuxtLink>
+        <Button variant="link" class="self-start px-0 text-base" as-child>
+          <NuxtLink to="/supplement-advicer">Try it now <LucideArrowRight /></NuxtLink>
+        </Button>
       </div>
       <ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <li

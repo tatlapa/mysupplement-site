@@ -41,7 +41,16 @@
     --border: var(--rule);
     --input: var(--rule);
     --ring: 153 40% 20%;
-    --radius: 0.75rem;
+    --radius: 0.625rem;
+
+    --sidebar: var(--paper);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--secondary);
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--rule);
+    --sidebar-ring: var(--ring);
   }
 
   .dark {
@@ -76,6 +85,15 @@
     --border: var(--rule);
     --input: var(--rule);
     --ring: 144 33% 67%;
+
+    --sidebar: var(--paper);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--secondary);
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--rule);
+    --sidebar-ring: var(--ring);
   }
 }
 
